@@ -10,7 +10,8 @@ rule mutect2_single:
         tumorsample = '{samples}',
         genome = config['references']['GENOME'],
         pon = config['references']['PON'],
-        germsource = config['references']['GNOMAD'],
+        germsource = config['references']['KNOWNSNPS'],
+        #germsource = config['references']['GNOMAD'],
         ver_gatk = config['tools']['gatk4']['version'],
         rname = 'mutect2'
     threads: 2
@@ -44,7 +45,8 @@ rule pileup_single:
         pileup = temp(os.path.join(output_somatic_snpindels, "mutect2_out", "pileup_summaries", "{samples}.pileup.table")),
     params:
         genome = config['references']['GENOME'],
-        germsource = config['references']['1000GSNP'],
+#        germsource = config['references']['1000GSNP'],
+        germsource = config['references']['KNOWNSNPS'],
         ver_gatk = config['tools']['gatk4']['version'],
         chroms = chroms,
         rname = 'pileup',
@@ -70,7 +72,8 @@ rule contamination_single:
         tumor_summary = os.path.join(output_somatic_base, "qc", "gatk_contamination", "{samples}.contamination.table")
     params:
         genome = config['references']['GENOME'],
-        germsource = config['references']['1000GSNP'],
+      #  germsource = config['references']['1000GSNP'],
+        germsource = config['references']['KNOWNSNPS'],
         ver_gatk = config['tools']['gatk4']['version'],
         chroms = chroms, 
         rname = 'contamination'
@@ -94,7 +97,7 @@ rule mutect_single:
     params:
         genome = config['references']['GENOME'],
         pon = config['references']['PON'],
-        cosmic = config['references']['COSMIC'],
+     #   cosmic = config['references']['COSMIC'],
         dbsnp = config['references']['DBSNP'],
         ver_mutect = config['tools']['mutect']['version'],
         rname = 'mutect',
@@ -111,9 +114,9 @@ rule mutect_single:
     java -Xmx8g -Djava.io.tmpdir={params.tmpdir} -jar ${{MUTECT_JAR}} \\
         --analysis_type MuTect \\
         --reference_sequence {params.genome} \\
-        --normal_panel {params.pon} \\
+       # --normal_panel {params.pon} \\
         --vcf {output.vcf} \\
-        --cosmic {params.cosmic} \\
+      #  --cosmic {params.cosmic} \\
         --dbsnp {params.dbsnp} \\
         -L {wildcards.chroms} \\
         --disable_auto_index_creation_and_locking_when_reading_rods \\
@@ -121,7 +124,7 @@ rule mutect_single:
         --out {output.stats} \\
         -rf BadCigar
     """
-
+            
 
 rule mutect_filter_single:
     input:

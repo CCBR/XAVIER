@@ -5,7 +5,7 @@
 from __future__ import print_function
 
 # Local imports
-from utils import fatal, err, permissions
+from utils import os, fatal, err, permissions
 
 
 def genome_options(parser, user_option, prebuilt):

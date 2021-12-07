@@ -260,7 +260,7 @@ output_somatic_base=os.path.join(BASEDIR,"somatic_"+tn_mode)
 output_somatic_snpindels=os.path.join(output_somatic_base,"SNP_Indels")
 output_somatic_cnv=os.path.join(output_somatic_base,"CNV")
 
-chroms = ["chr1","chr2","chr3","chr4","chr5","chr6","chr7","chr8","chr9","chr10","chr11","chr12","chr13","chr14","chr15","chr16","chr17","chr18","chr19","chr20","chr21","chr22","chrX","chrY","chrM"]
+chroms = ["chr1","chr2","chr3","chr4","chr5","chr6","chr7","chr8","chr9","chr10","chr11","chr12","chr13","chr14","chr15","chr16","chr17","chr18","chr19","chrX","chrY","chrM"]
 intervals_file=os.path.join(BASEDIR,"intervals.list")
 if not os.path.isfile(intervals_file):
     with open(intervals_file, 'w') as f:
@@ -328,7 +328,7 @@ if 'CNV_CALLING' in config['input_params']:
 ## Finding a workaround was not super simple; what seems to work for now is increasing
 ## the resources on the submission node and run these short jobs locally.
 
-localrules: all, raw_index, reformat_targets_bed, somalier_extract, somalier_analysis, bcftools_stats, split_bam_by_chrom, somatic_merge_chrom, collect_cohort_mafs, contamination_single, contamination_paired
+localrules: all, raw_index, reformat_targets_bed, bcftools_stats, split_bam_by_chrom, somatic_merge_chrom, collect_cohort_mafs, contamination_single, contamination_paired
 
 #
 # Set rule all

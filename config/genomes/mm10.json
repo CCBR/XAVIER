@@ -1,0 +1,38 @@
+{
+	"references": {
+		"FASTQ_SCREEN_CONFIG": "resources/fastq_screen.conf",
+		"KRAKENBACDB": "/data/CCBR_Pipeliner/Exome-seek/hg38/kraken/20180907_standard_kraken2",
+		"trimmomatic.adapters": "resources/adapters.fa",
+		"SNPEFF_GENOME": "GRCm38.86",
+		"SNPEFF_CONFIG": "/data/CCBR_Pipeliner/Exome-seek/hg38/snpEff/4.3t/snpEff.config",
+		"SNPEFF_BUNDLE": "/data/CCBR_Pipeliner/Exome-seek/hg38/snpEff/4.3t/",
+		"BWAINDEX": "/fdb/igenomes/Mus_musculus/UCSC/mm10/Sequence/BWAIndex/genome.fa",
+		"GENOME": "/fdb/igenomes/Mus_musculus/UCSC/mm10/Sequence/WholeGenomeFasta/genome.fa",
+		"GENOMEDICT": "/fdb/igenomes/Mus_musculus/UCSC/mm10/Sequence/WholeGenomeFasta/genome.dict",
+    "DBSNP": "/data/CCBR_Pipeliner/db/PipeDB/lib/mm10_allstrains_dbSNP142.vcf.gz",
+		"KNOWNANCESTRY": "/data/CCBR_Pipeliner/db/PipeDB/lib/mm10_known_snps.vcf.gz",
+    "KNOWNINDELS": "-known /data/CCBR_Pipeliner/db/PipeDB/lib/mm10_known_indels.vcf.gz",
+    "KNOWNRECAL": "-known-sites /data/CCBR_Pipeliner/db/PipeDB/lib/mm10_known_indels.vcf.gz -known-sites /data/CCBR_Pipeliner/db/PipeDB/lib/mm10_known_snps.vcf.gz",
+    "KNOWNSNPS":"/data/CCBR_Pipeliner/db/PipeDB/lib/mm10_knownSNPs_sites.vcf.gz",
+		"FREECLENGTHS": "fdb/igenomes/Mus_musculus/UCSC/mm10/Sequence/WholeGenomeFasta/genome.fai",
+		"PON": "/data/CCBR_Pipeliner/db/PipeDB/lib/mm10_dbSNP_allStrains_compSet.vcf.gz",
+    "FREECCHROMS": "/fdb/igenomes/Mus_musculus/UCSC/mm10/Sequence/Chromosomes",
+    "FREECPILEUP": "/data/CCBR_Pipeliner/db/PipeDB/lib/mm10_allstrains_dbSNP142.vcf.gz",
+    "FREECSNPS": "/data/CCBR_Pipeliner/db/PipeDB/lib/mm10_allstrains_dbSNP142.vcf.gz",
+		"SEQUENZAGC": "/data/CCBR_Pipeliner/Exome-seek/hg38/SEQUENZA/hg38_gc50Base.txt.gz",
+		"ADMIXTUREKEY": "/data/CCBR_Pipeliner/db/PipeDB/lib/mouse_genomes_strain_key.txt",
+    "ADMIXTUREREFS": "39",
+		"MAF_GENOME": "mm10",
+		"VCF2MAF": {
+			"VEPRESOURCEBUNDLEPATH": "/data/CCBR_Pipeliner/Exome-seek/hg38/vcf2maf",
+			"NCBI_BUILD": "GRCm38",
+			"SPECIES": "mus_musculus"
+		},
+		"SOMALIER": {
+			"ANCESTRY_DB": "/data/CCBR_Pipeliner/Exome-seek/hg38/somalier/1kg-somalier",
+			"SITES_VCF": "/data/CCBR_Pipeliner/Exome-seek/hg38/somalier/sites.hg38.vcf.gz",
+			"NCBI_BUILD": "GRCm38",
+			"SPECIES": "mus_musculus"
+		}
+	}
+}

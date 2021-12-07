@@ -97,7 +97,7 @@ rule bwa_mem:
     output:
         temp(os.path.join(output_bamdir, "preprocessing", "{samples}.raw_map.bam"))
     params:
-        genome = config['references']['GENOME'],
+        genome = config['references']['BWAINDEX'],
         sample = "{samples}",
         ver_samtools = config['tools']['samtools']['version'],
         ver_bwa = config['tools']['bwa']['version'],
