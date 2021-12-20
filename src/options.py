@@ -7,6 +7,7 @@ from __future__ import print_function
 # Local imports
 from utils import os, fatal, err, permissions
 
+import os # required for call in line 30: 'permissions(parser, user_option, os.R_OK)'
 
 def genome_options(parser, user_option, prebuilt):
     """Dynamically checks if --genome option is a vaild choice. Compares against a

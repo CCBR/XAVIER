@@ -38,6 +38,40 @@ def md5sum(filename, first_block_only = False, blocksize = 65536):
 
     return hasher.hexdigest()
 
+## copied directly from rna-seek
+def check_cache(parser, cache, *args, **kwargs):
+    """Check if provided SINGULARITY_CACHE is valid. Singularity caches cannot be
+    shared across users (and must be owned by the user). Singularity strictly enforces
+    0700 user permission on on the cache directory and will return a non-zero exitcode.
+    @param parser <argparse.ArgumentParser() object>:
+        Argparse parser object
+    @param cache <str>:
+        Singularity cache directory
+    @return cache <str>:
+        If singularity cache dir is valid
+    """
+    if not exists(cache):
+        # Cache directory does not exist on filesystem
+        os.makedirs(cache)
+    elif os.path.isfile(cache):
+        # Cache directory exists as file, raise error
+        parser.error("""\n\t\x1b[6;37;41mFatal: Failed to provided a valid singularity cache!\x1b[0m
+        The provided --singularity-cache already exists on the filesystem as a file.
+        Please run {} again with a different --singularity-cache location.
+        """.format(sys.argv[0]))
+    elif os.path.isdir(cache):
+        # Provide cache exists as directory
+        # Check that the user owns the child cache directory
+        # May revert to os.getuid() if user id is not sufficent
+        if exists(os.path.join(cache, 'cache')) and os.stat(os.path.join(cache, 'cache')).st_uid != os.getuid():
+                # User does NOT own the cache directory, raise error
+                parser.error("""\n\t\x1b[6;37;41mFatal: Failed to provided a valid singularity cache!\x1b[0m
+                The provided --singularity-cache already exists on the filesystem with a different owner.
+                Singularity strictly enforces that the cache directory is not shared across users.
+                Please run {} again with a different --singularity-cache location.
+                """.format(sys.argv[0]))
+
+    return cache
 
 def permissions(parser, path, *args, **kwargs):
     """Checks permissions using os.access() to see the user is authorized to access

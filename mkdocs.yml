@@ -103,6 +103,11 @@ nav:
     - exome-seek run: usage/run.md
     - exome-seek unlock: usage/unlock.md
     - exome-seek cache: usage/cache.md
+  - Pipeline Details: 
+    - Overview: pipeline-details/overview.md
+    - Tools: pipeline-details/tools.md
+    - Settings: pipeline-details/settings.md
+    - Output Files: pipeline-details/output.md
   - FAQ:
     - General Questions: faq/questions.md
   - License: license.md

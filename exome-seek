@@ -49,6 +49,7 @@ from src.utils import (err,
      exists,
      fatal,
      permissions,
+     check_cache,
      require)
 
 __version__ = version
@@ -100,7 +101,7 @@ def run(sub_args):
     if sub_args.dry_run:
         # Dryrun pipeline
         dryrun_output = dryrun(outdir = sub_args.output) # python3 returns byte-string representation
-        print("\nDry-running RNA-seek pipeline:\n{}".format(dryrun_output.decode("utf-8")))
+        print("\nDry-running exome-seek pipeline:\n{}".format(dryrun_output.decode("utf-8")))
         sys.exit(0)
 
     # Step 4. Orchestrate pipeline execution,
