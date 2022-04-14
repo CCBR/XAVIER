@@ -219,7 +219,7 @@ def setup(sub_args, ifiles, repo_path, output_path):
     config['input_params']['VARIANT_CALLERS'] = sub_args.callers
     config['input_params']['PAIRS_FILE'] = str(sub_args.pairs)
     config['input_params']['BASE_OUTDIR'] = str(sub_args.output)
-
+    config['input_params']['tmpdisk'] = str(sub_args.tmp_dir)
 
     # Get latest git commit hash
     git_hash = git_commit_hash(repo_path)
@@ -597,7 +597,8 @@ def dryrun(outdir, config='config.json', snakefile=os.path.join('workflow', 'Sna
 
 
 def runner(mode, outdir, alt_cache, logger, additional_bind_paths = None, 
-    threads=2,  jobname='pl:exome-seek', submission_script='runner'):
+    threads=2,  jobname='pl:exome-seek', submission_script='runner',
+    tmp_dir = '/lscratch/$SLURM_JOBID/'):
     """Runs the pipeline via selected executor: local or slurm.
     If 'local' is selected, the pipeline is executed locally on a compute node/instance.
     If 'slurm' is selected, jobs will be submited to the cluster using SLURM job scheduler.
@@ -626,8 +627,9 @@ def runner(mode, outdir, alt_cache, logger, additional_bind_paths = None,
     # PATHs must be an absolute PATHs
     outdir = os.path.abspath(outdir)
     # Add any default PATHs to bind to 
-    # the container's filesystem
-    bindpaths = "{},/lscratch".format(outdir)
+    # the container's filesystem, like 
+    # tmp directories, /lscratch
+    bindpaths = "{},{}".format(outdir, os.path.dirname(tmp_dir.rstrip('/')))
     # Set ENV variable 'SINGULARITY_CACHEDIR' 
     # to output directory
     my_env = {}; my_env.update(os.environ)
@@ -692,6 +694,7 @@ def runner(mode, outdir, alt_cache, logger, additional_bind_paths = None,
                 str(os.path.join(outdir, 'resources', str(submission_script))), mode,
                 '-j', jobname, '-b', str(bindpaths),
                 '-o', str(outdir), '-c', str(cache),
+                '-t', "'{}'".format(tmp_dir)
             ], cwd = outdir, stderr=subprocess.STDOUT, stdout=logger, env=my_env)
 
     return masterjob

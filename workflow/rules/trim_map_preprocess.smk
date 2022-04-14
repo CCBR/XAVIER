@@ -22,19 +22,25 @@ rule bam2fastq:
         genome = config['references']['GENOME'],
         ver_gatk = config['tools']['gatk4']['version'],
         rname = 'bam2fastq',
-        tmpdir = '/lscratch/$SLURM_JOBID'
+        tmpdir = config['input_params']['tmpdisk'],
     envmodules:
         'GATK/4.2.0.0'
     container:
         config['images']['wes_base']
     shell: """
+    # Setups temporary directory for
+    # intermediate files with built-in 
+    # mechanism for deletion on exit
+    tmp=$(mktemp -d -p "{params.tmpdir}")
+    trap 'rm -rf "${{tmp}}"' EXIT
+
     mkdir -p fastqs
     gatk SamToFastq \\
         --INPUT {input.bam} \\
         --FASTQ {output.r1} \\
         --SECOND_END_FASTQ {output.r2} \\
         --UNPAIRED_FASTQ {output.orphans} \\
-        --TMP_DIR {params.tmpdir} \\
+        --TMP_DIR ${{tmp}} \\
         -R {params.genome}
     """
 

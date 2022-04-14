@@ -8,7 +8,8 @@ USAGE:
   runner <MODE> [-h] [-c CACHE] \\
           -o OUTDIR \\
           -j MASTER_JOB_NAME \\
-          -b SINGULARITY_BIND_PATHS
+          -b SINGULARITY_BIND_PATHS \\
+          -t TMP_DIR
 
 SYNOPSIS:
   This script creates/submits the pipeline's master job  to  the 
@@ -42,7 +43,7 @@ Required Arguments:
                                  where all output files will be generated.
   -j, --job-name [Type: Str]    Name of pipeline's master job.
   -b, --bind-paths [Type:Path]  Singularity bind paths. The pipeline uses
-                                 singaularity images for exection. Bind 
+                                 singularity images for exection. Bind 
                                  paths are used to mount the host file 
                                  system to the container's file system. 
                                  Multiple bind paths can be provided as 
@@ -57,6 +58,13 @@ Required Arguments:
                                  output directory and any directories for 
                                  reference files. Please see example usage
                                  below.
+ -t, --tmp-dir [Type:Path]      Temporary directory. The pipeline generates
+                                 intermediate, temporary output files. Any 
+                                 temporary output files will be written to
+                                 this location. On Biowulf, it should be 
+                                 set to '/lscratch/\$SLURM_JOBID/'. On FRCE,
+                                 this value should be set to the following: 
+                                 '/scratch/cluster_scratch/\$USER/'.     
 
 OPTIONS:
   -c,  --cache  [Type: Path]   Path to singularity cache. If not provided, 
@@ -92,8 +100,10 @@ function parser() {
       -h  | --help) usage && exit 0;;
       -j  | --job-name)   provided "$key" "${2:-}"; Arguments["j"]="$2"; shift; shift;;
       -b  | --bind-paths) provided "$key" "${2:-}"; Arguments["b"]="$2"; shift; shift;;
+      -t  | --tmp-dir) provided "$key" "${2:-}"; Arguments["t"]="$2"; shift; shift;;
       -o  | --outdir)  provided "$key" "${2:-}"; Arguments["o"]="$2"; shift; shift;;
       -c  | --cache)  provided "$key" "${2:-}"; Arguments["c"]="$2"; shift; shift;;
+
       -*  | --*) err "Error: Failed to parse unsupported argument: '${key}'."; usage && exit 1;;
       *) err "Error: Failed to parse unrecognized argument: '${key}'. Do any of your inputs have spaces?"; usage && exit 1;;
     esac
@@ -155,6 +165,7 @@ function submit(){
   # INPUT $3 = Pipeline output directory
   # INPUT $4 = Singularity Bind paths
   # INPUT $5 = Singularity cache directory
+  # INPUT $6 = Temporary directory for output files
 
   # Check if singularity and snakemake are in $PATH
   # If not, try to module load singularity as a last resort
@@ -189,12 +200,27 @@ function submit(){
           # --singularity-args -B {}.format({bindpaths}) --local-cores 24
           SLURM_DIR="$3/logfiles/slurmfiles"
           CLUSTER_OPTS="sbatch --gres {cluster.gres} --cpus-per-task {cluster.threads} -p {cluster.partition} -t {cluster.time} --mem {cluster.mem} --job-name={params.rname} -e $SLURM_DIR/slurm-%j_{params.rname}.out -o $SLURM_DIR/slurm-%j_{params.rname}.out"
+          # Check if NOT running on Biowulf
+          # Assumes other clusters do NOT 
+          # have GRES for local node disk,
+          # long term it might be worth 
+          # adding a new option to allow 
+          # a user to decide whether to 
+          # use GRES at job submission,
+          # trying to infer this because
+          # most users will not even know
+          # what GRES is and how or why
+          # it should be used and by default
+          # SLURM is not configured to use 
+          # GRES, remove prefix single quote
+          if [[ ${6#\'} != /lscratch* ]]; then
+            CLUSTER_OPTS="sbatch --cpus-per-task {cluster.threads} -p {cluster.partition} -t {cluster.time} --mem {cluster.mem} --job-name={params.rname} -e $SLURM_DIR/slurm-%j_{params.rname}.out -o $SLURM_DIR/slurm-%j_{params.rname}.out"
+          fi
           # Create sbacth script to build index
     cat << EOF > kickoff.sh
 #!/usr/bin/env bash
 #SBATCH --cpus-per-task=32 
 #SBATCH --mem=96g
-#SBATCH --gres=lscratch:500
 #SBATCH --time=5-00:00:00
 #SBATCH --parsable
 #SBATCH -J "$2"
@@ -260,7 +286,7 @@ function main(){
 
   # Run pipeline and submit jobs to cluster using the defined executor
   mkdir -p "${Arguments[o]}/logfiles/"
-  job_id=$(submit "${Arguments[e]}" "${Arguments[j]}" "${Arguments[o]}" "${Arguments[b]}" "${Arguments[c]}")
+  job_id=$(submit "${Arguments[e]}" "${Arguments[j]}" "${Arguments[o]}" "${Arguments[b]}" "${Arguments[c]}" "${Arguments[t]}")
   echo -e "exome-seek pipeline submitted to cluster.\nMaster Job ID: $job_id"
   echo "${job_id}" > "${Arguments[o]}/logfiles/mjobid.log"
 

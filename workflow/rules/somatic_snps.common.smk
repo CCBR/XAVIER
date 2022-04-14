@@ -73,7 +73,7 @@ rule mutect2_filter:
         ver_gatk = config['tools']['gatk4']['version'],
         ver_bcftools = config['tools']['bcftools']['version'],
         rname = 'mutect2_filter',
-        tmpdir = '/lscratch/$SLURM_JOBID',
+        tmpdir = config['input_params']['tmpdisk'],
     threads: 2
     envmodules:
         'GATK/4.2.0.0',
@@ -81,6 +81,12 @@ rule mutect2_filter:
     container:
         config['images']['wes_base']
     shell: """
+    # Setups temporary directory for
+    # intermediate files with built-in 
+    # mechanism for deletion on exit
+    tmp=$(mktemp -d -p "{params.tmpdir}")
+    trap 'rm -rf "${{tmp}}"' EXIT
+
     statfiles="--stats $(echo "{input.statsfiles}" | sed -e 's/ / --stats /g')"
     
     gatk MergeMutectStats \\
@@ -104,7 +110,7 @@ rule mutect2_filter:
     # VarScan can output ambiguous IUPAC bases/codes
     # the awk one-liner resets them to N, from:
     # https://github.com/fpbarthel/GLASS/issues/23
-    bcftools sort -T {params.tmpdir} "{output.final}" \\
+    bcftools sort -T ${{tmp}} "{output.final}" \\
         | bcftools norm --threads {threads} --check-ref s -f {params.genome} -O v \\
         | awk '{{gsub(/\y[W|K|Y|R|S|M]\y/,"N",$4); OFS = "\t"; print}}' \\
         | sed '/^$/d' > {output.norm}
@@ -147,20 +153,26 @@ rule somatic_merge_callers:
         variantsargs = lambda w: [merge_callers_args[w.samples]],
         ver_gatk = config['tools']['gatk3']['version'],
         rname = 'MergeSomaticCallers',
-        tmpdir = '/lscratch/$SLURM_JOBID'
+        tmpdir = config['input_params']['tmpdisk'],
     threads: 4
     envmodules:
         'GATK/3.8-1'
     container:
         config['images']['wes_base']
     shell: """
+    # Setups temporary directory for
+    # intermediate files with built-in 
+    # mechanism for deletion on exit
+    tmp=$(mktemp -d -p "{params.tmpdir}")
+    trap 'rm -rf "${{tmp}}"' EXIT
+
     if [ ! -d "$(dirname {output.mergedvcf})" ]; then
       mkdir -p "$(dirname {output.mergedvcf})"
     fi
 
     input_str="--variant $(echo "{input.vcf}" | sed -e 's/ / --variant /g')"
 
-    java -Xmx60g -Djava.io.tmpdir={params.tmpdir} -jar $GATK_JAR -T CombineVariants \\
+    java -Xmx60g -Djava.io.tmpdir=${{tmp}} -jar $GATK_JAR -T CombineVariants \\
         -R {params.genome} \\
         -nt {threads} \\
         --filteredrecordsmergetype KEEP_IF_ANY_UNFILTERED \\

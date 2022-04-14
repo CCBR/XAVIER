@@ -101,11 +101,16 @@ rule kraken:
     container: config['images']['kraken']
     threads: 24
     shell: """
+    # Setups temporary directory for
+    # intermediate files with built-in 
+    # mechanism for deletion on exit
+    tmp=$(mktemp -d -p "{params.localdisk}")
+    trap 'rm -rf "${{tmp}}"' EXIT
+
     # Copy kraken2 db to local node storage to reduce filesystem strain
-    mkdir -p {params.localdisk}
-    cp -rv {params.bacdb} {params.localdisk}
+    cp -rv {params.bacdb} ${{tmp}}
     kdb_base=$(basename {params.bacdb})
-    kraken2 --db {params.localdisk}/${{kdb_base}} \\
+    kraken2 --db ${{tmp}}/${{kdb_base}} \\
         --threads {threads} --report {output.taxa} \\
         --output {output.out} \\
         --gzip-compressed \\

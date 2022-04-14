@@ -116,7 +116,7 @@ rule strelka:
         basedir = BASEDIR,
         ver_strelka = config['tools']['strelka']['version'],
         rname = 'strelka',
-        tmpdir = '/lscratch/$SLURM_JOBID'
+        tmpdir = config['input_params']['tmpdisk'],
     envmodules:
         'strelka/2.9.0',
         'GATK/3.8-1',
@@ -130,6 +130,12 @@ rule strelka:
     container:
         config['images']['wes_base']
     shell: """
+    # Setups temporary directory for
+    # intermediate files with built-in 
+    # mechanism for deletion on exit
+    tmp=$(mktemp -d -p "{params.tmpdir}")
+    trap 'rm -rf "${{tmp}}"' EXIT
+
     workdir={params.basedir}
     myoutdir="$(dirname {output.vcf})/{wildcards.samples}/{wildcards.chroms}"
     if [ -d "$myoutdir" ]; then rm -r "$myoutdir"; fi
@@ -144,7 +150,7 @@ rule strelka:
     cd "$myoutdir"
     ./runWorkflow.py -m local -j {threads}
 
-    java -Xmx12g -Djava.io.tmpdir={params.tmpdir} -XX:ParallelGCThreads={threads} \\
+    java -Xmx12g -Djava.io.tmpdir=${{tmp}} -XX:ParallelGCThreads={threads} \\
         -jar $GATK_JAR -T CombineVariants \\
         -R {params.genome} \\
         --variant results/variants/somatic.snvs.vcf.gz \\
@@ -174,7 +180,7 @@ rule strelka_filter:
         ver_gatk = config['tools']['gatk4']['version'],
         ver_bcftools = config['tools']['bcftools']['version'],
         rname = 'strelka_filter',
-        tmpdir = '/lscratch/$SLURM_JOBID'
+        tmpdir = config['input_params']['tmpdisk']
     threads: 4
     envmodules:
         'GATK/4.2.0.0',
@@ -182,6 +188,12 @@ rule strelka_filter:
     container:
         config['images']['wes_base']
     shell: """
+    # Setups temporary directory for
+    # intermediate files with built-in 
+    # mechanism for deletion on exit
+    tmp=$(mktemp -d -p "{params.tmpdir}")
+    trap 'rm -rf "${{tmp}}"' EXIT
+
     gatk SelectVariants \\
         -R {params.genome} \\
         --variant {input.vcf} \\
@@ -200,7 +212,7 @@ rule strelka_filter:
     # the awk one-liner resets them to N, from:
     # https://github.com/fpbarthel/GLASS/issues/23
     bcftools sort \\
-        -T {params.tmpdir} "{output.final}" \\
+        -T ${{tmp}} "{output.final}" \\
         | bcftools norm --threads {threads} --check-ref s -f {params.genome} -O v \\
         | awk '{{gsub(/\y[W|K|Y|R|S|M]\y/,"N",$4); OFS = "\t"; print}}' \\
         | sed '/^$/d' > {output.norm}
@@ -223,15 +235,21 @@ rule mutect_paired:
         dbsnp = config['references']['DBSNP'],
         ver_mutect = config['tools']['mutect']['version'],
         rname = 'mutect',
-        tmpdir = '/lscratch/$SLURM_JOBID'
+        tmpdir = config['input_params']['tmpdisk']
     envmodules:
         'muTect/1.1.7'
     container:
         config['images']['mutect']
     shell: """
+    # Setups temporary directory for
+    # intermediate files with built-in 
+    # mechanism for deletion on exit
+    tmp=$(mktemp -d -p "{params.tmpdir}")
+    trap 'rm -rf "${{tmp}}"' EXIT
+
     if [ ! -d "$(dirname {output.vcf})" ]; then mkdir -p "$(dirname {output.vcf})"; fi
     
-    java -Xmx8g -Djava.io.tmpdir={params.tmpdir} -jar ${{MUTECT_JAR}} \\
+    java -Xmx8g -Djava.io.tmpdir=${{tmp}} -jar ${{MUTECT_JAR}} \\
         --analysis_type MuTect \\
         --reference_sequence {params.genome} \\
     #    --normal_panel {params.pon} \\
@@ -260,7 +278,7 @@ rule mutect_filter:
         ver_gatk = config['tools']['gatk4']['version'],
         ver_bcftools = config['tools']['bcftools']['version'],
         rname = 'mutect_filter',
-        tmpdir = '/lscratch/$SLURM_JOBID',
+        tmpdir = config['input_params']['tmpdisk'],
     threads: 4
     envmodules:
         'GATK/4.2.0.0',
@@ -268,6 +286,12 @@ rule mutect_filter:
     container:
         config['images']['wes_base']
     shell: """
+    # Setups temporary directory for
+    # intermediate files with built-in 
+    # mechanism for deletion on exit
+    tmp=$(mktemp -d -p "{params.tmpdir}")
+    trap 'rm -rf "${{tmp}}"' EXIT
+
     gatk SelectVariants \\
         -R {params.genome} \\
         --variant {input.vcf} \\
@@ -277,7 +301,7 @@ rule mutect_filter:
     # VarScan can output ambiguous IUPAC bases/codes
     # the awk one-liner resets them to N, from:
     # https://github.com/fpbarthel/GLASS/issues/23
-    bcftools sort -T {params.tmpdir} "{output.final}" \\
+    bcftools sort -T ${{tmp}} "{output.final}" \\
         | bcftools norm --threads {threads} --check-ref s -f {params.genome} -O v \\
         | awk '{{gsub(/\y[W|K|Y|R|S|M]\y/,"N",$4); OFS = "\t"; print}}' \\
         | sed '/^$/d' > {output.norm}
@@ -342,7 +366,7 @@ rule vardict_filter:
         ver_gatk = config['tools']['gatk4']['version'],
         ver_bcftools = config['tools']['bcftools']['version'],
         rname = 'vardict',
-        tmpdir = '/lscratch/$SLURM_JOBID',
+        tmpdir = config['input_params']['tmpdisk'],
     threads: 4
     envmodules:
         'bcftools/1.9',
@@ -350,6 +374,12 @@ rule vardict_filter:
     container:
         config['images']['wes_base']
     shell: """
+    # Setups temporary directory for
+    # intermediate files with built-in 
+    # mechanism for deletion on exit
+    tmp=$(mktemp -d -p "{params.tmpdir}")
+    trap 'rm -rf "${{tmp}}"' EXIT
+
     bcftools filter \\
         --exclude \'STATUS=\"Germline\" | STATUS=\"LikelyLOH\" | STATUS=\"AFDiff\"\' \\
         {input.vcf} > {output.filtered}
@@ -364,7 +394,7 @@ rule vardict_filter:
     # VarScan can output ambiguous IUPAC bases/codes
     # the awk one-liner resets them to N, from:
     # https://github.com/fpbarthel/GLASS/issues/23
-    bcftools sort -T {params.tmpdir} "{output.final}" \\
+    bcftools sort -T ${{tmp}} "{output.final}" \\
         | bcftools norm --threads {threads} --check-ref s -f {params.genome} -O v \\
         | awk '{{gsub(/\y[W|K|Y|R|S|M]\y/,"N",$4); OFS = "\t"; print}}' \\
         | sed '/^$/d' > {output.norm}
@@ -387,7 +417,7 @@ rule varscan_paired:
         tumorsample = '{samples}',
         ver_varscan = config['tools']['varscan']['version'],
         rname = 'varscan',
-        tmpdir = '/lscratch/$SLURM_JOBID',
+        tmpdir = config['input_params']['tmpdisk'],
     threads: 4
     envmodules:
         'VarScan/2.4.3',
@@ -395,6 +425,12 @@ rule varscan_paired:
     container:
         config['images']['wes_base']
     shell: """
+    # Setups temporary directory for
+    # intermediate files with built-in 
+    # mechanism for deletion on exit
+    tmp=$(mktemp -d -p "{params.tmpdir}")
+    trap 'rm -rf "${{tmp}}"' EXIT
+
     if [ ! -d "$(dirname {output.vcf})" ]; then mkdir -p "$(dirname {output.vcf})"; fi
     
     tumor_purity=$( echo "1-$(printf '%.6f' $(tail -n -1 {input.tumor_summary} | cut -f2 ))" | bc -l)
@@ -404,7 +440,7 @@ rule varscan_paired:
     varscan_cmd="varscan somatic <($dual_pileup) {output.vcf} $varscan_opts --mpileup 1"    
     eval "$varscan_cmd"
 
-    java -Xmx12g -Djava.io.tmpdir={params.tmpdir} -XX:ParallelGCThreads={threads} \\
+    java -Xmx12g -Djava.io.tmpdir=${{tmp}} -XX:ParallelGCThreads={threads} \\
         -jar $GATK_JAR -T CombineVariants \\
         -R {params.genome} \\
         --variant {output.vcf}.snp \\
@@ -435,7 +471,7 @@ rule varscan_filter:
         ver_gatk = config['tools']['gatk4']['version'],
         ver_bcftools = config['tools']['bcftools']['version'],
         rname = 'varscan_filter',
-        tmpdir = '/lscratch/$SLURM_JOBID',
+        tmpdir = config['input_params']['tmpdisk'],
     threads: 4
     envmodules:
         'VarScan/2.4.3',
@@ -444,6 +480,12 @@ rule varscan_filter:
     container:
         config['images']['wes_base']
     shell: """
+    # Setups temporary directory for
+    # intermediate files with built-in 
+    # mechanism for deletion on exit
+    tmp=$(mktemp -d -p "{params.tmpdir}")
+    trap 'rm -rf "${{tmp}}"' EXIT
+
     varscan filter \\
         {input.vcf} \\
         {params.filter_settings} > {output.filtered1}
@@ -466,7 +508,7 @@ rule varscan_filter:
     # VarScan can output ambiguous IUPAC bases/codes
     # the awk one-liner resets them to N, from:
     # https://github.com/fpbarthel/GLASS/issues/23
-    bcftools sort -T {params.tmpdir} "{output.final}" \\
+    bcftools sort -T ${{tmp}} "{output.final}" \\
         | bcftools norm --threads {threads} --check-ref s -f {params.genome} -O v \\
         | awk '{{gsub(/\y[W|K|Y|R|S|M]\y/,"N",$4); OFS = "\t"; print}}' \\
         | sed '/^$/d' > {output.norm}

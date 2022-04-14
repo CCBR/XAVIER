@@ -1,9 +1,5 @@
 # Pipeline Overview 
 
-This is the snakemake rule graph output.  This will be replaced with a more detailed diagram soon.
+![Pipeline Diagram](assets/Exome-seek_workflow.svg)
 
----
-
-![Pipeline Diagram](images/workflow-diagram.png)
-<br><sup>**Workflow diagram for the pipeline** Somatic calling steps cluster to the left, and germline and QC steps to the right. </sup>
-
+> <sup>**Workflow diagram of the Exome-seek:** the pipeline is composed of a series of data processing steps to trim, align, and recalibrate reads prior to calling variants. These data processing steps closely follow GATK's best pratices for cleaning up raw alignments. The pipeline also consists of a series of comprehensive quality-control steps.</sup>

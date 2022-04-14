@@ -50,13 +50,19 @@ rule pileup_single:
         ver_gatk = config['tools']['gatk4']['version'],
         chroms = chroms,
         rname = 'pileup',
-        tmpdir = '/lscratch/$SLURM_JOBID'
+        tmpdir = config['input_params']['tmpdisk']
     envmodules:
         'GATK/4.2.0.0'
     container:
         config['images']['wes_base']
     shell: """
-    gatk --java-options "-Xmx10g -Djava.io.tmpdir={params.tmpdir}" GetPileupSummaries \\
+    # Setups temporary directory for
+    # intermediate files with built-in 
+    # mechanism for deletion on exit
+    tmp=$(mktemp -d -p "{params.tmpdir}")
+    trap 'rm -rf "${{tmp}}"' EXIT
+
+    gatk --java-options "-Xmx10g -Djava.io.tmpdir=${{tmp}}" GetPileupSummaries \\
         -R {params.genome} \\
         -I {input.tumor} \\
         -V {params.germsource} \\
@@ -101,17 +107,23 @@ rule mutect_single:
         dbsnp = config['references']['DBSNP'],
         ver_mutect = config['tools']['mutect']['version'],
         rname = 'mutect',
-        tmpdir = '/lscratch/$SLURM_JOBID'
+        tmpdir = config['input_params']['tmpdisk']
     envmodules:
         'muTect/1.1.7'
     container:
         config['images']['mutect']
     shell: """
+    # Setups temporary directory for
+    # intermediate files with built-in 
+    # mechanism for deletion on exit
+    tmp=$(mktemp -d -p "{params.tmpdir}")
+    trap 'rm -rf "${{tmp}}"' EXIT
+
     if [ ! -d "$(dirname {output.vcf})" ]; then 
         mkdir -p "$(dirname {output.vcf})"
     fi
 
-    java -Xmx8g -Djava.io.tmpdir={params.tmpdir} -jar ${{MUTECT_JAR}} \\
+    java -Xmx8g -Djava.io.tmpdir=${{tmp}} -jar ${{MUTECT_JAR}} \\
         --analysis_type MuTect \\
         --reference_sequence {params.genome} \\
        # --normal_panel {params.pon} \\
@@ -138,7 +150,7 @@ rule mutect_filter_single:
         ver_gatk = config['tools']['gatk4']['version'],
         ver_bcftools = config['tools']['bcftools']['version'],
         rname = 'mutect_filter',
-        tmpdir = '/lscratch/$SLURM_JOBID',
+        tmpdir = config['input_params']['tmpdisk'],
     threads: 4
     envmodules:
         'GATK/4.2.0.0',
@@ -146,6 +158,12 @@ rule mutect_filter_single:
     container:
         config['images']['wes_base']
     shell: """
+    # Setups temporary directory for
+    # intermediate files with built-in 
+    # mechanism for deletion on exit
+    tmp=$(mktemp -d -p "{params.tmpdir}")
+    trap 'rm -rf "${{tmp}}"' EXIT
+
     gatk SelectVariants \\
         -R {params.genome} \\
         --variant {input.vcf} \\
@@ -155,7 +173,7 @@ rule mutect_filter_single:
     # VarScan can output ambiguous IUPAC bases/codes
     # the awk one-liner resets them to N, from:
     # https://github.com/fpbarthel/GLASS/issues/23
-    bcftools sort -T {params.tmpdir} "{output.final}" \\
+    bcftools sort -T ${{tmp}} "{output.final}" \\
         | bcftools norm --threads {threads} --check-ref s -f {params.genome} -O v \\
         | awk '{{gsub(/\y[W|K|Y|R|S|M]\y/,"N",$4); OFS = "\t"; print}}' \\
         | sed '/^$/d' > {output.norm}
@@ -220,7 +238,7 @@ rule vardict_filter_single:
         ver_gatk = config['tools']['gatk4']['version'],
         ver_bcftools = config['tools']['bcftools']['version'],
         rname = 'vardict_filter', 
-        tmpdir = '/lscratch/$SLURM_JOBID'
+        tmpdir = config['input_params']['tmpdisk']
     threads: 4
     envmodules:
         'bcftools/1.9',
@@ -228,6 +246,12 @@ rule vardict_filter_single:
     container:
         config['images']['wes_base']
     shell: """
+    # Setups temporary directory for
+    # intermediate files with built-in 
+    # mechanism for deletion on exit
+    tmp=$(mktemp -d -p "{params.tmpdir}")
+    trap 'rm -rf "${{tmp}}"' EXIT
+
     gatk SelectVariants \\
         -R {params.genome} \\
         --variant {input.vcf} \\
@@ -238,7 +262,7 @@ rule vardict_filter_single:
     # VarScan can output ambiguous IUPAC bases/codes
     # the awk one-liner resets them to N, from:
     # https://github.com/fpbarthel/GLASS/issues/23
-    bcftools sort -T {params.tmpdir} "{output.final}" \\
+    bcftools sort -T ${{tmp}} "{output.final}" \\
         | bcftools norm --threads {threads} --check-ref s -f {params.genome} -O v \\
         | awk '{{gsub(/\y[W|K|Y|R|S|M]\y/,"N",$4); OFS = "\t"; print}}' \\
         | sed '/^$/d' > {output.norm}
@@ -293,7 +317,7 @@ rule varscan_filter_single:
         ver_varscan = config['tools']['varscan']['version'],
         ver_bcftools = config['tools']['bcftools']['version'],
         rname = 'varscan_filter',
-        tmpdir = '/lscratch/$SLURM_JOBID',
+        tmpdir = config['input_params']['tmpdisk'],
     threads: 4
     envmodules:
         'VarScan/2.4.3',
@@ -302,6 +326,12 @@ rule varscan_filter_single:
     container:
         config['images']['wes_base']
     shell: """
+    # Setups temporary directory for
+    # intermediate files with built-in 
+    # mechanism for deletion on exit
+    tmp=$(mktemp -d -p "{params.tmpdir}")
+    trap 'rm -rf "${{tmp}}"' EXIT
+
     varscan filter \\
         {input.vcf} \\
         {params.filter_settings} > {output.filtered1}
@@ -324,7 +354,7 @@ rule varscan_filter_single:
     # VarScan can output ambiguous IUPAC bases/codes
     # the awk one-liner resets them to N, from:
     # https://github.com/fpbarthel/GLASS/issues/23
-    bcftools sort -T {params.tmpdir} "{output.final}" \\
+    bcftools sort -T ${{tmp}} "{output.final}" \\
         | bcftools norm --threads {threads} --check-ref s -f {params.genome} -O v \\
         | awk '{{gsub(/\y[W|K|Y|R|S|M]\y/,"N",$4); OFS = "\t"; print}}' \\
         | sed '/^$/d' > {output.norm}

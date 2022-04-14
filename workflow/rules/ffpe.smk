@@ -138,7 +138,6 @@ rule sobdetect_pass2:
         # File contains no variants, catch
         # problem so pipeline can continue
         cat "{input.vcf}" > {output.pass2_vcf}
-        bcf_annotate_option=""
     else
         # SOB Dectector failed for another reason
         echo "SOB Detector Failed... exiting now!" 1>&2

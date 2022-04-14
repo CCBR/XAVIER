@@ -105,6 +105,7 @@ nav:
     - exome-seek cache: usage/cache.md
   - Pipeline Details: 
     - Overview: pipeline-details/overview.md
+    - Methods: pipeline-details/methods.md
     - Tools: pipeline-details/tools.md
     - Settings: pipeline-details/settings.md
     - Output Files: pipeline-details/output.md

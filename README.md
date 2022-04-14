@@ -7,9 +7,9 @@ Welcome to exome-seek! Before getting started, we highly recommend reading throu
 
 The **`./exome-seek`** pipeline is composed several inter-related sub commands to setup and run the pipeline across different systems. Each of the available sub commands perform different functions: 
 
- * [<code>exome-seek <b>run</b></code>](usage/run.md): Run the GATK4 WES pipeline with your input files.
- * [<code>exome-seek <b>unlock</b></code>](usage/unlock.md): Unlocks a previous runs output directory.
- * [<code>exome-seek <b>cache</b></code>](usage/cache.md): Cache remote resources locally, coming soon!
+ * [<code>exome-seek <b>run</b></code>](https://mtandon09.github.io/CCBR_GATK4_Exome_Seq_Pipeline/usage/run/): Run the GATK4 WES pipeline with your input files.
+ * [<code>exome-seek <b>unlock</b></code>](https://mtandon09.github.io/CCBR_GATK4_Exome_Seq_Pipeline/usage/unlock/): Unlocks a previous runs output directory.
+ * [<code>exome-seek <b>cache</b></code>](https://mtandon09.github.io/CCBR_GATK4_Exome_Seq_Pipeline/usage/cache/): Cache remote resources locally, coming soon!
 
 Exome-seek is a comprehensive whole exome-sequencing pipeline following the Broad's set of best practices. It relies on technologies like [Singularity<sup>1</sup>](https://singularity.lbl.gov/) to maintain the highest-level of reproducibility. The pipeline consists of a series of data processing and quality-control steps orchestrated by [Snakemake<sup>2</sup>](https://snakemake.readthedocs.io/en/stable/), a flexible and scalable workflow management system, to submit jobs to a cluster or cloud provider.
 

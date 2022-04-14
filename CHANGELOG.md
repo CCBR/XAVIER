@@ -9,6 +9,7 @@ moved pipeline/scripts to /workflow/scripts
 NOTE: delete pipeline/run.sh and remove pipeline/ directory after creating wrapper script
 
 **Before**:
+```
 CCBR_GATK4_Exome_Seq_Pipeline/
 ├── pipeline
 │   ├── config
@@ -45,9 +46,10 @@ CCBR_GATK4_Exome_Seq_Pipeline/
 └── README.md
 
 9 directories, 24 files
-
+```
 
 **After**:
+```
 CCBR_GATK4_Exome_Seq_Pipeline/
 ├── config
 │   ├── cluster.json
@@ -84,7 +86,7 @@ CCBR_GATK4_Exome_Seq_Pipeline/
     └── Snakefile
 
 9 directories, 24 files
-
+```
 
 TLDR: basically moved things out of pipeline directory.
 
