@@ -71,7 +71,11 @@ OPTIONS:
                                 the path will default to the current working
                                 directory of this script.
                                 [Default: $(dirname  "$0")/.singularity/]
-  -h, --help     [Type: Bool]  Displays usage and help information.
+  -h, --help    [Type: Bool]  Displays usage and help information.
+  -w, --wait    [Type: Bool]  Wait until master job completes. This is required if
+                                the job is submitted using HPC API. If not provided
+                                the API may interpret submission of master job as
+                                completion of the pipeline!
 
 Example:
   $ runner slurm -h
@@ -103,7 +107,7 @@ function parser() {
       -t  | --tmp-dir) provided "$key" "${2:-}"; Arguments["t"]="$2"; shift; shift;;
       -o  | --outdir)  provided "$key" "${2:-}"; Arguments["o"]="$2"; shift; shift;;
       -c  | --cache)  provided "$key" "${2:-}"; Arguments["c"]="$2"; shift; shift;;
-
+      -w  | --wait)  Arguments["w"]="--wait"; shift;;
       -*  | --*) err "Error: Failed to parse unsupported argument: '${key}'."; usage && exit 1;;
       *) err "Error: Failed to parse unrecognized argument: '${key}'. Do any of your inputs have spaces?"; usage && exit 1;;
     esac
@@ -166,6 +170,7 @@ function submit(){
   # INPUT $4 = Singularity Bind paths
   # INPUT $5 = Singularity cache directory
   # INPUT $6 = Temporary directory for output files
+  # INPUT $7 = Wait ("--wait") or no wait ("--nowait".. default)
 
   # Check if singularity and snakemake are in $PATH
   # If not, try to module load singularity as a last resort
@@ -238,7 +243,12 @@ snakemake --latency-wait 120 -s "$3/workflow/Snakefile" -d "$3" \\
   --keep-remote --local-cores 30 2>&1
 EOF
     chmod +x kickoff.sh
-    job_id=$(sbatch kickoff.sh | tee -a "$3"/logfiles/master.log)
+    wait="$7"
+    if [ "$wait" != "--wait" ];then
+      job_id=$(sbatch kickoff.sh | tee -a "$3"/logfiles/master.log)
+    else
+      job_id=$(sbatch --wait kickoff.sh | tee -a "$3"/logfiles/master.log)
+    fi
         ;;
       *)  echo "${executor} is not available." && \
           fatal "Failed to provide valid execution backend: ${executor}. Please use slurm."
@@ -279,6 +289,9 @@ function main(){
   Arguments[c]="${Arguments[c]:-$cache}"
   Arguments[c]="${Arguments[c]%/}" # clean outdir path (remove trailing '/')
 
+  default_wait="--nowait"
+  Arguments[w]="${Arguments[w]:-$default_wait}" # wait is a blank string if not provided.
+
   # Print pipeline metadata prior to running
   echo -e "exome-seek\t$(date)"
   echo -e "Running pipeline with the following parameters:"
@@ -286,7 +299,7 @@ function main(){
 
   # Run pipeline and submit jobs to cluster using the defined executor
   mkdir -p "${Arguments[o]}/logfiles/"
-  job_id=$(submit "${Arguments[e]}" "${Arguments[j]}" "${Arguments[o]}" "${Arguments[b]}" "${Arguments[c]}" "${Arguments[t]}")
+  job_id=$(submit "${Arguments[e]}" "${Arguments[j]}" "${Arguments[o]}" "${Arguments[b]}" "${Arguments[c]}" "${Arguments[t]}" "${Arguments[w]}")
   echo -e "exome-seek pipeline submitted to cluster.\nMaster Job ID: $job_id"
   echo "${job_id}" > "${Arguments[o]}/logfiles/mjobid.log"
 

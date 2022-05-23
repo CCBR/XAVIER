@@ -117,6 +117,8 @@ def run(sub_args):
     else: 
         log = os.path.join(sub_args.output, 'logfiles', 'master.log')
     logfh = open(log, 'w')
+    wait = ''
+    if sub_args.wait: wait = '--wait'
     mjob = runner(mode = sub_args.mode, 
         outdir = sub_args.output, 
         # additional_bind_paths = all_bind_paths,
@@ -127,6 +129,7 @@ def run(sub_args):
         logger = logfh,
         additional_bind_paths = ",".join(bindpaths),
         tmp_dir = sub_args.tmp_dir, 
+        wait = wait
     )
     
     # Step 5. Wait for subprocess to complete,
@@ -282,6 +285,7 @@ def parsed_arguments():
                               [--sif-cache SIF_CACHE] \\
                               [--tmpdir TMP_DIR] \\
                               [--threads THREADS] \\
+                              [--wait] \\
                               --input INPUT [INPUT ...] \\
                               --output OUTPUT \\
                               --genome {hg38, ...} \\
@@ -458,6 +462,17 @@ def parsed_arguments():
         default = False,
         help = 'Call copy number variations or CNVs. CNVs will only be called from tumor-normal pairs. \
         If this option is provided without providing a --pairs file, CNVs will NOT be called.'
+    )
+
+    # wait until master job finishes ... required for HPC API execution 
+    subparser_run.add_argument('--wait',
+        action = 'store_true',
+        required = False,
+        default = False,
+        help = 'Wait until master job completes. This is required if \
+        the job is submitted using HPC API. If not provided \
+        the API may interpret submission of master job as \
+        completion of the pipeline!'
     )
 
     # Dry-run (do not execute the workflow, prints what steps remain)

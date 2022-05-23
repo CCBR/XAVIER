@@ -598,7 +598,7 @@ def dryrun(outdir, config='config.json', snakefile=os.path.join('workflow', 'Sna
 
 def runner(mode, outdir, alt_cache, logger, additional_bind_paths = None, 
     threads=2,  jobname='pl:exome-seek', submission_script='runner',
-    tmp_dir = '/lscratch/$SLURM_JOBID/'):
+    tmp_dir = '/lscratch/$SLURM_JOBID/', wait = ''):
     """Runs the pipeline via selected executor: local or slurm.
     If 'local' is selected, the pipeline is executed locally on a compute node/instance.
     If 'slurm' is selected, jobs will be submited to the cluster using SLURM job scheduler.
@@ -619,6 +619,8 @@ def runner(mode, outdir, alt_cache, logger, additional_bind_paths = None,
         Number of threads to use for local execution method
     @param masterjob <str>:
         Name of the master job
+    @param wait <str>:
+        "--wait" or "" ... used only while submitting job via HPC API
     @return masterjob <subprocess.Popen() object>:
     """
     # Add additional singularity bind PATHs
@@ -690,11 +692,19 @@ def runner(mode, outdir, alt_cache, logger, additional_bind_paths = None,
         #   --cluster "${CLUSTER_OPTS}" --keep-going --restart-times 3 -j 500 \
         #   --rerun-incomplete --stats "$3"/logfiles/runtime_statistics.json \
         #   --keep-remote --local-cores 30 2>&1 | tee -a "$3"/logfiles/master.log
-        masterjob = subprocess.Popen([
-                str(os.path.join(outdir, 'resources', str(submission_script))), mode,
-                '-j', jobname, '-b', str(bindpaths),
-                '-o', str(outdir), '-c', str(cache),
-                '-t', "'{}'".format(tmp_dir)
-            ], cwd = outdir, stderr=subprocess.STDOUT, stdout=logger, env=my_env)
+        if wait=='':
+            masterjob = subprocess.Popen([
+                    str(os.path.join(outdir, 'resources', str(submission_script))), mode,
+                    '-j', jobname, '-b', str(bindpaths),
+                    '-o', str(outdir), '-c', str(cache), 
+                    '-t', "'{}'".format(tmp_dir)
+                ], cwd = outdir, stderr=subprocess.STDOUT, stdout=logger, env=my_env)
+        else:
+            masterjob = subprocess.Popen([
+                    str(os.path.join(outdir, 'resources', str(submission_script))), mode,
+                    '-j', jobname, '-b', str(bindpaths),
+                    '-o', str(outdir), '-c', str(cache), str(wait),
+                    '-t', "'{}'".format(tmp_dir)
+                ], cwd = outdir, stderr=subprocess.STDOUT, stdout=logger, env=my_env)            
 
     return masterjob
