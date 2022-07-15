@@ -256,10 +256,10 @@
               "mem":"96G",
               "time": "3-00:00:00",
      },
-     "gatk_vqsr":{
-              "threads":"4",
-              "mem":"48G",
-              "time": "5-00:00:00",
+     "Gatk_Variantfilter":{
+              "threads":"2",
+              "mem":"32G",
+              "time": "24:00:00",
      },
      "apply_snp":{
               "threads":"4",
