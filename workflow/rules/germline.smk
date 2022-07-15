@@ -151,13 +151,13 @@ rule germline_merge_chrom:
         """
 
 
-rule gatk_variantfilter: 
+rule Gatk_Variantfilter: 
     """
     Hard filters on
     @Input:
         Multi-sample gVCF with all chromosomes combined
     @Output:
-       Variants filtered by QD, QUAL, SOR, FS MQ, MQRankSum, ReadPosRankSum, Indels: QD, QUAL, FS, ReadPosRankSum
+       Variants filtered by QD, QUAL, SOR, FS, MQ, MQRankSum, ReadPosRankSum, Indels: QD, QUAL, FS, ReadPosRankSum
     """
     input: 
         vcf = os.path.join(output_germline_base,"VCF","raw_variants.vcf.gz"),
