@@ -2,11 +2,11 @@
 rule freec_exome_somatic_pass1:
     input: 
         normal = lambda w: [os.path.join(output_bamdir,"final_bams", pairs_dict[w.samples] + ".bam")],
-        tumor = os.path.join(output_bamdir,"final_bams","{samples}.bam"),
+        tumor  = os.path.join(output_bamdir,"final_bams","{samples}.bam"),
+        targets = os.path.join(output_qcdir, "exome_targets.bed"),
     output: 
         cnvs = os.path.join(output_somatic_cnv, "freec_out", "pass1", "{samples}.recal.bam_CNVs.p.value.txt"),
     params: 
-        targets = exome_targets_bed,
         normalsample = lambda w: [pairs_dict[w.samples]],
         tumorsample = "{samples}",
         fasta = config['references']['GENOME'],
@@ -37,7 +37,7 @@ rule freec_exome_somatic_pass1:
         {params.pile} \\
         {params.fasta} \\
         {params.snps} \\
-        {params.targets}
+        {input.targets}
 
     freec -conf "$myoutdir/freec_exome_config.txt"
 
@@ -110,10 +110,10 @@ rule freec_exome_somatic_pass2:
         normal = lambda w: [os.path.join(output_bamdir,"final_bams", pairs_dict[w.samples] + ".bam")],
         tumor = os.path.join(output_bamdir,"final_bams","{samples}.bam"),
         fit = os.path.join(output_somatic_cnv, "sequenza_out", "{samples}_alternative_solutions.txt"),
+        targets = os.path.join(output_qcdir, "exome_targets.bed"),
     output:
         cnvs = os.path.join(output_somatic_cnv, "freec_out", "pass2", "{samples}.recal.bam_CNVs.p.value.txt"),
     params:
-        targets = exome_targets_bed,
         normalsample = lambda w: [pairs_dict[w.samples]],
         tumorsample = "{samples}",
         fasta = config['references']['GENOME'],
@@ -144,7 +144,7 @@ rule freec_exome_somatic_pass2:
         {params.pile} \\
         {params.fasta} \\
         {params.snps} \\
-        {params.targets} \\
+        {input.targets} \\
         {input.fit}
 
     freec -conf "$myoutdir/freec_exome_config.txt"

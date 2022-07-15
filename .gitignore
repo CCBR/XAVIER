@@ -159,3 +159,8 @@ site/
 
 # GNU Parallel
 .parallel/
+
+# Testing scripts and output directories
+tmp_*/
+test_*/
+test.sh

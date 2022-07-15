@@ -5,7 +5,7 @@
 ABOUT: This is the main entry for the GATK4 WES pipeline.
 REQUIRES:
   - python>=3.5
-  - snakemake   (recommended>=6.0.0)
+  - snakemake   (recommended>=6.0.0 **DO NOT USE snakemake v7.7.0 (bug reported!)**)
   - singularity (recommended==latest)
 DISCLAIMER:
                     PUBLIC DOMAIN NOTICE

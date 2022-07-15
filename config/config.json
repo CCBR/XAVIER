@@ -82,6 +82,7 @@
         "freec_plot": "workflow/scripts/makeGraph.R",
         "run_sequenza": "workflow/scripts/run_sequenza.R",
         "reformat_bed": "workflow/scripts/reformat_bed.py",
+        "correct_target_bed": "workflow/scripts/correct_target_bed.py",
         "genderPrediction": "workflow/scripts/RScripts/predictGender.R",
         "combineSamples": "workflow/scripts/RScripts/combineAllSampleCompareResults.R",
         "ancestry": "workflow/scripts/RScripts/sampleCompareAncestoryPlots.R"

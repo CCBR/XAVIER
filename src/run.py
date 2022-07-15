@@ -277,8 +277,8 @@ def resolve_additional_bind_paths(search_paths):
     indexed with a compostite key containing the first two directories of an absolute
     file path to avoid issues related to shared names across the /gpfs shared network
     filesystem. For each indexed list of file paths, a common path is found. Assumes
-    that the paths provided are absolute paths, the rna-seek build sub command creates
-    resource file index with absolute filenames.
+    that the paths provided are absolute paths, the build sub command creates reference
+    files with absolute filenames.
     @param search_paths list[<str>]:
         List of absolute file paths to find common bind paths from
     @return common_paths list[<str>]:
@@ -290,7 +290,7 @@ def resolve_additional_bind_paths(search_paths):
     for ref in search_paths:
         # Skip over resources with remote URI and
         # skip over strings that are not file PATHS as
-        # RNA-seek build creates absolute resource PATHS
+        # build command creates absolute resource PATHS
         if ref.lower().startswith('sftp://') or \
         ref.lower().startswith('s3://') or \
         ref.lower().startswith('gs://') or \
@@ -307,14 +307,20 @@ def resolve_additional_bind_paths(search_paths):
             index = path_list[1] # ref startswith /
         if index not in indexed_paths:
             indexed_paths[index] = []
-        # Create an INDEX to find common PATHS for each root child directory
-        # like /scratch or /data. This prevents issues when trying to find the
-        # common path betweeen these two different directories (resolves to /)
+        # Create an INDEX to find common PATHS for each root 
+        # child directory like /scratch or /data. This prevents 
+        # issues when trying to find the common path betweeen 
+        # these two different directories (resolves to /)
         indexed_paths[index].append(str(os.sep).join(path_list))
 
     for index, paths in indexed_paths.items():
         # Find common paths for each path index
-        common_paths.append(os.path.dirname(os.path.commonprefix(paths)))
+        p = os.path.dirname(os.path.commonprefix(paths))
+        if p == os.sep:
+            # Aviods adding / to bind list when
+            # given /tmp or /scratch as input 
+            p = os.path.commonprefix(paths)
+        common_paths.append(p)
 
     return list(set(common_paths))
 
@@ -347,6 +353,7 @@ def bind(sub_args, config):
     kraken_db_path = config['references']['KRAKENBACDB']
     genome_bind_paths = resolve_additional_bind_paths(bindpaths + fq_screen_paths + [kraken_db_path])
     bindpaths = [working_directory] + rawdata_bind_paths +  genome_bind_paths
+    bindpaths = list(set([p for p in bindpaths if p != os.sep]))
 
     return bindpaths
 

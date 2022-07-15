@@ -20,7 +20,7 @@ Before getting started, we highly recommend reading through the [usage](https://
 For more information about issues or trouble-shooting a problem, please checkout our [FAQ](faq/questions.md) prior to [opening an issue on Github](https://github.com/mtandon09/CCBR_GATK4_Exome_Seq_Pipeline/issues).
 
 ## Dependencies
-**Requires:** `singularity>=3.5`  `snakemake>=6.0` 
+**Requires:** `singularity>=3.5`  `snakemake==6.X`
 
 [Snakemake](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) and [singularity](https://singularity.lbl.gov/all-releases) must be installed on the target system. Snakemake orchestrates the execution of each step in the pipeline. To guarantee the highest level of reproducibility, each step relies on versioned images from [DockerHub](https://hub.docker.com/orgs/nciccbr/repositories). Snakemake uses singaularity to pull these images onto the local filesystem prior to job execution, and as so, snakemake and singularity are the only two dependencies.
 
