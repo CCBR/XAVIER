@@ -359,7 +359,7 @@ rule all:
         # expand(os.path.join(output_qcdir,"{samples}.samtools_flagstat.txt"), samples=samples),
         # os.path.join(output_qcdir,"raw_variants.het"), 
         # os.path.join(output_qcdir,"raw_variants.variant_calling_detail_metrics"),
-        os.path.join(output_qcdir,"MultiQC_Report.html"),
+        os.path.join(output_qcdir,"finalQC","MultiQC_Report.html"),
         
         # expand(os.path.join(output_qcdir,"{samples}.germline.bcftools_stats.txt"), samples=samples),
         # expand(os.path.join(output_qcdir,"{samples}.germline.eval.grp"), samples=samples),
