@@ -512,7 +512,7 @@ rule multiqc:
         os.path.join(output_qcdir,"raw_variants.variant_calling_detail_metrics"),
         os.path.join(output_germline_base,"somalier","ancestry.somalier-ancestry.tsv"),
     output: 
-        report  = os.path.join(output_qcdir,"MultiQC_Report.html"),
+        report  = os.path.join(output_qcdir,"finalQC","MultiQC_Report.html"),
     params: 
         rname  = "multiqc",
         workdir = os.path.join(BASEDIR)
