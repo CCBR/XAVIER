@@ -155,6 +155,8 @@ rule reformat_targets_bed:
     """
     Qualimap requires a 6-field BED file for coverage estimation.
     This rule ensures that the provided BED file will work with it.
+    FREEC also requires a reformatted BED file that does not contain
+    duplicated regions.
     @Input:
         Targets BED file, only first 4 fields required (chr, start, end, label)
     @Output:
@@ -166,6 +168,7 @@ rule reformat_targets_bed:
         bed=os.path.join(output_qcdir, "exome_targets.bed"),
     params:
         script_path_reformat_bed=config['scripts']['reformat_bed'],
+        script_path_correct_target_bed=config['scripts']['correct_target_bed'],
         rname  = "reformat_bed"
     message: "Formatting targets bed file"
     envmodules: 'python/3.7'
@@ -173,7 +176,9 @@ rule reformat_targets_bed:
     shell: """
     python {params.script_path_reformat_bed} \\
         --input_bed {input.targets} \\
-        --output_bed {output.bed}
+        --output_bed {output.bed}.temp
+    python3 {params.script_path_correct_target_bed} {output.bed}.temp {output.bed}
+    rm -f {output.bed}.temp
     """
     
     

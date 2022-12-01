@@ -56,13 +56,6 @@ def rename(filename):
         if matched:
             # regex matches with a pattern in extensions
             converted = True
-            # Try to get substring for named group lane, retain this in new file extension
-            # Come back to this later, I am not sure if this is necessary
-            # That string maybe static (i.e. always the same)
-            # https://support.illumina.com/help/BaseSpace_OLH_009008/Content/Source/Informatics/BS/NamingConvention_FASTQ-files-swBS.htm#
-            try: new_ext = "_{}{}".format(matched.group('lane'), new_ext)
-            except IndexError: pass # Does not contain the named group lane
-
             filename = re.sub(regex, new_ext, filename)
             break # only rename once
 
@@ -286,7 +279,7 @@ somatic_callers_dirs = [caller + "_out" for caller in list(caller_list)]
 samples_for_caller_merge=[]
 merge_callers_args=dict.fromkeys(pairs_ids)
 merge_callers_rodlist=",".join(caller_list)
-if (len(caller_list) > 1):
+if (len(caller_list) >= 1):
     merge_callers_args_list = [["--variant:{} {}/{}/{}.FINAL.vcf".format(re.sub("_out","",vc_out), os.path.join(output_somatic_snpindels, vc_out),"vcf",pair_id) for vc_out in somatic_callers_dirs] for pair_id in pairs_ids]
     merge_callers_args = dict(zip(pairs_ids, [" ".join(arglist) for arglist in merge_callers_args_list]))
     samples_for_caller_merge=pairs_ids
