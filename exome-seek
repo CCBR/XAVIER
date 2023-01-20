@@ -288,7 +288,7 @@ def parsed_arguments():
                               [--wait] \\
                               --input INPUT [INPUT ...] \\
                               --output OUTPUT \\
-                              --genome {hg38, ...} \\
+                              --genome {hg38, mm10, ...} \\
                               --targets TARGETS 
 
         required arguments:
@@ -307,11 +307,10 @@ def parsed_arguments():
                                 provided working directory has not been initialized,
                                 it will be created automatically.
                                 Example: --output /data/$USER/WES_hg38
-          --genome {hg38, ...}
+          --genome {hg38, mm10, ...}
                                 Reference genome. This option defines the reference
-                                genome of the samples. Currently, the pipeline only
-                                supports human reference genomes; however, support 
-                                for mouse reference genomes will be added soon.
+                                genome of the samples. Currently, hg38 and mm10 are supported.
+                                Support for additional and custom genomes will be added soon.
                                 Example: --genome hg38
           --targets TARGETS
                                 Path to exome targets BED file. This file can be
@@ -378,8 +377,8 @@ def parsed_arguments():
     # Reference Genome (to dynamically select reference files)
     subparser_run.add_argument('--genome',
         required = True,
-        #choices = ['hg38_X', 'mm10_X', 'custom.json'],
-        type = lambda option: str(genome_options(subparser_run, option, ['hg38'])),
+        #choices = ['hg38', 'mm10'],
+        type = lambda option: str(genome_options(subparser_run, option, ['hg38','mm10'])),
         help = argparse.SUPPRESS
     )
     
