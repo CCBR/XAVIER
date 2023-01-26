@@ -399,7 +399,6 @@ rule snpeff:
         {input.vcf} > {output.vcf}
     """
 
-
 rule somalier_extract:
     """
     To estimate ancestry, Somalier first extracts known sites from mapped reads
@@ -469,7 +468,6 @@ rule somalier_analysis:
         --labels {params.ancestry_db}/ancestry-labels-1kg.tsv \\
         {params.ancestry_db}/*.somalier ++ \\
         {input.somalier}
-
     Rscript {params.script_path_gender} \\
         {output.relatednessSamples} \\
         {output.finalFileGender}    
@@ -484,6 +482,7 @@ rule somalier_analysis:
         {output.ancestoryPlot} \\
         {output.pairAncestoryHist}
     """
+
 
 
 rule multiqc:

@@ -13,7 +13,7 @@ rule gatk_mutect2:
         chrom = '{chroms}',
         genome = config['references']['GENOME'],
         pon = config['references']['PON'],
-        germsource = config['references']['GNOMAD'],
+        germsource = config['references']['GERMLINERESOURCE'],
         ver_gatk = config['tools']['gatk4']['version'],
         rname = 'mutect2'
     threads: 2
@@ -31,7 +31,7 @@ rule gatk_mutect2:
         -I {input.normal} \\
         -normal {params.normalsample} \\
         --panel-of-normals {params.pon} \\
-        --germline-resource {params.germsource} \\
+        {params.germsource} \\
         -L {params.chrom} \\
         -O {output.vcf} \\
         --f1r2-tar-gz {output.read_orientation_file} \\
@@ -51,7 +51,7 @@ rule pileup_paired:
         normal_summary = os.path.join(output_somatic_snpindels, "mutect2_out", "pileup_summaries", "{samples}_normal.pileup.table")
     params:
         genome = config['references']['GENOME'],
-        germsource = config['references']['1000GSNP'],
+        germsource = config['references']['KNOWNSNPS'],
         ver_gatk = config['tools']['gatk4']['version'],
         rname = 'pileup'
     envmodules:
@@ -230,8 +230,7 @@ rule mutect_paired:
         tumorsample = '{samples}',
         pon = config['references']['PON'],
         genome = config['references']['GENOME'],
-        cosmic = config['references']['COSMIC'],
-        dbsnp = config['references']['DBSNP'],
+        dbsnp_cosmic = config['references']['DBSNP_COSMIC'],
         ver_mutect = config['tools']['mutect']['version'],
         rname = 'mutect',
         tmpdir = config['input_params']['tmpdisk']
@@ -251,9 +250,9 @@ rule mutect_paired:
     java -Xmx8g -Djava.io.tmpdir=${{tmp}} -jar ${{MUTECT_JAR}} \\
         --analysis_type MuTect \\
         --reference_sequence {params.genome} \\
-        --normal_panel {params.pon} \\
+    #    --normal_panel {params.pon} \\
         --vcf {output.vcf} \\
-        --cosmic {params.cosmic} \\
+     #   --cosmic {params.cosmic} \\
         --dbsnp {params.dbsnp} \\
         --disable_auto_index_creation_and_locking_when_reading_rods \\
         --input_file:normal {input.normal} \\

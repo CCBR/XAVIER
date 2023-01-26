@@ -5,7 +5,7 @@
 from __future__ import print_function
 
 # Local imports
-from utils import fatal, err, permissions
+from utils import os, fatal, err, permissions
 
 import os # required for call in line 30: 'permissions(parser, user_option, os.R_OK)'
 
