@@ -28,7 +28,7 @@ For more information about issues or trouble-shooting a problem, please checkout
 Please clone this repository to your local filesystem using the following command:
 ```bash
 # Clone Repository from Github
-git clone https://github.com/mtandon09/CCBR_GATK4_Exome_Seq_Pipeline.git
+git clone https://github.com/dnousome/CCBR_GATK4_Exome_Seq_Pipeline.git
 # Change your working directory
 cd CCBR_GATK4_Exome_Seq_Pipeline/
 ```
