@@ -5,7 +5,7 @@
 		"trimmomatic.adapters": "resources/adapters.fa",
 		"SNPEFF_GENOME": "GRCm38.86",
 		"SNPEFF_CONFIG": "/usr/local/apps/snpEff/4.3t/snpEff.config",
-		"SNPEFF_BUNDLE": "/data/CCBR_Pipeliner/Exome-seek/hg38/snpEff/4.3t/",
+		"SNPEFF_BUNDLE": "/fdb/snpEff/4.3t/data",
 	 	"BWAGENOME": "/fdb/igenomes/Mus_musculus/UCSC/mm10/Sequence/BWAIndex/genome.fa",
 	 	"GENOME": "/fdb/igenomes/Mus_musculus/UCSC/mm10/Sequence/WholeGenomeFasta/genome.fa",
 	 	"GENOMEDICT": "/fdb/igenomes/Mus_musculus/UCSC/mm10/Sequence/WholeGenomeFasta/genome.dict",
@@ -28,7 +28,7 @@
 	 	"MAF_FILTERVCF": "/data/CCBR_Pipeliner/db/PipeDB/lib/mm10_allstrains_dbSNP142.vcf.gz",
 	 	"chroms": ["chr1","chr2","chr3","chr4","chr5","chr6","chr7","chr8","chr9","chr10","chr11","chr12","chr13","chr14","chr15","chr16","chr17","chr18","chr19","chrX","chrY","chrM"],
 	 	"VCF2MAF": {
-	   		"VEPRESOURCEBUNDLEPATH": "/fdb/VEP/102/cache/",
+	   		"VEPRESOURCEBUNDLEPATH": "/fdb/VEP/102/cache",
 	   		"NCBI_BUILD": "GRCm38",
 	   		"SPECIES": "mus_musculus"
 	 	},

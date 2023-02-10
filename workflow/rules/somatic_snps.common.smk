@@ -192,7 +192,7 @@ rule somatic_mafs:
     params: 
         tumorsample = '{samples}',
         genome = config['references']['MAF_GENOME'],
-        filtervcf = config['references']['MAF_FILTERVCF'],
+        #filtervcf = config['references']['MAF_FILTERVCF'], Remove for now due to filtervcf no longer an option
         bundle = config['references']['VCF2MAF']['VEPRESOURCEBUNDLEPATH'],
         rname = 'vcf2maf',
         vcf2maf_script = VCF2MAF_WRAPPER
