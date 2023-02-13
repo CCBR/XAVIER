@@ -164,3 +164,6 @@ site/
 tmp_*/
 test_*/
 test.sh
+
+# bash history files
+**/.koparde*
