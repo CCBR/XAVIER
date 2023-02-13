@@ -351,7 +351,9 @@ def bind(sub_args, config):
     fqscreen_cfg = config['references']['FASTQ_SCREEN_CONFIG']
     fq_screen_paths = get_fastq_screen_paths([os.path.join(sub_args.output, fqscreen_cfg)])
     kraken_db_path = config['references']['KRAKENBACDB']
-    genome_bind_paths = resolve_additional_bind_paths(bindpaths + fq_screen_paths + [kraken_db_path])
+    # Add Bindpath for VCF2maf
+    vep_db_path= config['references']['VCF2MAF']['VEPRESOURCEBUNDLEPATH']
+    genome_bind_paths = resolve_additional_bind_paths(bindpaths + fq_screen_paths + [kraken_db_path] + [vep_db_path])
     bindpaths = [working_directory] + rawdata_bind_paths +  genome_bind_paths
     bindpaths = list(set([p for p in bindpaths if p != os.sep]))
 
