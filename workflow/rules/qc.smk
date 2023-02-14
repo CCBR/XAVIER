@@ -150,7 +150,7 @@ rule fastqc_bam:
         {input.bam} 
     """
 
-
+localrules: reformat_targets_bed
 rule reformat_targets_bed:
     """
     Qualimap requires a 6-field BED file for coverage estimation.
@@ -303,7 +303,7 @@ rule collectvariantcallmetrics:
         DBSNP={params.dbsnp} Validation_Stringency=SILENT
     """
 
-
+localrules: bcftools_stats
 rule bcftools_stats:
     """
     Quality-control step to collect summary statistics from bcftools stats.
@@ -398,7 +398,7 @@ rule snpeff:
         {params.genome} \\
         {input.vcf} > {output.vcf}
     """
-
+localrules: somalier_extract
 rule somalier_extract:
     """
     To estimate ancestry, Somalier first extracts known sites from mapped reads
@@ -426,7 +426,7 @@ rule somalier_extract:
         {input.bam}
     """
 
-
+localrules: somalier_analysis
 rule somalier_analysis:
     """
     To estimate relatedness, Somalier uses extracted site information to

@@ -73,7 +73,7 @@ rule pileup_paired:
     wait
     """
 
-
+localrules: contamination_paired
 rule contamination_paired:
     input:
         tumor = os.path.join(output_somatic_snpindels, "mutect2_out", "pileup_summaries", "{samples}_tumor.pileup.table"),

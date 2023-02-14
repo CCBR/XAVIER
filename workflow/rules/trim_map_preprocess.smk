@@ -127,7 +127,7 @@ rule bwa_mem:
     samtools sort -@12 -m 4G - -o {output}
     """
 
-
+localrules: raw_index
 rule raw_index:
     """
     Make index of mapped BAM file.

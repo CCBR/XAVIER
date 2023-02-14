@@ -1,4 +1,5 @@
 # Common somatic SNP calling rules
+localrules: split_bam_by_chrom
 rule split_bam_by_chrom:
     input:
         bam = os.path.join(output_bamdir, "final_bams", "{samples}.bam"),
@@ -116,7 +117,7 @@ rule mutect2_filter:
         | sed '/^$/d' > {output.norm}
     """
            
-    
+localrules: somatic_merge_chrom           
 rule somatic_merge_chrom:
     input:
         vcf = expand(os.path.join(output_somatic_snpindels, "{{vc_out}}", "chrom_split", "{{samples}}.{chroms}.vcf"), chroms=chroms),
@@ -212,7 +213,7 @@ rule somatic_mafs:
     echo "Done converting to MAF..."
     """
 
-
+localrules: collect_cohort_mafs
 rule collect_cohort_mafs:
     input: 
         mafs = expand(os.path.join(output_somatic_snpindels, "{{vc_outdir}}", "maf", "{samples}"+".maf"), samples=samples_for_caller_merge)

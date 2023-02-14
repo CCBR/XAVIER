@@ -68,7 +68,7 @@ rule pileup_single:
         -O {output.pileup}
     """
 
-
+localrules: contamination_single
 rule contamination_single:
     input: 
         pileup = os.path.join(output_somatic_snpindels, "mutect2_out", "pileup_summaries", "{samples}.pileup.table")
