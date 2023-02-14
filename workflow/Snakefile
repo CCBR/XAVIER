@@ -174,6 +174,79 @@ def read_pairsfile(tn_mode="auto", pairs_filepath="", sample_names=[]):
 configfile:"config.json"
 
 
+def get_nidap_folder_input_files(wildcards):
+    nidap_files=[]
+
+    leftf=os.path.join(BASEDIR,"nidap_left")
+    rightf=os.path.join(BASEDIR,"nidap_right")
+    left=open(leftf,'w')
+    right=open(rightf,'w')
+    
+    for f in list(expand(os.path.join(SOBDetector_out,"{vc_outdir}","pass2","{samples}.artifact_filtered.vcf.gz"), samples=ffpe_sample_list, vc_outdir=ffpe_caller_list)):
+        nidap_files.append(f)
+        left.write("%s\n"%(f))
+    for f in list(expand(os.path.join(NIDAP_OUTDIR,"{vc_outdir}_{samples}.artifact_filtered.vcf.gz"), samples=ffpe_sample_list, vc_outdir=ffpe_caller_list)):
+        right.write("%s\n"%(f))
+
+    for f in list(expand(os.path.join(SOBDetector_out,"{vc_outdir}","cohort_summary","all_somatic_variants.maf"), vc_outdir=ffpe_caller_list)):
+        nidap_files.append(f)
+        left.write("%s\n"%(f))
+    for f in list(expand(os.path.join(NIDAP_OUTDIR,"{vc_outdir}_all_somatic_variants.maf"), vc_outdir=ffpe_caller_list)):
+        right.write("%s\n"%(f))
+    
+    for f in list(expand(os.path.join(SOBDetector_out,"{vc_outdir}","metrics","all_metrics.txt"), vc_outdir=ffpe_caller_list)):
+        nidap_files.append(f)
+        left.write("%s\n"%(f))
+    for f in list(expand(os.path.join(NIDAP_OUTDIR,"{vc_outdir}_all_metrics.txt"), vc_outdir=ffpe_caller_list)):
+        right.write("%s\n"%(f))
+    
+    for f in list(expand(os.path.join(output_somatic_cnv,"freec_out","pass2","{samples}.recal.bam_CNVs.p.value.txt"), samples=cnv_sample_list)):
+        nidap_files.append(f)
+        left.write("%s\n"%(f))
+    for f in list(expand(os.path.join(NIDAP_OUTDIR,"{samples}.recal.bam_CNVs.p.value.txt"), samples=cnv_sample_list)):
+        right.write("%s\n"%(f))
+
+    for f in list(expand(os.path.join(output_somatic_base,"qc","gatk_contamination","{samples}.contamination.table"), samples=samples_for_caller_merge)):
+        nidap_files.append(f)
+        left.write("%s\n"%(f))
+    for f in list(expand(os.path.join(NIDAP_OUTDIR,"{samples}.contamination.table"), samples=samples_for_caller_merge)):
+        right.write("%s\n"%(f))
+    
+    f=os.path.join(output_qcdir,"finalQC","MultiQC_Report.html")
+    nidap_files.append(f)
+    left.write("%s\n"%(f))
+    f=os.path.join(NIDAP_OUTDIR,"MultiQC_Report.html")          
+    right.write("%s\n"%(f))
+    
+    left.close()
+    right.close()
+
+    outfile = os.path.join(BASEDIR,"NIDAP_files.tsv")
+    cmd = "paste " + leftf + " " + rightf + " > " + outfile + " && rm -f " + leftf + " && rm -f " + rightf
+    os.system(cmd)
+    
+    nidap_files.append(outfile)
+    
+    return nidap_files
+
+def get_nidap_folder_output_files(wildcards):
+
+    nidap_files=[]
+    if config['input_params']['create_nidap_folder'] == 'yes':
+        for f in list(expand(os.path.join(NIDAP_OUTDIR,"{vc_outdir}_{samples}.artifact_filtered.vcf.gz"), samples=ffpe_sample_list, vc_outdir=ffpe_caller_list)):
+            nidap_files.append(f)
+        for f in list(expand(os.path.join(NIDAP_OUTDIR,"{vc_outdir}_all_somatic_variants.maf"), vc_outdir=ffpe_caller_list)):
+            nidap_files.append(f)
+        for f in list(expand(os.path.join(NIDAP_OUTDIR,"{vc_outdir}_all_metrics.txt"), vc_outdir=ffpe_caller_list)):
+            nidap_files.append(f)        
+        for f in list(expand(os.path.join(NIDAP_OUTDIR,"{samples}.recal.bam_CNVs.p.value.txt"), samples=cnv_sample_list)):
+            nidap_files.append(f)
+        for f in list(expand(os.path.join(NIDAP_OUTDIR,"{samples}.contamination.table"), samples=samples_for_caller_merge)):
+            nidap_files.append(f)
+        nidap_files.append(os.path.join(NIDAP_OUTDIR,"MultiQC_Report.html"))
+    return nidap_files
+
+
 ######### PARSE CONFIG PARAMS #########
 TN_MODE=config['input_params']['TN_MODE']
 exome_targets_bed=config['input_params']['EXOME_TARGETS']
@@ -323,7 +396,7 @@ if 'CNV_CALLING' in config['input_params']:
 ## Finding a workaround was not super simple; what seems to work for now is increasing
 ## the resources on the submission node and run these short jobs locally.
 
-localrules: all, raw_index, reformat_targets_bed, somalier_extract, somalier_analysis, bcftools_stats, split_bam_by_chrom, somatic_merge_chrom, collect_cohort_mafs, contamination_single, contamination_paired
+localrules: all
 
 #
 # Set rule all
@@ -367,6 +440,9 @@ rule all:
         # expand(os.path.join(output_qcdir,"{samples}.germline.eval.grp"), samples=samples),
         # expand(os.path.join(output_qcdir,"{samples}.germline.snpeff.ann.html"), samples=samples),
 
+        #NIDAP stuff
+        get_nidap_folder_output_files
+
 
 
 include: "rules/trim_map_preprocess.smk"
@@ -386,3 +462,7 @@ if tn_mode=="paired":
     include: "rules/somatic_snps.paired.smk"
 elif tn_mode=="tumor_only":
     include: "rules/somatic_snps.tumor_only.smk"
+
+if config['input_params']['create_nidap_folder'] == 'yes':
+    NIDAP_OUTDIR = os.path.join(BASEDIR,"NIDAP")
+    include: "rules/nidap.smk"
