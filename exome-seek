@@ -83,11 +83,17 @@ def run(sub_args):
     # Step 2. Setup pipeline for execution, 
     # dynamically create config.json config
     # file from user inputs and base config
+    # determine "nidap folder"
+    create_nidap_folder_YN = "no"
+    if sub_args.create_nidap_folder: 
+        create_nidap_folder_YN = "yes"
+
     # templates
     config = setup(sub_args, 
         ifiles = input_files,
         repo_path = git_repo,
-        output_path = sub_args.output
+        output_path = sub_args.output,
+        create_nidap_folder_YN = create_nidap_folder_YN
     )
 
     # Step 3. Resolve docker/singularity bind
@@ -286,6 +292,7 @@ def parsed_arguments():
                               [--tmpdir TMP_DIR] \\
                               [--threads THREADS] \\
                               [--wait] \\
+                              [--create-nidap-folder] \\
                               --input INPUT [INPUT ...] \\
                               --output OUTPUT \\
                               --genome {hg38, mm10, ...} \\
@@ -472,6 +479,16 @@ def parsed_arguments():
         the job is submitted using HPC API. If not provided \
         the API may interpret submission of master job as \
         completion of the pipeline!'
+    )
+
+    # create-nidap-folder create a folder called "NIDAP" to be moved back to NIDAP 
+    subparser_run.add_argument('--create-nidap-folder',
+        action = 'store_true',
+        required = False,
+        default = False,
+        help = 'Create folder called "NIDAP" with file to-be-moved back to NIDAP \
+              This makes it convinient to move only this folder (called NIDAP) and its content back \
+              to NIDAP, rather than the entire pipeline output folder'
     )
 
     # Dry-run (do not execute the workflow, prints what steps remain)
