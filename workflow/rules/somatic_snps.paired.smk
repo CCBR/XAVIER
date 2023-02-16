@@ -250,10 +250,9 @@ rule mutect_paired:
     java -Xmx8g -Djava.io.tmpdir=${{tmp}} -jar ${{MUTECT_JAR}} \\
         --analysis_type MuTect \\
         --reference_sequence {params.genome} \\
-    #    --normal_panel {params.pon} \\
+        --normal_panel {params.pon} \\
         --vcf {output.vcf} \\
-     #   --cosmic {params.cosmic} \\
-        --dbsnp {params.dbsnp} \\
+        {params.dbsnp_cosmic} \\
         --disable_auto_index_creation_and_locking_when_reading_rods \\
         --input_file:normal {input.normal} \\
         --input_file:tumor {input.tumor} \\

@@ -41,9 +41,15 @@ fi
 
 # Set paths to VEP resources based on paths 
 # to species and ncbi build name
-fa="${VEPRESOURCEBUNDLEPATH}/fastas/${species}/${ncbi_build}.fa"
-dotvep="${VEPRESOURCEBUNDLEPATH}/VEP_tarballs/.vep"
-filtervcf="${VEPRESOURCEBUNDLEPATH}/filtervcf/${species}/${ncbi_build}.filter.vcf.gz"
+if [ $GENOME == "hg38" ]; then 
+    fa="${VEPRESOURCEBUNDLEPATH}/${ncbi_build}.fa"
+elif [ $GENOME == "mm10" ]; then
+    fa="${VEPRESOURCEBUNDLEPATH}/mouse.fa"
+fi
+
+dotvep="${VEPRESOURCEBUNDLEPATH}"
+#Remove filterVCF since no longer supported in vcf2maf 1.6.21 and VEP106
+#filtervcf="${VEPRESOURCEBUNDLEPATH}/filtervcf/${species}/${ncbi_build}.filter.vcf.gz"
 
 # Detect file extension and unzip if necessary
 OUTPUT_DIR=$(dirname $MAF)
@@ -60,6 +66,8 @@ INPUT_DIR=$(dirname $VCF)
 # Add chr prefix if requested and missing
 chr_text="chr"
 if [ $GENOME == "hg19" ]; then 
+    chr_text=""
+elif [ $GENOME == "mm10" ]; then 
     chr_text=""
 else
     chr_text="chr"
@@ -140,8 +148,10 @@ vcf2maf.pl \
     --tumor-id "$MAF_TID" $NORM_MAF_ID_ARG \
     --vep-path "/opt/vep/src/ensembl-vep" \
     --vep-data "$dotvep" \
-    --filter-vcf "$filtervcf" \
     --ncbi-build "$ncbi_build" \
     --species "$species" \
     --retain-info "$INFO" \
-    --ref-fasta "$fa"
+    --ref-fasta "$fa" 
+    #--filter-vcf "$filtervcf" \
+
+

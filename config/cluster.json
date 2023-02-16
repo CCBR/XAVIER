@@ -10,16 +10,6 @@
               "threads": "2",
               "time": "12:00:00",
     },
-#    "pileup_tumor": {
-#              "mem": "72g",
-#              "threads": "2",
-#              "time": "24:00:00",
-#    },
-#    "pileup_normal": {
-#              "mem": "72g",
-#              "threads": "2",
-#              "time": "124:00:00",
-#    },
       "filter_cnv": {
               "threads": "2",
               "time": "2:00:00",
