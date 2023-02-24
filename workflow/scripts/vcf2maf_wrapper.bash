@@ -10,7 +10,7 @@ ARGPARSE_DESCRIPTION="vcf2maf wrapper script"
 argparse "$@" <<EOF || exit 1
 parser.add_argument('--vcf', required=True, help='input vcf file')
 parser.add_argument('--maf', required=True, help='output maf file')
-parser.add_argument('--genome', required=True, help='hg19/hg38/mm10')
+parser.add_argument('--genomebuild', required=True, help='hg19/hg38/mm10')
 parser.add_argument('--tid', required=False, help='TumorID in VCF ... sample id of tumor sample [first column name of VCF used by default]')
 parser.add_argument('--nid', required=False, help='NormalID in VCF ... sample id of normal sample ... do not provide in case of tumor-only')
 parser.add_argument('--maf_tid', required=False, default='', help='TumorID for MAF... output sample id of tumor sample [--tid used by default]')
@@ -19,33 +19,34 @@ parser.add_argument('--info', required=False, default='', help='Comma-delimited 
 parser.add_argument('--addchr', required=False, default=True, help='Whether or not to add a chr prefix to chromosome names [default=True]')
 parser.add_argument('--threads', required=False, default=0, help='Number of forks to use for VEP [default=1, or $SLURM_CPUS_PER_TASK-1 if on Biowulf]')
 parser.add_argument('--vepresourcebundlepath', required=False, default='/data/CCBR_Pipeliner/db/PipeDB/lib/vcf2maf_resources',help='location of the resources required by vep')
+parser.add_argument('--genomefasta', required=False, help='Fasta location')
 EOF
 
 # Set Genome aliases, vaild choices = hg19/hg38/mm10
 ncbi_build=""
 species=""
-if [ $GENOME == "hg38" ]; then 
+if [ $GENOMEBUILD == "hg38" ]; then 
     ncbi_build="GRCh38" 
     species="homo_sapiens"
-elif [ $GENOME == "hg19" ]; then 
+elif [ $GENOMEBUILD == "hg19" ]; then 
     ncbi_build="GRCh37"
     species="homo_sapiens"
-elif [ $GENOME == "mm10" ]; then
+elif [ $GENOMEBUILD == "mm10" ] || [ $GENOMEBUILD == "GRCm38" ]; then
     ncbi_build="GRCm38"
     species="mus_musculus"
 else
-    echo "Unsupport value to option: --genome"
+    echo "Unsupport value to option: --genomebuild"
     echo "Please select from: hg19/hg38/mm10"
     exit 1
 fi
 
 # Set paths to VEP resources based on paths 
 # to species and ncbi build name
-if [ $GENOME == "hg38" ]; then 
-    fa="${VEPRESOURCEBUNDLEPATH}/${ncbi_build}.fa"
-elif [ $GENOME == "mm10" ]; then
-    fa="${VEPRESOURCEBUNDLEPATH}/mouse.fa"
-fi
+#if [ $GENOME == "hg38" ]; then 
+#fa="${VEPRESOURCEBUNDLEPATH}/${ncbi_build}.fa"
+#elif [ $GENOME == "mm10" ]; then
+#    fa="${VEPRESOURCEBUNDLEPATH}/mouse.fa"
+#fi
 
 dotvep="${VEPRESOURCEBUNDLEPATH}"
 #Remove filterVCF since no longer supported in vcf2maf 1.6.21 and VEP106
@@ -65,9 +66,9 @@ INPUT_DIR=$(dirname $VCF)
 
 # Add chr prefix if requested and missing
 chr_text="chr"
-if [ $GENOME == "hg19" ]; then 
+if [ $GENOMEBUILD == "hg19" ]; then 
     chr_text=""
-elif [ $GENOME == "mm10" ]; then 
+elif [ $GENOMEBUILD == "mm10" ]; then 
     chr_text=""
 else
     chr_text="chr"
@@ -151,7 +152,7 @@ vcf2maf.pl \
     --ncbi-build "$ncbi_build" \
     --species "$species" \
     --retain-info "$INFO" \
-    --ref-fasta "$fa" 
+    --ref-fasta "$GENOMEFASTA" 
     #--filter-vcf "$filtervcf" \
 
 

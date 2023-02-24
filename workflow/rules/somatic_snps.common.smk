@@ -192,11 +192,15 @@ rule somatic_mafs:
         maf = os.path.join(output_somatic_snpindels, "{vc_outdir}", "maf", "{samples}.maf")
     params: 
         tumorsample = '{samples}',
-        genome = config['references']['MAF_GENOME'],
-        #filtervcf = config['references']['MAF_FILTERVCF'], Remove for now due to filtervcf no longer an option
+        genome = config['references']['GENOME'],
+        build= config['references']['VCF2MAF']['NCBI_BUILD'],
+        species = config['references']['VCF2MAF']['SPECIES'],
         bundle = config['references']['VCF2MAF']['VEPRESOURCEBUNDLEPATH'],
         rname = 'vcf2maf',
-        vcf2maf_script = VCF2MAF_WRAPPER
+        vcf2maf_script = VCF2MAF_WRAPPER,
+        normalsample =  lambda w: "--nid {0}".format(
+            pairs_dict[w.samples]
+        ) if pairs_dict[w.samples] else "",  
     threads: 4
     container:
         config['images']['vcf2maf'] 
@@ -205,13 +209,15 @@ rule somatic_mafs:
     bash {params.vcf2maf_script} \\
         --vcf {input.filtered_vcf} \\
         --maf {output.maf} \\
-        --tid {params.tumorsample} \\
-        --genome {params.genome} \\
+        --tid {params.tumorsample} {params.normalsample} \\
+        --genomebuild {params.build} \\
+        --genomefasta {params.genome} \\
         --threads {threads} \\
         --vepresourcebundlepath {params.bundle} \\
         --info "set"
     echo "Done converting to MAF..."
     """
+
 
 localrules: collect_cohort_mafs
 rule collect_cohort_mafs:
