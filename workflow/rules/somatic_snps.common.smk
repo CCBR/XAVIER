@@ -193,7 +193,7 @@ rule somatic_mafs:
     params: 
         tumorsample = '{samples}',
         genome = config['references']['GENOME'],
-        build= config['references']['VCF2MAF']['NCBI_BUILD'],
+        build= config['references']['VCF2MAF']['GENOME_BUILD'],
         species = config['references']['VCF2MAF']['SPECIES'],
         bundle = config['references']['VCF2MAF']['VEPRESOURCEBUNDLEPATH'],
         rname = 'vcf2maf',
