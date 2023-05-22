@@ -1,0 +1,22 @@
+name: forksync
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Fork Sync
+      uses: tgymnich/fork-sync@v1.2.1
+      with:
+        # Owner of the forked repository
+        owner: NCIPangea
+        # Branch to track
+        head: master
+        # Branch to keep updated
+        base: master
+        # The title of the pull request
+        pr_title: "syncing fork back to main CCBR repo"
+        # The message in the pull request
+        pr_message: "syncing fork back to main CCBR repo"
