@@ -10,12 +10,13 @@ jobs:
     - name: Fork Sync
       uses: tgymnich/fork-sync@v1.2.1
       with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         # Owner of the forked repository
         owner: NCIPangea
         # Branch to track
-        head: master
+        head: main
         # Branch to keep updated
-        base: master
+        base: main
         # The title of the pull request
         pr_title: "syncing fork back to main CCBR repo"
         # The message in the pull request
