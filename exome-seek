@@ -111,7 +111,6 @@ def run(sub_args):
         # Dryrun pipeline
         dryrun_output = dryrun(outdir = sub_args.output) # python3 returns byte-string representation
         print("\nDry-running exome-seek pipeline:\n{}".format(dryrun_output.decode("utf-8")))
-        sys.exit(0)
 
     # Optional Step. Orchestrate pipeline execution,
     # run pipeline in locally on a compute node
@@ -119,6 +118,7 @@ def run(sub_args):
     # job to the job scheduler, SLURM, and create 
     # logging file
     if sub_args.runmode == "run":
+        print("--Run full pipeline")
         if not exists(os.path.join(sub_args.output, 'logfiles')):
             # Create directory for logfiles
             os.makedirs(os.path.join(sub_args.output, 'logfiles'))
