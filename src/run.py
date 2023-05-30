@@ -155,7 +155,7 @@ def rename(filename):
     return filename
 
 
-def setup(sub_args, ifiles, repo_path, output_path, create_nidap_folder_YN = 'no'):
+def setup(sub_args, repo_path, output_path, create_nidap_folder_YN = 'no',links=[]):
     """Setup the pipeline for execution and creates config file from templates
     @param sub_args <parser.parse_args() object>:
         Parsed arguments for run sub-command
@@ -171,6 +171,7 @@ def setup(sub_args, ifiles, repo_path, output_path, create_nidap_folder_YN = 'no
     # Check for mixed inputs,
     # inputs which are a mixture
     # of FastQ and BAM files 
+    ifiles = sym_safe(input_data = links, target = output_path)
     mixed_inputs(ifiles)
 
     # Resolves PATH to template for genomic reference files to select from a
