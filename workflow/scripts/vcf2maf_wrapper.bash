@@ -41,6 +41,8 @@ else
 fi
 
 # Set paths to VEP resources based on paths 
+dotvep="${VEPRESOURCEBUNDLEPATH}"
+
 # to species and ncbi build name
 #if [ $GENOME == "hg38" ]; then 
 #fa="${VEPRESOURCEBUNDLEPATH}/${ncbi_build}.fa"
@@ -48,9 +50,6 @@ fi
 #    fa="${VEPRESOURCEBUNDLEPATH}/mouse.fa"
 #fi
 
-dotvep="${VEPRESOURCEBUNDLEPATH}"
-#Remove filterVCF since no longer supported in vcf2maf 1.6.21 and VEP106
-#filtervcf="${VEPRESOURCEBUNDLEPATH}/filtervcf/${species}/${ncbi_build}.filter.vcf.gz"
 
 # Detect file extension and unzip if necessary
 OUTPUT_DIR=$(dirname $MAF)
@@ -65,12 +64,8 @@ fi
 INPUT_DIR=$(dirname $VCF)
 
 # Add chr prefix if requested and missing
-chr_text="chr"
-if [ $GENOMEBUILD == "hg19" ]; then 
-    chr_text=""
-elif [ $GENOMEBUILD == "mm10" ]; then 
-    chr_text=""
-else
+chr_text=""
+if [ $GENOMEBUILD == "hg38" ]; then 
     chr_text="chr"
 fi
 echo "Adding text '$chr_text' to chrom names..."
