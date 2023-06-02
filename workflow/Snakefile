@@ -458,6 +458,13 @@ if 'FFPE_FILTER' in config['input_params']:
     if config['input_params']['FFPE_FILTER'].lower() in ['true','t','yes']:
         include: "rules/ffpe.smk"
 
+if config['project']['annotation']=='mm10':
+    include: "rules/qc_mm10.smk"
+elif config['project']['annotation']=='hg38':
+    include: "rules/qc_human.smk"
+elif config['project']['annotation']=='hg19':
+    include: 'rules/qc_human.smk'
+
 if tn_mode=="paired":
     include: "rules/somatic_snps.paired.smk"
 elif tn_mode=="tumor_only":
