@@ -350,7 +350,8 @@ def parsed_arguments():
                         --input .tests/*.R?.fastq.gz \\
                         --output /data/$USER/WES_hg38 \\
                         --genome hg38 \\
-                        --targets .tests/Agilent_SSv7_allExons_hg38.bed
+                        --targets .tests/Agilent_SSv7_allExons_hg38.bed  \\
+                        --pairs .tests/pairs.tsv
           
           # Step 2B.) Dry-run the pipeline
           ./exome-seek run \\
@@ -358,9 +359,8 @@ def parsed_arguments():
                         --input .tests/*.R?.fastq.gz \\
                         --output /data/$USER/WES_hg38 \\
                         --genome hg38 \\
-                        --targets Agilent_SSv7_allExons_hg38.bed \\
-                        --mode slurm \\
-                        --dry-run
+                        --targets .tests/Agilent_SSv7_allExons_hg38.bed \\
+                        --pairs .tests/pairs.tsv
 
           # Step 2C.) Run the GATK4 WES pipeline
           # The slurm mode will submit jobs to the cluster.
@@ -371,6 +371,7 @@ def parsed_arguments():
                         --output /data/$USER/WES_hg38 \\
                         --genome hg38 \\
                         --targets .tests/Agilent_SSv7_allExons_hg38.bed \\
+                        --pairs .tests/pairs.tsv \\
                         --mode slurm
 
         version:
