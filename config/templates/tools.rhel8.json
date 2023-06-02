@@ -1,0 +1,41 @@
+{
+   "tools": {
+        "trimmomatic": {
+            "version": "0.39"
+        },
+        "samtools": {
+            "version": "1.8"
+        },
+        "bcftools": {
+            "version": "1.9"
+        },
+        "bwa": {
+            "version": "0.7.17"
+        },
+        "gatk3": {
+            "version": "3.8-1"
+        },
+        "gatk4": {
+            "version": "4.2.0.0"
+        },
+        "strelka": {
+            "version": "2.9.0"
+        },
+        "mutect": {
+            "version": "1.1.7"
+        },
+        "varscan": {
+            "version": "2.4.3",
+            "filter_settings": "--strand-filter 1 --min-reads2 5 --min-strands2 2 --min-var-freq 0.05 --p-value 0.01 --min-avg-qual 30"
+        },
+        "vcftools": {
+            "version": "0.1.16"
+        },
+        "Control-FREEC": {
+            "version": "11.5"
+        },
+        "R": {
+            "version": "4.1"
+        }
+    }
+}
