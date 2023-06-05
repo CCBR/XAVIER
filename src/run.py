@@ -180,7 +180,7 @@ def setup(sub_args, repo_path, output_path, create_nidap_folder_YN = 'no',links=
     hostname = os.getenv("HOSTNAME")
     if hostname == "fsitgl-head01p.ncifcrf.gov":
         shorthostname = "frce"
-    elif hostname == "biowulf.nih.gov":
+    elif hostname == "biowulf8.nih.gov":
         shorthostname = "biowulf"
     else:
         exit("%s unknown host"%(hostname))
