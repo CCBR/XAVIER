@@ -18,7 +18,7 @@ rule gatk_mutect2:
         rname = 'mutect2'
     threads: 2
     envmodules:
-        'GATK/4.2.0.0'
+        config['tools']['gatk4']['modname']
     container:
         config['images']['wes_base']
     shell: """
@@ -55,7 +55,7 @@ rule pileup_paired:
         ver_gatk = config['tools']['gatk4']['version'],
         rname = 'pileup'
     envmodules:
-        'GATK/4.2.0.0'
+        config['tools']['gatk4']['modname']
     container:
         config['images']['wes_base']
     shell: """
@@ -88,7 +88,7 @@ rule contamination_paired:
         ver_gatk = config['tools']['gatk4']['version'],
         rname = 'contamination'
     envmodules:
-        'GATK/4.2.0.0'
+        config['tools']['gatk4']['modname']
     container:
         config['images']['wes_base']
     shell: """
@@ -117,15 +117,15 @@ rule strelka:
         rname = 'strelka',
         tmpdir = config['input_params']['tmpdisk'],
     envmodules:
-        'strelka/2.9.0',
-        'GATK/3.8-1',
-        'java/1.8.0_181'
+        config['tools']['strelka']['modname'],
+        config['tools']['gatk3']['modname'],
+        config['tools']['java']['modname']
     container:
         config['images']['wes_base']
     threads: 16
     envmodules:
-        'strelka/2.9.0',
-        'GATK/3.8-1'
+        config['tools']['strelka']['modname'],
+        config['tools']['gatk3']['modname']
     container:
         config['images']['wes_base']
     shell: """
@@ -182,8 +182,8 @@ rule strelka_filter:
         tmpdir = config['input_params']['tmpdisk']
     threads: 4
     envmodules:
-        'GATK/4.2.0.0',
-        'bcftools/1.9'
+        config['tools']['gatk4']['modname'],
+        config['tools']['bcftools']['modname']
     container:
         config['images']['wes_base']
     shell: """
@@ -235,7 +235,7 @@ rule mutect_paired:
         rname = 'mutect',
         tmpdir = config['input_params']['tmpdisk']
     envmodules:
-        'muTect/1.1.7'
+        config['tools']['mutect']['modname']
     container:
         config['images']['mutect']
     shell: """
@@ -278,8 +278,8 @@ rule mutect_filter:
         tmpdir = config['input_params']['tmpdisk'],
     threads: 4
     envmodules:
-        'GATK/4.2.0.0',
-        'bcftools/1.9'
+        config['tools']['gatk4']['modname'],
+        config['tools']['bcftools']['modname']
     container:
         config['images']['wes_base']
     shell: """
@@ -319,8 +319,8 @@ rule vardict_paired:
         pon = config['references']['PON'],
         rname = 'vardict'
     envmodules:
-        'R/3.6.1',
-        'samtools/1.8'
+        config['tools']['R']['modname'],
+        config['tools']['samtools']['modname']
     container:
         config['images']['wes_base']
     shell: """
@@ -366,8 +366,8 @@ rule vardict_filter:
         tmpdir = config['input_params']['tmpdisk'],
     threads: 4
     envmodules:
-        'bcftools/1.9',
-        'GATK/4.2.0.0',
+        config['tools']['bcftools']['modname'],
+        config['tools']['gatk4']['modname']
     container:
         config['images']['wes_base']
     shell: """
@@ -417,8 +417,8 @@ rule varscan_paired:
         tmpdir = config['input_params']['tmpdisk'],
     threads: 4
     envmodules:
-        'VarScan/2.4.3',
-        'GATK/3.8-1'
+        config['tools']['varscan']['modname'],
+        config['tools']['gatk3']['modname']
     container:
         config['images']['wes_base']
     shell: """
@@ -471,9 +471,9 @@ rule varscan_filter:
         tmpdir = config['input_params']['tmpdisk'],
     threads: 4
     envmodules:
-        'VarScan/2.4.3',
-        'GATK/4.2.0.0',
-        'bcftools/1.9'
+        config['tools']['varscan']['modname'],
+        config['tools']['gatk4']['modname'],
+        config['tools']['bcftools']['modname']
     container:
         config['images']['wes_base']
     shell: """

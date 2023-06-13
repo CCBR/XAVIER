@@ -15,7 +15,7 @@ rule mutect2_single:
         rname = 'mutect2'
     threads: 2
     envmodules:
-        'GATK/4.2.0.0'
+        config['tools']['gatk4']['modname']
     container:
         config['images']['wes_base']
     shell: """
@@ -50,7 +50,7 @@ rule pileup_single:
         rname = 'pileup',
         tmpdir = config['input_params']['tmpdisk']
     envmodules:
-        'GATK/4.2.0.0'
+        config['tools']['gatk4']['modname']
     container:
         config['images']['wes_base']
     shell: """
@@ -81,7 +81,7 @@ rule contamination_single:
         chroms = chroms, 
         rname = 'contamination'
     envmodules:
-        'GATK/4.2.0.0'
+        config['tools']['gatk4']['modname']
     container:
         config['images']['wes_base']
     shell: """
@@ -105,7 +105,7 @@ rule mutect_single:
         rname = 'mutect',
         tmpdir = config['input_params']['tmpdisk']
     envmodules:
-        'muTect/1.1.7'
+        config['tools']['mutect']['modname']
     container:
         config['images']['mutect']
     shell: """
@@ -148,8 +148,8 @@ rule mutect_filter_single:
         tmpdir = config['input_params']['tmpdisk'],
     threads: 4
     envmodules:
-        'GATK/4.2.0.0',
-        'bcftools/1.9'
+        config['tools']['gatk4']['modname'],
+        config['tools']['bcftools']['modname']
     container:
         config['images']['wes_base']
     shell: """
@@ -187,8 +187,8 @@ rule vardict_single:
         ver_bcftools = config['tools']['bcftools']['version'],
         rname = 'vardict'
     envmodules:
-        'R/3.6.1',
-        'samtools/1.8'
+        config['tools']['R']['modname'],
+        config['tools']['samtools']['modname']
     container:
         config['images']['wes_base']
     shell: """
@@ -236,8 +236,8 @@ rule vardict_filter_single:
         tmpdir = config['input_params']['tmpdisk']
     threads: 4
     envmodules:
-        'bcftools/1.9',
-        'GATK/4.2.0.0'
+        config['tools']['bcftools']['modname'],
+        config['tools']['gatk4']['modname']
     container:
         config['images']['wes_base']
     shell: """
@@ -276,8 +276,8 @@ rule varscan_single:
         rname='varscan'
     threads: 4
     envmodules:
-        'VarScan/2.4.3',
-        'GATK/3.8-1'
+        config['tools']['varscan']['modname'],
+        config['tools']['gatk3']['modname']
     container:
         config['images']['wes_base']
     shell: """
@@ -315,9 +315,9 @@ rule varscan_filter_single:
         tmpdir = config['input_params']['tmpdisk'],
     threads: 4
     envmodules:
-        'VarScan/2.4.3',
-        'GATK/4.2.0.0',
-        'bcftools/1.9'
+        config['tools']['varscan']['modname'],
+        config['tools']['gatk4']['modname'],
+        config['tools']['bcftools']['modname']
     container:
         config['images']['wes_base']
     shell: """

@@ -202,7 +202,7 @@ def setup(sub_args, repo_path, output_path, create_nidap_folder_YN = 'no',links=
         # User provided argument --genome is used to select the template
         "genome": genome_config,
         # Template for tool information
-        "tools": os.path.join(repo_path,'config','templates','tools.json'),
+        "tools": os.path.join(repo_path,'config','templates','tools.rhel8.json'),
     }
 
     cluster_config = os.path.join(repo_path,'config', 'cluster' + '.' + shorthostname + '.json')

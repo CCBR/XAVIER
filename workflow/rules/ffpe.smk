@@ -23,8 +23,8 @@ rule sobdetect_pass1:
         chrom = chroms,
         rname = 'sobdetect1'
     envmodules:
-        'samtools/1.12',
-        'bcftools/1.9'
+        config['tools']['samtools']['modname'],
+        config['tools']['bcftools']['modname']
     container:
        config['images']['wes_base'] 
     shell: """
@@ -109,8 +109,8 @@ rule sobdetect_pass2:
         rname="sobdetect2",
     threads: 4
     envmodules:
-        'samtools/1.12',
-        'bcftools/1.9'
+        config['tools']['samtools']['modname'],
+        config['tools']['bcftools']['modname']
     container:
        config['images']['wes_base'] 
     shell: """
@@ -185,7 +185,7 @@ rule sobdetect_metrics:
         ver_bcftools = config['tools']['bcftools']['version'],
         rname = 'sobdetect_metrics',
     envmodules:
-        'bcftools/1.9'
+        config['tools']['bcftools']['modname']
     container:
         config['images']['wes_base'] 
     shell: """

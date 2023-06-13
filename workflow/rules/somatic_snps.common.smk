@@ -12,7 +12,7 @@ rule split_bam_by_chrom:
         rname='bam_split'
     threads: 4
     envmodules:
-        'samtools/1.12'
+        config['tools']['samtools']['modname']
     container:
        config['images']['wes_base'] 
     shell: """
@@ -45,7 +45,7 @@ rule LearnReadOrientationModel:
         ver_gatk = config['tools']['gatk4']['version'],
         rname = 'LearnReadOrientationModel'
     envmodules:
-        'GATK/4.2.0.0'
+        config['tools']['gatk4']['modname']
     container:
         config['images']['wes_base']
     shell: """
@@ -77,8 +77,8 @@ rule mutect2_filter:
         tmpdir = config['input_params']['tmpdisk'],
     threads: 2
     envmodules:
-        'GATK/4.2.0.0',
-        'bcftools/1.9'
+        config['tools']['gatk4']['modname'],
+        config['tools']['bcftools']['modname']
     container:
         config['images']['wes_base']
     shell: """
@@ -130,7 +130,7 @@ rule somatic_merge_chrom:
         ver_gatk = config['tools']['gatk4']['version'],
         rname = 'merge'
     envmodules:
-        'GATK/4.2.0.0'
+        config['tools']['gatk4']['modname']
     container:
         config['images']['wes_base']
     shell: """
@@ -157,7 +157,7 @@ rule somatic_merge_callers:
         tmpdir = config['input_params']['tmpdisk'],
     threads: 4
     envmodules:
-        'GATK/3.8-1'
+        config['tools']['gatk3']['modname']
     container:
         config['images']['wes_base']
     shell: """
