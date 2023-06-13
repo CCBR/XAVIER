@@ -75,7 +75,7 @@ rule trimmomatic:
     shell: """
     myoutdir="$(dirname {output.one})"
     if [ ! -d "$myoutdir" ]; then mkdir -p "$myoutdir"; fi
-    java -Xmx24g -jar ${{TRIMMOMATIC_JARPATH}}/trimmomatic-0.39.jar PE \\
+    trimmomatic PE \\
         -threads {threads} \\
         -phred33 \\
         {input.r1} {input.r2} \\
