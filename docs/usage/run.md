@@ -16,11 +16,11 @@ $ ./exome-seek run [--help] \
                    [--pairs PAIRS] \
                    [--ffpe] \
                    [--cnv] \
-                   [--dry-run] \
                    [--silent] \
                    [--singularity-cache SINGULARITY_CACHE] \
                    [--sif-cache SIF_CACHE] \
                    [--threads THREADS] \
+                   --runmode {init, dryrun, run} \
                    --input INPUT [INPUT ...] \
                    --output OUTPUT \
                    --genome {hg38, ...} \
@@ -53,6 +53,17 @@ Each of the following arguments are required. Failure to provide a required argu
 > This location is where the pipeline will create all of its output files, also known as the pipeline's working directory. If the provided output directory does not exist, it will be initialized automatically.
 > 
 > ***Example:*** `--output /data/$USER/WES_hg38`
+
+---  
+  `--runmode  {init,dryrun,run}`  `
+> **Execution Process.**  
+> *type: string*
+>   
+> User should initialize the pipeline folder by first running `--runmode init`  
+> User should then perform a dry-run to list all steps the pipeline will take`--runmode dryrun`  
+> User should then perform the full run `--runmode run`  
+> 
+> ***Example:*** `--runmode init` *THEN* `--runmode dryrun` *THEN* `--runmode run`
 
 ---  
   `--genome {hg38, custom.json}`
@@ -89,15 +100,6 @@ Each of the following arguments are optional and do not need to be provided.
 > Shows command's synopsis, help message, and an example command
 > 
 > ***Example:*** `--help`
-
----  
-  `--dry-run`            
-> **Dry run the pipeline.**  
-> *type: boolean flag*
-> 
-> Displays what steps in the pipeline remain or will be run. Does not execute anything!
->
-> ***Example:*** `--dry-run`
 
 ---  
   `--silent`            
@@ -211,23 +213,32 @@ Each of the following arguments are optional and do not need to be provided.
 # Do not run on head node!
 sinteractive --mem=8g --cpus-per-task=4
 module purge
-module load singularity snakemake
+module load singularity snakemake/6.8.2
 
-# Step 2A.) Dry-run the pipeline
+# Step 2A.) Initialize the all resources to the output folder 
 ./exome-seek run --input .tests/*.R?.fastq.gz \
                  --output /data/$USER/WES_hg38 \
                  --genome hg38 \
                  --targets Agilent_SSv7_allExons_hg38.bed \
                  --mode slurm \
-                 --dry-run
+                 --runmode init
 
-# Step 2B.) Run the GATK4 WES pipeline
+# Step 2B.) Dry-run the pipeline
+./exome-seek run --input .tests/*.R?.fastq.gz \
+                 --output /data/$USER/WES_hg38 \
+                 --genome hg38 \
+                 --targets Agilent_SSv7_allExons_hg38.bed \
+                 --mode slurm \
+                 --runmode dryrun
+
+# Step 2C.) Run the GATK4 WES pipeline
 # The slurm mode will submit jobs to the cluster.
 # It is recommended running exome-seek in this mode.
 ./exome-seek run --input .tests/*.R?.fastq.gz \
                  --output /data/$USER/WES_hg38 \
                  --genome hg38 \
                  --targets Agilent_SSv7_allExons_hg38.bed \
-                 --mode slurm
+                 --mode slurm \
+                 --runmode run
 
 ```
