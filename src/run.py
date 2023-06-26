@@ -177,7 +177,6 @@ def setup(sub_args, repo_path, output_path, create_nidap_folder_YN = 'no',links=
     # Resolves PATH to template for genomic reference files to select from a
     # bundled reference genome or a user generated reference genome built via
     # rna-seek build subcommand
-    # May not necessarily work in VSCODE implementation since hostname might change cat /etc/os-release |grep "VERSION_ID"
     hostname = os.getenv("HOSTNAME")
     if hostname == "fsitgl-head01p.ncifcrf.gov":
         shorthostname = "frce"
@@ -186,7 +185,9 @@ def setup(sub_args, repo_path, output_path, create_nidap_folder_YN = 'no',links=
     elif hostname == "biowulf.nih.gov":
         shorthostname = "biowulf"
     else:
-        exit("%s unknown host"%(hostname))
+        shorthostname = "biowulf"
+        print("%s unknown host. Configuration files for references may not be correct. Defaulting to Biowulf config"%(hostname))
+
     genome_config = os.path.join(repo_path,'config','genomes', sub_args.genome + '.' + shorthostname + '.json')
     
     if sub_args.genome.endswith('.json'):
