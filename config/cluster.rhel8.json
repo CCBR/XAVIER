@@ -1,0 +1,279 @@
+{
+    "__default__": {
+        "partition": "rhel8",
+        "threads":"4",
+        "mem": "64G",
+        "gres": "lscratch:256",
+        "time": "2-00:00:00",
+    },
+    "bam": {
+              "threads": "2",
+              "time": "12:00:00",
+    },
+      "filter_cnv": {
+              "threads": "2",
+              "time": "2:00:00",
+              "mem": "1G",
+      },
+      "samtools_flagstats": {
+              "threads": "2",
+              "time": "4:00:00",
+      },
+
+      "strelka": {
+              "threads": "16",
+              "time": "16:00:00",
+              "mem": "32G",
+      },
+
+      "strelka_filter": {
+              "threads": "4",
+              "time": "8:00:00",
+              "mem": "16G",
+      },
+      "vardict": {
+              "threads": "16",
+              "time": "16:00:00",
+              "mem": "32G",
+      },
+
+      "vardict_filter": {
+              "threads": "4",
+              "time": "8:00:00",
+              "mem": "32G",
+      },
+      "varscan": {
+              "threads": "16",
+              "time": "16:00:00",
+              "mem": "32G",
+      },
+
+      "varscan_filter": {
+              "threads": "4",
+              "time": "8:00:00",
+              "mem": "32G",
+      },
+      
+      "merge_somatic_callers": {
+              "threads": "16",
+              "time": "18:00:00",
+              "mem": "64G",
+      },
+      
+      
+      "sobdetect1": {
+              "threads": "4",
+              "time": "24:00:00",
+              "mem": "32G",
+      },
+      "sobdetect_cohort_params": {
+              "threads": "4",
+              "time": "12:00:00",
+              "mem": "32G",
+      },
+      "sobdetect2": {
+              "threads": "4",
+              "time": "24:00:00",
+              "mem": "32G",
+      }, 
+      "sobdetect_metrics": {
+              "threads": "4",
+              "time": "12:00:00",
+              "mem": "32G",
+      },
+      
+      "collectvariantcallmetrics": {
+              "threads": "2",
+              "time": "12:00:00",
+      },
+
+      "bam2fastq": {
+              "threads": "32",
+              "time": "12:00:00",
+              "mem": "48G",
+      },
+      "merge_bams": {
+              "threads": "24",
+              "time": "12:00:00",
+              "mem": "48G",
+      },
+      "merge_bam": {
+              "threads": "16",
+              "time": "12:00:00",
+              "mem": "48G",
+      },
+      "trimmomatic": {
+              "threads": "24",
+              "time": "8:00:00",
+              "mem": "24G",
+      },
+      "presort": {
+              "threads": "32",
+              "time": "24:00:00",
+              "mem": "48G",
+      },
+      "bwa_mem": {
+              "threads": "24",
+              "mem": "96G",
+      },
+      "picard_headers": {
+              "threads": "2",
+              "time": "24:00:00",
+      },
+      "markdups": {
+              "threads": "32",
+              "time": "24:00:00",
+      },
+      "gatk_realign": {
+              "threads": "2",
+              "time": "48:00:00",
+      },
+      "gatk_recal": {
+              "threads": "4",
+              "time": "48:00:00",
+              "mem": "72G",
+      },
+      "recal_1": {
+              "threads": "2",
+              "time": "24:00:00",
+              "mem": "72G",
+      },
+      "recal_2": {
+              "threads": "2",
+              "time": "24:00:00",
+              "mem": "72G",
+      },
+      "recal_3": {
+              "threads": "2",
+              "time": "24:00:00",
+              "mem": "72G",
+      },
+      "recal_4": {
+              "threads": "2",
+              "time": "24:00:00",
+              "mem": "72G",
+      },
+      "recal_5": {
+              "threads": "2",
+              "time": "24:00:00",
+              "mem": "72G",
+      },
+      "novocraft_sort": {
+              "threads": "32",
+              "time": "12:00:00",
+              "mem": "96G",
+      },
+      "qc": {
+              "threads": "2",
+              "partition": "norm",
+              "time": "12:00:00",
+      },
+      "ped": {
+              "threads": "2",
+              "partition": "norm",
+              "time": "12:00:00",
+      },
+      "inbreeding": {
+              "threads": "8",
+              "partition": "norm"
+      },
+      "cnv_post": {
+              "threads": "8",
+              "partition": "norm",
+              "time": "12:00:00",
+      },
+      "hla": {
+              "threads": "8",
+              "partition": "norm",
+              "mem": "96G",
+      },
+      "qualimap": {
+              "threads": "24",
+              "mem": "64G",
+              "time": "24:00:00",
+     },
+      "qualiremap": {
+              "threads": "24",
+              "mem": "72G",
+              "time": "12:00:00",
+     },
+     "varianteval":{
+              "threads":"16",
+              "mem":"32G",
+              "time": "12:00:00",
+     },
+     "fastqc_raw":{
+              "threads":"8",
+              "mem":"12G",
+              "time": "4:00:00",
+     },
+     "fastqc_trimmed":{
+              "threads":"8",
+              "mem":"12G",
+              "time": "4:00:00",
+     },
+     "Gatk_SelectVariants":{
+              "threads":"2",
+              "mem":"24G",
+              "time": "12:00:00",
+     },
+     "mutect2_filter":{
+              "threads":"2",
+              "mem":"24G",
+              "time": "12:00:00",
+     },
+     "SNPeff":{
+              "mem":"24G",
+              "time": "12:00:00",
+     },
+     "haplotypecaller":{
+              "threads":"4",
+              "mem":"48G",
+              "time": "2-00:00:00",
+     },
+     "mergegvcfs":{
+              "threads":"4",
+              "mem":"48G",
+              "time": "5-00:00:00",
+     },
+     "merge_chrom":{
+              "threads":"8",
+              "mem":"48G",
+              "time": "1-00:00:00",
+     },
+     "genotype":{
+              "threads":"2",
+              "mem":"96G",
+              "time": "3-00:00:00",
+     },
+     "Gatk_Variantfilter":{
+              "threads":"2",
+              "mem":"32G",
+              "time": "24:00:00",
+     },
+     "apply_snp":{
+              "threads":"4",
+              "mem":"48G",
+              "time": "2-00:00:00",
+     },
+     "apply_indel":{
+              "threads":"4",
+              "mem":"48G",
+              "time": "2-00:00:00",
+     },
+     "gtype_refinement":{
+              "threads":"2",
+              "mem":"48G",
+              "time": "2-00:00:00",
+     },
+     "admixture_germline":{
+              "threads":"32",
+              "mem":"48G",
+              "time": "2-00:00:00",
+     },
+     "hlamut":{
+              "threads":"8",
+              "mem":"48G",
+              "time": "2-00:00:00",
+     },
+}

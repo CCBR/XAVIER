@@ -20,7 +20,7 @@ rule fc_lane:
     params:
         rname = 'fc_lane',
         get_flowcell_lanes = os.path.join("workflow", "scripts", "get_flowcell_lanes.py"),
-    envmodules: 'python/2.7'
+    envmodules: config['tools']['python']['modname']
     container: config['images']['python']
     shell: """
     if [ ! -d "$(dirname {output.txt})" ]; then 
@@ -58,7 +58,7 @@ rule fastq_screen:
         # Exposed Parameters: modify resources/fastq_screen.conf to change 
         # default locations to bowtie2 indices
         fastq_screen_config = config['references']['FASTQ_SCREEN_CONFIG'],
-    envmodules: 'fastq_screen/0.14.1'
+    envmodules: config['tools']['fastq_screen']['modname']
     container: config['images']['fastq_screen']
     threads: 24
     shell: """
@@ -96,8 +96,8 @@ rule kraken:
         bacdb  = config['references']['KRAKENBACDB'],
         localdisk = config['input_params']['tmpdisk']
     envmodules:
-        'kraken/2.1.2', 
-        'kronatools/2.8'
+        config['tools']['kraken']['modname'],
+        config['tools']['kronatools']['modname']
     container: config['images']['kraken']
     threads: 24
     shell: """
@@ -141,7 +141,7 @@ rule fastqc_bam:
         rname  = "fastqc_bam",
     message: "Running FastQC with {threads} threads on '{input}' input file"
     threads: 8
-    envmodules: 'fastqc/0.11.9'
+    envmodules: config['tools']['fastqc']['modname']
     container: config['images']['fastqc']
     shell: """
     fastqc -t {threads} \\
@@ -171,7 +171,7 @@ rule reformat_targets_bed:
         script_path_correct_target_bed=config['scripts']['correct_target_bed'],
         rname  = "reformat_bed"
     message: "Formatting targets bed file"
-    envmodules: 'python/3.7'
+    envmodules: config['tools']['python3']['modname']
     container: config['images']['python']
     shell: """
     python {params.script_path_reformat_bed} \\
@@ -203,7 +203,7 @@ rule qualimap_bamqc:
         outdir = os.path.join(output_qcdir, "{samples}"),
         rname  = "qualibam"
     message: "Running QualiMap BAM QC with {threads} threads on '{input}' input file"
-    envmodules: 'qualimap/2.2.1'
+    envmodules: config['tools']['qualimap']['modname']
     container: config['images']['qualimap']
     threads: 8
     shell: """
@@ -239,7 +239,7 @@ rule samtools_flagstats:
     params: 
         rname = "samtools_flagstats"
     message: "Running SAMtools flagstat on '{input}' input file"
-    envmodules: 'samtools/1.12'
+    envmodules: config['tools']['samtools']['modname']
     container: config['images']['wes_base']
     shell: """
     samtools flagstat {input.bam} > {output.txt}
@@ -266,7 +266,7 @@ rule vcftools:
         prefix = os.path.join(output_qcdir,"raw_variants"),
         rname  = "vcftools",
     message: "Running VCFtools on '{input.vcf}' input file"
-    envmodules: 'vcftools/0.1.16'
+    envmodules: config['tools']['vcftools']['modname']
     container: config['images']['wes_base']
     shell: """
     vcftools --gzvcf {input.vcf} --het --out {params.prefix}
@@ -293,7 +293,7 @@ rule collectvariantcallmetrics:
         prefix = os.path.join(output_qcdir,"raw_variants"),
         rname="varcallmetrics",
     message: "Running Picard CollectVariantCallingMetrics on '{input.vcf}' input file"
-    envmodules: 'picard/2.20.8'
+    envmodules: config['tools']['picard']['modname']
     container: config['images']['picard']
     shell: """
     java -Xmx24g -jar ${{PICARDJARPATH}}/picard.jar \\
@@ -324,7 +324,7 @@ rule bcftools_stats:
     params: 
         rname="bcfstats",
     message: "Running BCFtools on '{input.vcf}' input file"
-    envmodules: 'bcftools/1.9'
+    envmodules: config['tools']['bcftools']['modname']
     container: config['images']['wes_base']
     shell: """
     bcftools stats {input.vcf} > {output.txt}
@@ -354,7 +354,7 @@ rule gatk_varianteval:
         dbsnp    = config['references']['DBSNP'],
         ver_gatk = config['tools']['gatk4']['version']
     message: "Running GATK4 VariantEval on '{input.vcf}' input file"
-    envmodules: 'GATK/4.2.0.0'
+    envmodules: config['tools']['gatk4']['modname']
     container: config['images']['wes_base']
     threads: 16
     shell: """
@@ -388,7 +388,7 @@ rule snpeff:
         genome = config['references']['SNPEFF_GENOME'],
         config = config['references']['SNPEFF_CONFIG'],
         bundle = config['references']['SNPEFF_BUNDLE'],
-    envmodules: 'snpEff/4.3t'
+    envmodules: config['tools']['snpEff']['modname']
     container: config['images']['wes_base']
     shell: """
     java -Xmx12g -jar $SNPEFF_JAR \\

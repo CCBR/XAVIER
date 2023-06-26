@@ -103,7 +103,7 @@ rule multiqc:
     params: 
         rname  = "multiqc",
         workdir = os.path.join(BASEDIR)
-    envmodules: 'multiqc/1.11'
+    envmodules: config['tools']['multiqc']['modname']
     container: config['images']['multiqc']
     shell: """
     multiqc --ignore '*/.singularity/*' \\

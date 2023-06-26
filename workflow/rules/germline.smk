@@ -22,7 +22,7 @@ rule haplotypecaller:
         ver_gatk=config['tools']['gatk4']['version'],
         rname = "hapcaller"
     message: "Running GATK4 HaplotypeCaller on '{input.bam}' input file"
-    envmodules: 'GATK/4.2.0.0'
+    envmodules: config['tools']['gatk4']['modname']
     container: config['images']['wes_base']
     shell:
         """
@@ -63,7 +63,7 @@ rule mergegvcfs:
         ver_gatk=config['tools']['gatk4']['version'],
         rname = "mergegvcfs"
     message: "Running GATK4 CombineGVCFs on '{input.gzvcf}' input file"
-    envmodules: 'GATK/4.2.0.0'
+    envmodules: config['tools']['gatk4']['modname']
     container: config['images']['wes_base'] 
     shell:
         """
@@ -101,7 +101,7 @@ rule genotype:
         ver_gatk=config['tools']['gatk4']['version'],
         rname = "genotype"
     message: "Running GATK4 GenotypeGVCFs on '{input.gzvcf}' input file"
-    envmodules: 'GATK/4.2.0.0'
+    envmodules: config['tools']['gatk4']['modname']
     container: config['images']['wes_base']
     shell:
         """
@@ -137,7 +137,7 @@ rule germline_merge_chrom:
     params:
         rname = "merge_chrom", genome = config['references']['GENOME']
     message: "Running GATK4 MergeVcfs on all chrom split VCF files"
-    envmodules: 'GATK/4.2.0.0'
+    envmodules: config['tools']['gatk4']['modname']
     container: config['images']['wes_base'] 
     shell:
         """
@@ -171,7 +171,7 @@ rule Gatk_Variantfilter:
         rname="gatk_hardfilters",
         ver_gatk=config['tools']['gatk4']['version']
     message: "Running GATK4 hard filters on Cohort VCF input file"
-    envmodules: 'GATK/4.2.0.0'
+    envmodules: config['tools']['gatk4']['modname']
     container: config['images']['wes_base']
     shell:
         """
@@ -230,7 +230,7 @@ rule Gatk_SelectVariants:
         ver_gatk=config['tools']['gatk4']['version'],
         targets=exome_targets_bed
     message: "Running GATK4 SelectVariants on '{input.vcf}' input file"
-    envmodules: 'GATK/4.2.0.0'
+    envmodules: config['tools']['gatk4']['modname']
     container: config['images']['wes_base']
     shell:
         """

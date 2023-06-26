@@ -6,8 +6,8 @@ site_description: >-
 
 # Repository
 repo_name: CCBR/exome-seek
-repo_url: https://github.com/mtandon09/CCBR_GATK4_Exome_Seq_Pipeline
-edit_uri: https://github.com/mtandon09/CCBR_GATK4_Exome_Seq_Pipeline/edit/unified/docs/
+repo_url: https://github.com/CCBR/exome-seek
+edit_uri: https://github.com/CCBR/exome-seek/edit/unified/docs/
 
 # Extra
 extra_css:

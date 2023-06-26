@@ -24,7 +24,7 @@ rule bam2fastq:
         rname = 'bam2fastq',
         tmpdir = config['input_params']['tmpdisk'],
     envmodules:
-        'GATK/4.2.0.0'
+        config['tools']['gatk4']['modname']
     container:
         config['images']['wes_base']
     shell: """
@@ -68,7 +68,7 @@ rule trimmomatic:
         ver = config['tools']['trimmomatic']['version'],
         rname = 'trimmomatic'
     envmodules: 
-        'trimmomatic/0.39'
+        config['tools']['trimmomatic']['modname']
     container:
         config['images']['wes_base']
     threads: 24
@@ -109,9 +109,9 @@ rule bwa_mem:
         ver_bwa = config['tools']['bwa']['version'],
         rname = 'bwamem'
     envmodules: 
-        'samtools/1.12'
-        'bwa/0.7.17'
-        'samblaster/0.1.25'
+       config['tools']['samtools']['modname'],
+       config['tools']['bwa']['modname'],
+       config['tools']['samblaster']['modname']
     container:
         config['images']['wes_base'] 
     threads: 24
@@ -147,7 +147,7 @@ rule raw_index:
         ver_samtools = config['tools']['samtools']['version'],
         rname = 'raw_index'
     envmodules: 
-        'samtools/1.12'
+        config['tools']['samtools']['modname']
     container: 
         config['images']['wes_base']
     shell: """
@@ -182,7 +182,7 @@ rule gatk_recal:
         intervals = intervals_file,
         rname = 'recal'
     envmodules:
-        'GATK/4.2.0.0'
+        config['tools']['gatk4']['modname']
     container:
         config['images']['wes_base']
     threads: 24
@@ -226,8 +226,8 @@ rule bam_check:
         ver_gatk = config['tools']['gatk4']['version'],
         rname = 'bam_check'
     envmodules:
-        'samtools/1.12',
-        'GATK/4.2.0.0'
+        config['tools']['samtools']['modname'],
+        config['tools']['gatk4']['modname']
     container:
         config['images']['wes_base']
     shell: """

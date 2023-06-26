@@ -19,10 +19,10 @@ rule freec_exome_somatic_pass1:
         plot_script = config['scripts']['freec_plot'],
         rname = 'freec1',
     envmodules: 
-        'freec/11.5',
-        'samtools/1.9',
-        'bedtools/2.27.1',
-        'R/3.6.1'
+        config['tools']['freec']['modname'],
+        config['tools']['samtools']['modname'],
+        config['tools']['bedtools']['modname'],
+        config['tools']['R']['modname']
     container: config['images']['wes_base']
     shell: """
     myoutdir="$(dirname {output.cnvs})/{params.tumorsample}"
@@ -68,9 +68,9 @@ rule sequenza:
         rname = 'sequenza'
     threads: 4
     envmodules:
-        'sequenza-utils/2.2.0',
-        'samtools/1.9',
-        'R/3.6.1'
+        config['tools']['sequenza-utils']['modname'],
+        config['tools']['samtools']['modname'],
+        config['tools']['R']['modname']
     container: config['images']['wes_base']
     shell: """
     myoutdir="$(dirname {output.fit})/{params.tumorsample}"
@@ -126,10 +126,10 @@ rule freec_exome_somatic_pass2:
         plot_script = config['scripts']['freec_plot'],
         rname = 'freec',
     envmodules:
-        'freec/11.5',
-        'samtools/1.9',
-        'bedtools/2.27.1',
-        'R/3.6.1',
+        config['tools']['freec']['modname'],
+        config['tools']['samtools']['modname'],
+        config['tools']['bedtools']['modname'],
+        config['tools']['R']['modname']
     container: config['images']['wes_base']
     shell: """
     myoutdir="$(dirname {output.cnvs})/{params.tumorsample}"

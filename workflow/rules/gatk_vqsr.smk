@@ -24,7 +24,7 @@ rule gatk_vqsr:
         rname="vqsr",
         ver_gatk=config['tools']['gatk4']['version']
     message: "Running GATK4 VQSR on Cohort VCF input file"
-    envmodules: 'GATK/4.2.0.0'
+    envmodules: config['tools']['gatk4']['modname']
     container: config['images']['wes_base']
     shell:
         """
