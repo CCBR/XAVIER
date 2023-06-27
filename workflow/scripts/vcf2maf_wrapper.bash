@@ -65,7 +65,7 @@ INPUT_DIR=$(dirname $VCF)
 
 # Add chr prefix if requested and missing
 chr_text=""
-if [ $GENOMEBUILD == "hg38" ]; then 
+if [ $GENOMEBUILD == "hg38" ] || [ $GENOMEBUILD == "mm10" ] ; then 
     chr_text="chr"
 fi
 echo "Adding text '$chr_text' to chrom names..."
