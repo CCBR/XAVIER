@@ -147,7 +147,8 @@ vcf2maf.pl \
     --ncbi-build "$ncbi_build" \
     --species "$species" \
     --retain-info "$INFO" \
-    --ref-fasta "$GENOMEFASTA" 
+    --ref-fasta "$GENOMEFASTA" \
+    --vep-overwrite
     #--filter-vcf "$filtervcf" \
 
 
