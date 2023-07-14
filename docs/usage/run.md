@@ -1,15 +1,15 @@
-# <code>exome-seek <b>run</b></code>
+# <code>xavier <b>run</b></code>
 
 ## 1. About 
-The `exome-seek` executable is composed of several inter-related sub commands. Please see `exome-seek -h` for all available options.
+The `xavier` executable is composed of several inter-related sub commands. Please see `xavier -h` for all available options.
 
-This part of the documentation describes options and concepts for <code>exome-seek <b>run</b></code> sub command in more detail. With minimal configuration, the **`run`** sub command enables you to start running exome-seek pipeline. 
+This part of the documentation describes options and concepts for <code>xavier <b>run</b></code> sub command in more detail. With minimal configuration, the **`run`** sub command enables you to start running xavier pipeline. 
 
-Setting up the exome-seek pipeline is fast and easy! In its most basic form, <code>exome-seek <b>run</b></code> only has *four required inputs*.
+Setting up the xavier pipeline is fast and easy! In its most basic form, <code>xavier <b>run</b></code> only has *four required inputs*.
 
 ## 2. Synopsis
 ```text
-$ ./exome-seek run [--help] \
+$ ./xavier run [--help] \
                    [--mode {local, slurm}] \
                    [--job-name JOB_NAME] \
                    [--callers {mutect2,mutect,strelka, ...}] \
@@ -70,7 +70,7 @@ Each of the following arguments are required. Failure to provide a required argu
 > **Reference genome.**   
 > *type: string/file*
 >   
-> This option defines the reference genome for your set of samples. On Biowulf, exome-seek does comes bundled with pre built reference files for human samples; however, it is worth noting that the pipeline does accept a pre-built resource bundle pulled with the cache sub command (coming soon). Currently, the pipeline only supports the human reference hg38; however, support for mouse reference mm10 will be added soon.
+> This option defines the reference genome for your set of samples. On Biowulf, xavier does comes bundled with pre built reference files for human samples; however, it is worth noting that the pipeline does accept a pre-built resource bundle pulled with the cache sub command (coming soon). Currently, the pipeline only supports the human reference hg38; however, support for mouse reference mm10 will be added soon.
 >
 > ***Pre built Option***  
 > Here is a list of available pre built genomes on Biowulf: hg38.
@@ -122,7 +122,7 @@ Each of the following arguments are optional and do not need to be provided.
 > Local executions will run serially on compute instance. This is useful for testing, debugging, or when a users does not have access to a high performance computing environment. If this option is not provided, it will default to a local execution mode. 
 > 
 > ***slurm***    
-> The slurm execution method will submit jobs to a cluster using a singularity backend. It is recommended running exome-seek in this mode as execution will be significantly faster in a distributed environment.
+> The slurm execution method will submit jobs to a cluster using a singularity backend. It is recommended running xavier in this mode as execution will be significantly faster in a distributed environment.
 > 
 > ***Example:*** `--mode slurm`
 
@@ -130,11 +130,11 @@ Each of the following arguments are optional and do not need to be provided.
   `--job-name JOB_NAME`  
 > **Set the name of the pipeline's master job.**  
 > *type: string*
-> *default: pl:exome-seek*
+> *default: pl:xavier*
 > 
-> When submitting the pipeline to a job scheduler, like SLURM, this option always you to set the name of the pipeline's master job. By default, the name of the pipeline's master job is set to "pl:exome-seek".
+> When submitting the pipeline to a job scheduler, like SLURM, this option always you to set the name of the pipeline's master job. By default, the name of the pipeline's master job is set to "pl:xavier".
 > 
-> ***Example:*** `--job-name wes_id-42`
+> ***Example:*** `--job-name xavier_run1`
 
 ---  
   `--callers CALLERS [CALLERS ...]`  
@@ -193,7 +193,7 @@ Each of the following arguments are optional and do not need to be provided.
 > **Path where a local cache of SIFs are stored.**  
 > *type: path*  
 >
-> Uses a local cache of SIFs on the filesystem. This SIF cache can be shared across users if permissions are set correctly. If a SIF does not exist in the SIF cache, the image will be pulled from Dockerhub and a warning message will be displayed. The `exome-seek cache` subcommand can be used to create a local SIF cache. Please see `exome-seek cache` for more information. This command is extremely useful for avoiding DockerHub pull rate limits. It also remove any potential errors that could occur due to network issues or DockerHub being temporarily unavailable. We recommend running exome-seek with this option when ever possible.
+> Uses a local cache of SIFs on the filesystem. This SIF cache can be shared across users if permissions are set correctly. If a SIF does not exist in the SIF cache, the image will be pulled from Dockerhub and a warning message will be displayed. The `xavier cache` subcommand can be used to create a local SIF cache. Please see `xavier cache` for more information. This command is extremely useful for avoiding DockerHub pull rate limits. It also remove any potential errors that could occur due to network issues or DockerHub being temporarily unavailable. We recommend running xavier with this option when ever possible.
 > 
 > ***Example:*** `--singularity-cache /data/$USER/SIFs`
 
@@ -216,26 +216,26 @@ module purge
 module load singularity snakemake/6.8.2
 
 # Step 2A.) Initialize the all resources to the output folder 
-./exome-seek run --input .tests/*.R?.fastq.gz \
-                 --output /data/$USER/WES_hg38 \
+./xavier run --input .tests/*.R?.fastq.gz \
+                 --output /data/$USER/xavier_hg38 \
                  --genome hg38 \
                  --targets Agilent_SSv7_allExons_hg38.bed \
                  --mode slurm \
                  --runmode init
 
 # Step 2B.) Dry-run the pipeline
-./exome-seek run --input .tests/*.R?.fastq.gz \
-                 --output /data/$USER/WES_hg38 \
+./xavier run --input .tests/*.R?.fastq.gz \
+                 --output /data/$USER/xavier_hg38 \
                  --genome hg38 \
                  --targets Agilent_SSv7_allExons_hg38.bed \
                  --mode slurm \
                  --runmode dryrun
 
-# Step 2C.) Run the GATK4 WES pipeline
+# Step 2C.) Run the XAVIER pipeline
 # The slurm mode will submit jobs to the cluster.
-# It is recommended running exome-seek in this mode.
-./exome-seek run --input .tests/*.R?.fastq.gz \
-                 --output /data/$USER/WES_hg38 \
+# It is recommended running xavier in this mode.
+./xavier run --input .tests/*.R?.fastq.gz \
+                 --output /data/$USER/xavier_hg38 \
                  --genome hg38 \
                  --targets Agilent_SSv7_allExons_hg38.bed \
                  --mode slurm \

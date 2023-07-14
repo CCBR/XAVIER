@@ -1,11 +1,11 @@
-# GATK4 WES Pipeline Documentation  
+# XAVIER Pipeline Documentation  
 
-> **Please Note:** When a commit is pushed to the `docs/` directory, it triggers a [github actions workflow](https://github.com/mtandon09/CCBR_GATK4_Exome_Seq_Pipeline/actions) to build the static-site and push it to the gh-pages branch.
+> **Please Note:** When a commit is pushed to the `docs/` directory, it triggers a [github actions workflow](https://https://github.com/CCBR/XAVIER/actions) to build the static-site and push it to the gh-pages branch.
 
 ### Installation
 ```bash
 # Clone the Repository
-git clone https://github.com/mtandon09/CCBR_GATK4_Exome_Seq_Pipeline.git
+git clone https://github.com/CCBR/XAVIER.git
 # Create a virtual environment
 python3 -m venv .venv
 # Activate the virtual environment
