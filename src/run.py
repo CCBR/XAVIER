@@ -203,7 +203,7 @@ def setup(sub_args, repo_path, output_path, create_nidap_folder_YN = 'no',links=
         # User provided argument --genome is used to select the template
         "genome": genome_config,
         # Template for tool information
-        "tools": os.path.join(repo_path,'config','templates','tools.rhel8.json'),
+        "tools": os.path.join(repo_path,'config','templates','tools.json'),
     }
 
     cluster_config = os.path.join(repo_path,'config', 'cluster' + '.' + shorthostname + '.json')
@@ -619,7 +619,7 @@ def dryrun(outdir, config='config.json', snakefile=os.path.join('workflow', 'Sna
 
 
 def runner(mode, outdir, alt_cache, logger, additional_bind_paths = None, 
-    threads=2,  jobname='pl:exome-seek', submission_script='runner',
+    threads=2,  jobname='pl:xavier', submission_script='runner',
     tmp_dir = '/lscratch/$SLURM_JOBID/', wait = ''):
     """Runs the pipeline via selected executor: local or slurm.
     If 'local' is selected, the pipeline is executed locally on a compute node/instance.

@@ -1,20 +1,21 @@
 # Project Information
-site_name: GATK4 WES Pipeline
-site_author: Skyler Kuhn
+site_name: XAVIER Documentation
+site_author: CCBR
 site_description: >-
-  CCBR Whole Exome-sequencing Pipeline 
+  XAVIER is an open-source, reproducible, and scalable best
+  practices pipeline for analyzing Whole Exome DNA-sequencing data. 
 
 # Repository
-repo_name: CCBR/exome-seek
-repo_url: https://github.com/CCBR/exome-seek
-edit_uri: https://github.com/CCBR/exome-seek/edit/unified/docs/
+repo_name: CCBR/XAVIER
+repo_url: https://github.com/CCBR/XAVIER
+edit_uri: https://github.com/CCBR/XAVIER/edit/unified/docs/
 
 # Extra
 extra_css:
   - css/extra.css
 
 # Copyright
-copyright: Copyright &copy; 2021 CCBR
+copyright: Copyright &copy; 2023 CCBR
 
 # Configuration
 theme:

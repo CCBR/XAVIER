@@ -18,7 +18,7 @@ jobs:
     - name: Tumor-normal FastQ Dry Run
       run: |
         docker run -v $PWD:/opt2 snakemake/snakemake:v6.8.2 \
-        /opt2/exome-seek run --input \
+        /opt2/xavier run --input \
         /opt2/.tests/Sample10_ARK1_S37.R1.fastq.gz /opt2/.tests/Sample10_ARK1_S37.R2.fastq.gz \
         /opt2/.tests/Sample11_ACI_158_S38.R1.fastq.gz /opt2/.tests/Sample11_ACI_158_S38.R2.fastq.gz \
         /opt2/.tests/Sample4_CRL1622_S31.R1.fastq.gz /opt2/.tests/Sample4_CRL1622_S31.R2.fastq.gz \
@@ -26,7 +26,7 @@ jobs:
         --pairs /opt2/.tests/pairs.tsv --genome hg38 --mode local --ffpe --cnv --runmode init
         
         docker run -v $PWD:/opt2 snakemake/snakemake:v6.8.2 \
-        /opt2/exome-seek run --input \
+        /opt2/xavier run --input \
         /opt2/.tests/Sample10_ARK1_S37.R1.fastq.gz /opt2/.tests/Sample10_ARK1_S37.R2.fastq.gz \
         /opt2/.tests/Sample11_ACI_158_S38.R1.fastq.gz /opt2/.tests/Sample11_ACI_158_S38.R2.fastq.gz \
         /opt2/.tests/Sample4_CRL1622_S31.R1.fastq.gz /opt2/.tests/Sample4_CRL1622_S31.R2.fastq.gz \
@@ -36,7 +36,7 @@ jobs:
     - name: Tumor-only FastQ Dry Run
       run: |
         docker run -v $PWD:/opt2 snakemake/snakemake:v6.8.2 \
-        /opt2/exome-seek run --input \
+        /opt2/xavier run --input \
         /opt2/.tests/Sample10_ARK1_S37.R1.fastq.gz /opt2/.tests/Sample10_ARK1_S37.R2.fastq.gz \
         /opt2/.tests/Sample11_ACI_158_S38.R1.fastq.gz /opt2/.tests/Sample11_ACI_158_S38.R2.fastq.gz \
         /opt2/.tests/Sample4_CRL1622_S31.R1.fastq.gz /opt2/.tests/Sample4_CRL1622_S31.R2.fastq.gz \
@@ -44,7 +44,7 @@ jobs:
         --genome hg38 --mode local --ffpe --runmode init
         
         docker run -v $PWD:/opt2 snakemake/snakemake:v6.8.2 \
-        /opt2/exome-seek run --input \
+        /opt2/xavier run --input \
         /opt2/.tests/Sample10_ARK1_S37.R1.fastq.gz /opt2/.tests/Sample10_ARK1_S37.R2.fastq.gz \
         /opt2/.tests/Sample11_ACI_158_S38.R1.fastq.gz /opt2/.tests/Sample11_ACI_158_S38.R2.fastq.gz \
         /opt2/.tests/Sample4_CRL1622_S31.R1.fastq.gz /opt2/.tests/Sample4_CRL1622_S31.R2.fastq.gz \
@@ -54,7 +54,7 @@ jobs:
     - name: Tumor-normal BAM Dry Run
       run: |
         docker run -v $PWD:/opt2 snakemake/snakemake:v6.8.2 \
-        /opt2/exome-seek run --input \
+        /opt2/xavier run --input \
         /opt2/.tests/Sample10_ARK1_S37.recal.bam \
         /opt2/.tests/Sample11_ACI_158_S38.recal.bam \
         /opt2/.tests/Sample4_CRL1622_S31.recal.bam \
@@ -62,7 +62,7 @@ jobs:
         --pairs /opt2/.tests/pairs.tsv --genome hg38 --mode local --ffpe --cnv --runmode init
         
         docker run -v $PWD:/opt2 snakemake/snakemake:v6.8.2 \
-        /opt2/exome-seek run --input \
+        /opt2/xavier run --input \
         /opt2/.tests/Sample10_ARK1_S37.recal.bam \
         /opt2/.tests/Sample11_ACI_158_S38.recal.bam \
         /opt2/.tests/Sample4_CRL1622_S31.recal.bam \
@@ -72,7 +72,7 @@ jobs:
     - name: Tumor-only BAM Dry Run
       run: |
         docker run -v $PWD:/opt2 snakemake/snakemake:v6.8.2 \
-        /opt2/exome-seek run --input \
+        /opt2/xavier run --input \
         /opt2/.tests/Sample10_ARK1_S37.recal.bam \
         /opt2/.tests/Sample11_ACI_158_S38.recal.bam \
         /opt2/.tests/Sample4_CRL1622_S31.recal.bam \
@@ -80,7 +80,7 @@ jobs:
         --genome hg38 --mode local --ffpe --runmode init
         
         docker run -v $PWD:/opt2 snakemake/snakemake:v6.8.2 \
-        /opt2/exome-seek run --input \
+        /opt2/xavier run --input \
         /opt2/.tests/Sample10_ARK1_S37.recal.bam \
         /opt2/.tests/Sample11_ACI_158_S38.recal.bam \
         /opt2/.tests/Sample4_CRL1622_S31.recal.bam \

@@ -1,41 +1,113 @@
 {
    "tools": {
         "trimmomatic": {
-            "version": "0.39"
+            "version": "0.39",
+            "modname": "trimmomatic/0.39"
         },
         "samtools": {
-            "version": "1.8"
+            "version": "1.17",
+            "modname": "samtools/1.17"
         },
         "bcftools": {
-            "version": "1.9"
+            "version": "1.17",
+            "modname": "bcftools/1.17"
         },
         "bwa": {
-            "version": "0.7.17"
+            "version": "0.7.17",
+            "modname": "bwa/0.7.17"
         },
         "gatk3": {
-            "version": "3.8-1"
+            "version": "3.8-1",
+            "modname": "GATK/3.8-1"
         },
         "gatk4": {
-            "version": "4.2.0.0"
+            "version": "4.4.0.0",
+            "modname": "GATK/4.4.0.0"
         },
         "strelka": {
-            "version": "2.9.0"
+            "version": "2.9.10",
+            "modname": "strelka/2.9.10"
         },
         "mutect": {
-            "version": "1.1.7"
+            "version": "1.1.7",
+            "modname": "muTect/1.1.7"
         },
         "varscan": {
-            "version": "2.4.3",
-            "filter_settings": "--strand-filter 1 --min-reads2 5 --min-strands2 2 --min-var-freq 0.05 --p-value 0.01 --min-avg-qual 30"
+            "version": "2.4.6",
+            "filter_settings": "--strand-filter 1 --min-reads2 5 --min-strands2 2 --min-var-freq 0.05 --p-value 0.01 --min-avg-qual 30",
+            "modname": "varscan/2.4.6"
         },
         "vcftools": {
-            "version": "0.1.16"
+            "version": "0.1.16",
+            "modname": "vcftools/0.1.16"
         },
         "Control-FREEC": {
-            "version": "11.5"
+            "version": "11.6",
+            "modname": "freec/11.6"
         },
         "R": {
-            "version": "4.1"
+            "version": "4.3.0",
+            "modname": "R/4.3.0"
+        },
+        "freec": {
+            "version": "11.6",
+            "modname": "freec/11.6"
+        },
+        "bedtools": {
+            "version": "2.30.0",
+            "modname": "bedtools/2.30.0"
+        },
+        "sequenza-utils": {
+            "version": "3.0.0",
+            "modname": "bedtools/2.30.0"
+        },
+        "python": {
+            "version": "2.7",
+            "modname": "python/2.7"
+        },
+        "python3": {
+            "version": "3.10",
+            "modname": "python/3.10"
+        },
+        "fastq_screen": {
+            "version": "0.15.3",
+            "modname": "fastq_screen/0.15.3"
+        },
+        "kraken": {
+            "version": "2.1.2",
+            "modname": "kraken/2.1.2"
+        },
+        "kronatools": {
+            "version": "2.8.1",
+            "modname": "kronatools/2.8.1"
+        },
+        "fastqc": {
+            "version": "0.11.9",
+            "modname": "fastqc/0.11.9"
+        },
+        "qualimap": {
+            "version": "2.2.1",
+            "modname": "qualimap/2.2.1"
+        },
+        "picard": {
+            "version": "2.27.3",
+            "modname": "picard/2.27.3"
+        },
+        "snpEff": {
+            "version": "5.1d",
+            "modname": "snpEff/5.1d"
+        },
+        "multiqc": {
+            "version": "1.14",
+            "modname": "multiqc/1.14"
+        },
+        "java": {
+            "version": "18.0.1.1",
+            "modname": "java/18.0.1.1"
+        },
+        "samblaster": {
+            "version": "0.1.26",
+            "modname": "samblaster/0.1.26"
         }
     }
 }

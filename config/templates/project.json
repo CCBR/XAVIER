@@ -1,13 +1,13 @@
 {
 	"project": {
 		"filetype": "",
-		"id": "CCBR_GATK4_WES_Pipeline",
+		"id": "CCBR_XAVIER_Pipeline",
 		"nends": -1,
 		"pairs": {},
 		"pfamily": "dnaseq",
 		"pipehome": "",
 		"userhome": "",
-		"pipeline": "Exome-seek",
+		"pipeline": "XAVIER",
 		"samples": {},
 		"username": "",
 		"version": "",
