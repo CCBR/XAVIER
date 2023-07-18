@@ -9,7 +9,7 @@ Setting up the xavier pipeline is fast and easy! In its most basic form, <code>x
 
 ## 2. Synopsis
 ```text
-$ ./xavier run [--help] \
+$ xavier run [--help] \
                    [--mode {local, slurm}] \
                    [--job-name JOB_NAME] \
                    [--callers {mutect2,mutect,strelka, ...}] \
@@ -213,10 +213,10 @@ Each of the following arguments are optional and do not need to be provided.
 # Do not run on head node!
 sinteractive --mem=8g --cpus-per-task=4
 module purge
-module load singularity snakemake/6.8.2
+module load ccbrpipeliner
 
 # Step 2A.) Initialize the all resources to the output folder 
-./xavier run --input .tests/*.R?.fastq.gz \
+xavier run --input .tests/*.R?.fastq.gz \
                  --output /data/$USER/xavier_hg38 \
                  --genome hg38 \
                  --targets Agilent_SSv7_allExons_hg38.bed \
@@ -224,7 +224,7 @@ module load singularity snakemake/6.8.2
                  --runmode init
 
 # Step 2B.) Dry-run the pipeline
-./xavier run --input .tests/*.R?.fastq.gz \
+xavier run --input .tests/*.R?.fastq.gz \
                  --output /data/$USER/xavier_hg38 \
                  --genome hg38 \
                  --targets Agilent_SSv7_allExons_hg38.bed \
@@ -234,7 +234,7 @@ module load singularity snakemake/6.8.2
 # Step 2C.) Run the XAVIER pipeline
 # The slurm mode will submit jobs to the cluster.
 # It is recommended running xavier in this mode.
-./xavier run --input .tests/*.R?.fastq.gz \
+xavier run --input .tests/*.R?.fastq.gz \
                  --output /data/$USER/xavier_hg38 \
                  --genome hg38 \
                  --targets Agilent_SSv7_allExons_hg38.bed \

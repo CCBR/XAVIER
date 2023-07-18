@@ -12,7 +12,7 @@ The cache sub command creates local cache on the filesysytem for resources hoste
 Coming Soon!  
 
 <!-- ```text
-$ ./xavier cache [-h] --sif-cache SIF_CACHE \
+$ xavier cache [-h] --sif-cache SIF_CACHE \
                      [--resource-bundle RESOURCE_BUNDLE] \
                      [--dry-run] 
 ```
@@ -55,10 +55,10 @@ module purge
 module load singularity snakemake
 
 # Step 1.) Dry run cache to see what will be pulled
-./xavier cache --sif-cache /scratch/$USER/cache \
+xavier cache --sif-cache /scratch/$USER/cache \
                  --dry-run  
 
 # Step 2.) Cache remote resources locally 
-./xavier cache --sif-cache /scratch/$USER/cache  
+xavier cache --sif-cache /scratch/$USER/cache  
 ```
 -->

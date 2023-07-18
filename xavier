@@ -347,7 +347,7 @@ def parsed_arguments():
           module load ccbrpipeliner
 
           # Step 2A.) Initialize the pipeline
-          ./xavier run \\
+          xavier run \\
                         --runmode init \\
                         --input .tests/*.R?.fastq.gz \\
                         --output /data/$USER/xavier_hg38 \\
@@ -355,7 +355,7 @@ def parsed_arguments():
                         --targets .tests/Agilent_SSv7_allExons_hg38.bed
           
           # Step 2B.) Dry-run the pipeline
-          ./xavier run \\
+          xavier run \\
                         --runmode dryrun \\
                         --input .tests/*.R?.fastq.gz \\
                         --output /data/$USER/xavier_hg38 \\
@@ -366,7 +366,7 @@ def parsed_arguments():
           # Step 2C.) Run the XAVIER pipeline
           # The slurm mode will submit jobs to the cluster.
           # It is recommended running xavier in this mode.
-          ./xavier run \\
+          xavier run \\
                         --runmode run \\
                         --input .tests/*.R?.fastq.gz \\
                         --output /data/$USER/xavier_hg38 \\

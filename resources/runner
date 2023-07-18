@@ -193,6 +193,7 @@ function submit(){
     slurm)
           # Create directory for logfiles
           mkdir -p "$3"/logfiles/slurmfiles/
+          CLUSTER_OPTS="sbatch --cpus-per-task {cluster.threads} -p {cluster.partition} -t {cluster.time} --mem {cluster.mem} --job-name {cluster.name} --output {cluster.output} --error {cluster.error}"
           # Submit the master job to the cluster
           # sbatch --parsable -J {jobname} --time=5-00:00:00 --mail-type=BEGIN,END,FAIL 
           # --cpus-per-task=24 --mem=96g --gres=lscratch:500 
@@ -203,8 +204,6 @@ function submit(){
           # --printshellcmds --keep-going --rerun-incomplete 
           # --keep-remote --restart-times 3 -j 500 --use-singularity 
           # --singularity-args -B {}.format({bindpaths}) --local-cores 24
-          SLURM_DIR="$3/logfiles/slurmfiles"
-          CLUSTER_OPTS="sbatch --gres {cluster.gres} --cpus-per-task {cluster.threads} -p {cluster.partition} -t {cluster.time} --mem {cluster.mem} --job-name={params.rname} -e $SLURM_DIR/slurm-%j_{params.rname}.out -o $SLURM_DIR/slurm-%j_{params.rname}.out"
           # Check if NOT running on Biowulf
           # Assumes other clusters do NOT 
           # have GRES for local node disk,
@@ -218,8 +217,11 @@ function submit(){
           # it should be used and by default
           # SLURM is not configured to use 
           # GRES, remove prefix single quote
-          if [[ ${6#\'} != /lscratch* ]]; then
-            CLUSTER_OPTS="sbatch --cpus-per-task {cluster.threads} -p {cluster.partition} -t {cluster.time} --mem {cluster.mem} --job-name={params.rname} -e $SLURM_DIR/slurm-%j_{params.rname}.out -o $SLURM_DIR/slurm-%j_{params.rname}.out"
+          #if [[ ${6#\'} != /lscratch* ]]; then
+          #  CLUSTER_OPTS="sbatch --cpus-per-task {cluster.threads} -p {cluster.partition} -t {cluster.time} --mem {cluster.mem} --job-name={params.rname} -e $SLURM_DIR/slurm-%j_{params.rname}.out -o $SLURM_DIR/slurm-%j_{params.rname}.out"
+          #fi
+          if [[ "$HOSTNAME" == "biowulf.nih.gov" ]];then
+            CLUSTER_OPTS="${CLUSTER_OPTS} --gres {cluster.gres}"
           fi
           # Create sbacth script to build index
     cat << EOF > kickoff.sh
