@@ -5,7 +5,7 @@
 ## Overview
 Welcome to XAVIER! Before getting started, we highly recommend reading through [xavier's documentation](https://CCBR.github.io/XAVIER).
 
-The **`./xavier`** pipeline is composed several inter-related sub commands to setup and run the pipeline across different systems. Each of the available sub commands perform different functions: 
+The **`xavier`** pipeline is composed several inter-related sub commands to setup and run the pipeline across different systems. Each of the available sub commands perform different functions: 
 
  * [<code>xavier <b>run</b></code>](https://CCBR.github.io/XAVIER/usage/run/): Run the XAVIER pipeline with your input files.
  * [<code>xavier <b>unlock</b></code>](https://CCBR.github.io/XAVIER/usage/unlock/): Unlocks a previous runs output directory.
