@@ -14,21 +14,24 @@ if [[ $runmode == "init" ]]; then
     --input .tests/*.R?.fastq.gz \
     --output $output_dir \
     --genome hg38 \
-    --targets .tests/Agilent_SSv7_allExons_hg38.bed
+    --targets .tests/Agilent_SSv7_allExons_hg38.bed \
+    --pairs .tests/pairs.tsv
 elif [[ $runmode == "dryrun" ]]; then
     ./exome-seek run \
     --runmode dryrun \
     --input .tests/*.R?.fastq.gz \
     --output $output_dir \
     --genome hg38 \
-    --targets .tests/Agilent_SSv7_allExons_hg38.bed
+    --targets .tests/Agilent_SSv7_allExons_hg38.bed \
+    --pairs .tests/pairs.tsv
 elif [[ $runmode == "run" ]]; then
     ./exome-seek run \
     --runmode run \
     --input .tests/*.R?.fastq.gz \
     --output $output_dir \
     --genome hg38 \
-    --targets .tests/Agilent_SSv7_allExons_hg38.bed
+    --targets .tests/Agilent_SSv7_allExons_hg38.bed \
+    --pairs .tests/pairs.tsv
 else
     echo "Runmode must be: init, dryrun, or run"
 fi
