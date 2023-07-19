@@ -13,7 +13,7 @@ Unlocking xavier pipeline output directory is fast and easy! In its most basic f
 
 ## 2. Synopsis
 ```text
-$ ./xavier unlock [-h] --output OUTPUT
+$ xavier unlock [-h] --output OUTPUT
 ```
 
 The synopsis for this command shows its parameters and their usage. Optional parameters are shown in square brackets.
