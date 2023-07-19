@@ -46,8 +46,8 @@ if [[ -d "$PIPELINE_OUTDIR" ]];then
     echo "USER:$USER" >> $treefile
     GROUPS=$(groups)
     echo "GROUPS:$GROUPS" >> $treefile
-    RENEE=$(which renee)
-    echo "RENEE:$RENEE" >> $treefile
+    XAVIER=$(which xavier)
+    echo "XAVIER:$XAVIER" >> $treefile
     echo "DATE:$DT" >> $treefile
     tree $PIPELINE_OUTDIR >> $treefile
     cmd="$cmd $treefile"
