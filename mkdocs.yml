@@ -101,9 +101,9 @@ markdown_extensions:
 nav:
   - About: index.md
   - Commands: 
-    - exome-seek run: usage/run.md
-    - exome-seek unlock: usage/unlock.md
-    - exome-seek cache: usage/cache.md
+    - xavier run: usage/run.md
+    - xavier unlock: usage/unlock.md
+    - xavier cache: usage/cache.md
   - Pipeline Details: 
     - Overview: pipeline-details/overview.md
     - Methods: pipeline-details/methods.md
