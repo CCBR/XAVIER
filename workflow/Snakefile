@@ -476,7 +476,7 @@ if config['input_params']['create_nidap_folder'] == 'yes':
 
 # create jobby tables
 jobby_cmd = os.path.join('resources', 'run_jobby_on_snakemake_log') + " " + os.path.join('logfiles', 'snakemake.log') + " | tee " + os.path.join('logfiles', 'snakemake.log.jobby') + " | cut -f2,3,18 > " + os.path.join('logfiles', 'snakemake.log.jobby.short')
-spook_cmd = os.path.join('resources', 'spooker') 
+spook_cmd = os.path.join('resources', 'spooker')  + " " + BASEDIR
 
 onsuccess:
     #subprocess.run(shlex.split(jobby_cmd),capture_output=False,shell=False,text=True)
