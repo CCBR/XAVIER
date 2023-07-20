@@ -218,7 +218,8 @@ rule ffpefilter_mafs:
         maf = os.path.join(output_somatic_base, SOBDetector_out, "{vc_outdir}", "maf", "{samples}.maf")
     params:
         tumorsample = '{samples}',
-        genome = config['references']['MAF_GENOME'],
+        genome = config['references']['GENOME'],
+        build= config['references']['VCF2MAF']['GENOME_BUILD'],
         filtervcf = config['references']['MAF_FILTERVCF'],
         bundle = config['references']['VCF2MAF']['VEPRESOURCEBUNDLEPATH'],
         rname = 'vcf2maf',
@@ -232,7 +233,8 @@ rule ffpefilter_mafs:
         --vcf {input.filtered_vcf} \\
         --maf {output.maf} \\
         --tid {params.tumorsample} \\
-        --genome {params.genome} \\
+        --genomebuild {params.build} \\
+        --genomefasta {params.genome} \\
         --threads {threads} \\
         --vepresourcebundlepath {params.bundle} \\
         --info "set"
