@@ -7,4 +7,4 @@ import os, sys
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 # Ground source of truth for version information
-version ='v1.1'
+version ='v2.0'
