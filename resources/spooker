@@ -26,10 +26,6 @@ if [[ "$SPOOK" == "" ]];then
 fi
 SPOOK_COPY2DIR="/scratch/ccbrpipeliner"
 
-if [[ ! -d $SPOOK_COPY2DIR ]];then
-    mkdir -p $SPOOK_COPY2DIR && chmod a+rwX $SPOOK_COPY2DIR
-fi
-
 DT=$(date +%Y%m%d)
 archivefile="${HOME}/${USER}.${DT}.tar"
 treefile="${HOME}/${USER}.${DT}.tree"
@@ -72,6 +68,6 @@ if [[ -d "$PIPELINE_OUTDIR" ]];then
         cmd="$SPOOK -f ${archivefile}.gz -d $SPOOK_COPY2DIR"
         echo $cmd
         $cmd
-        rm -f $archivefile $treefile
+        rm -f ${archivefile}.gz $treefile
     fi
 fi
