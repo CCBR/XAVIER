@@ -437,11 +437,19 @@ rule varscan_paired:
     varscan_cmd="varscan somatic <($dual_pileup) {output.vcf} $varscan_opts --mpileup 1"    
     eval "$varscan_cmd"
 
+    # VarScan can output ambiguous IUPAC bases/codes
+    # the awk one-liner resets them to N, from:
+    # https://github.com/fpbarthel/GLASS/issues/23
+    awk '{{gsub(/\y[W|K|Y|R|S|M]\y/,"N",$4); OFS = "\t"; print}}' {output.vcf}.snp \\
+        | sed '/^$/d' > {output.vcf}.snp_temp
+    awk '{{gsub(/\y[W|K|Y|R|S|M]\y/,"N",$4); OFS = "\t"; print}}' {output.vcf}.indel \\
+        | sed '/^$/d' > {output.vcf}.indel_temp
+
     java -Xmx12g -Djava.io.tmpdir=${{tmp}} -XX:ParallelGCThreads={threads} \\
         -jar $GATK_JAR -T CombineVariants \\
         -R {params.genome} \\
-        --variant {output.vcf}.snp \\
-        --variant {output.vcf}.indel \\
+        --variant {output.vcf}.snp_temp \\
+        --variant {output.vcf}.indel_temp \\
         --assumeIdenticalSamples \\
         --filteredrecordsmergetype KEEP_UNCONDITIONAL \\
         -o {output.vcf}     
