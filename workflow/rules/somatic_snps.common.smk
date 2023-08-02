@@ -198,24 +198,25 @@ rule somatic_mafs:
         bundle = config['references']['VCF2MAF']['VEPRESOURCEBUNDLEPATH'],
         rname = 'vcf2maf',
         vcf2maf_script = VCF2MAF_WRAPPER,
-        normalsample =  lambda w: "--nid {0}".format(
+        normalsample =  lambda w: "--normal-id {0}".format(
             pairs_dict[w.samples]
         ) if pairs_dict[w.samples] else "",  
     threads: 4
     container:
         config['images']['vcf2maf'] 
     shell: """
-    echo "Converting to MAF..."
-    bash {params.vcf2maf_script} \\
-        --vcf {input.filtered_vcf} \\
-        --maf {output.maf} \\
-        --tid {params.tumorsample} {params.normalsample} \\
-        --genomebuild {params.build} \\
-        --genomefasta {params.genome} \\
-        --threads {threads} \\
-        --vepresourcebundlepath {params.bundle} \\
-        --info "set"
-    echo "Done converting to MAF..."
+    vcf2maf.pl \\
+        --input-vcf {input.filtered_vcf} \\
+        --output-maf {output.maf} \\
+        --tumor-id {params.tumorsample} {params.normalsample} \\
+        --vep-path /opt/vep/src/ensembl-vep \\
+        --vep-data {params.bundle} \\
+        --ncbi-build {params.build} \\
+        --species {params.species} \\
+        --vep-forks {threads} \\
+        --ref-fasta {params.genome} \\
+        --vep-overwrite
+
     """
 
 

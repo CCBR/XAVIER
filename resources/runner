@@ -222,8 +222,10 @@ function submit(){
           #fi
           if [[ "$HOSTNAME" == "biowulf.nih.gov" ]];then
             CLUSTER_OPTS="${CLUSTER_OPTS} --gres {cluster.gres}"
+          elif [[ "$HOSTNAME" == cn[0-9][0-9][0-9][0-9] ]];then
+            CLUSTER_OPTS="${CLUSTER_OPTS} --gres {cluster.gres}"
           fi
-          # Create sbacth script to build index
+          # Create sbatch script to build index
     cat << EOF > kickoff.sh
 #!/usr/bin/env bash
 #SBATCH --cpus-per-task=32 
