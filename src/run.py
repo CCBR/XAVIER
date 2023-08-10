@@ -182,7 +182,7 @@ def setup(sub_args, repo_path, output_path, create_nidap_folder_YN = 'no',links=
         shorthostname = "frce"
     elif hostname == "biowulf.nih.gov":
         shorthostname = "biowulf"
-    elif re.match("cn[0-9][0-9][0-9][0-9][0-9]",hostname):
+    elif re.match("cn[0-9][0-9][0-9][0-9]",hostname):
         shorthostname = "biowulf"
     else:
         shorthostname = "biowulf"
