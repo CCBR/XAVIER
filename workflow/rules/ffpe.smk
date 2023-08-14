@@ -222,23 +222,26 @@ rule ffpefilter_mafs:
         build= config['references']['VCF2MAF']['GENOME_BUILD'],
         filtervcf = config['references']['MAF_FILTERVCF'],
         bundle = config['references']['VCF2MAF']['VEPRESOURCEBUNDLEPATH'],
+        species = config['references']['VCF2MAF']['SPECIES'],
         rname = 'vcf2maf',
         vcf2maf_script = VCF2MAF_WRAPPER
     threads: 4
     container:
         config['images']['vcf2maf'] 
     shell: """
-    echo "Converting to MAF..."
-    bash {params.vcf2maf_script} \\
-        --vcf {input.filtered_vcf} \\
-        --maf {output.maf} \\
-        --tid {params.tumorsample} \\
-        --genomebuild {params.build} \\
-        --genomefasta {params.genome} \\
-        --threads {threads} \\
-        --vepresourcebundlepath {params.bundle} \\
-        --info "set"
-    echo "Done converting to MAF..."
+
+    vcf2maf.pl \\
+        --input-vcf {input.filtered_vcf} \\
+        --output-maf {output.maf} \\
+        --tumor-id {params.tumorsample} \\
+        --vep-path /opt/vep/src/ensembl-vep \\
+        --vep-data {params.bundle} \\
+        --ncbi-build {params.build} \\
+        --species {params.species} \\
+        --vep-forks {threads} \\
+        --ref-fasta {params.genome} \\
+        --vep-overwrite
+
     """
 
 
