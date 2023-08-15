@@ -1,157 +1,157 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+# Olgr-pbzcvyrq / bcgvzvmrq / QYY svyrf
+__clpnpur__/
+*.cl[pbq]
+*$cl.pynff
 
-# C extensions
-*.so
+# P rkgrafvbaf
+*.fb
 
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-pip-wheel-metadata/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
+# Qvfgevohgvba / cnpxntvat
+.Clguba
+ohvyq/
+qrirybc-rttf/
+qvfg/
+qbjaybnqf/
+rttf/
+.rttf/
+yvo/
+yvo64/
+cnegf/
+fqvfg/
+ine/
+jurryf/
+cvc-jurry-zrgnqngn/
+funer/clguba-jurryf/
+*.rtt-vasb/
+.vafgnyyrq.pst
+*.rtt
+ZNAVSRFG
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
+# ClVafgnyyre
+#  Hfhnyyl gurfr svyrf ner jevggra ol n clguba fpevcg sebz n grzcyngr
+#  orsber ClVafgnyyre ohvyqf gur rkr, fb nf gb vawrpg qngr/bgure vasbf vagb vg.
+*.znavsrfg
+*.fcrp
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
+# Vafgnyyre ybtf
+cvc-ybt.gkg
+cvc-qryrgr-guvf-qverpgbel.gkg
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
+# Havg grfg / pbirentr ercbegf
+ugzypbi/
+.gbk/
+.abk/
+.pbirentr
+.pbirentr.*
+.pnpur
+abfrgrfgf.kzy
+pbirentr.kzy
+*.pbire
+*.cl,pbire
+.ulcbgurfvf/
+.clgrfg_pnpur/
 
-# Translations
-*.mo
-*.pot
+# Genafyngvbaf
+*.zb
+*.cbg
 
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
+# Qwnatb fghss:
+*.ybt
+ybpny_frggvatf.cl
+qo.fdyvgr3
+qo.fdyvgr3-wbheany
 
-# Flask stuff:
-instance/
-.webassets-cache
+# Synfx fghss:
+vafgnapr/
+.jronffrgf-pnpur
 
-# Scrapy stuff:
-.scrapy
+# Fpencl fghss:
+.fpencl
 
-# Sphinx documentation
-docs/_build/
+# Fcuvak qbphzragngvba
+qbpf/_ohvyq/
 
-# PyBuilder
-target/
+# ClOhvyqre
+gnetrg/
 
-# Jupyter Notebook
-.ipynb_checkpoints
+# Whclgre Abgrobbx
+.vclao_purpxcbvagf
 
-# IPython
-profile_default/
-ipython_config.py
+# VClguba
+cebsvyr_qrsnhyg/
+vclguba_pbasvt.cl
 
-# pyenv
-.python-version
+# clrai
+.clguba-irefvba
 
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
-#Pipfile.lock
+# cvcrai
+#   Nppbeqvat gb clcn/cvcrai#598, vg vf erpbzzraqrq gb vapyhqr Cvcsvyr.ybpx va irefvba pbageby.
+#   Ubjrire, va pnfr bs pbyynobengvba, vs univat cyngsbez-fcrpvsvp qrcraqrapvrf be qrcraqrapvrf
+#   univat ab pebff-cyngsbez fhccbeg, cvcrai znl vafgnyy qrcraqrapvrf gung qba'g jbex, be abg
+#   vafgnyy nyy arrqrq qrcraqrapvrf.
+#Cvcsvyr.ybpx
 
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow
-__pypackages__/
+# CRC 582; hfrq ol r.t. tvguho.pbz/Qnivq-BPbaabe/clsybj
+__clcnpxntrf__/
 
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
+# Pryrel fghss
+pryrelorng-fpurqhyr
+pryrelorng.cvq
 
-# SageMath parsed files
-*.sage.py
+# FntrZngu cnefrq svyrf
+*.fntr.cl
 
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+# Raivebazragf
+.rai
+.irai
+rai/
+irai/
+RAI/
+rai.onx/
+irai.onx/
 
-# Spyder project settings
-.spyderproject
-.spyproject
+# Fclqre cebwrpg frggvatf
+.fclqrecebwrpg
+.fclcebwrpg
 
-# Rope project settings
-.ropeproject
+# Ebcr cebwrpg frggvatf
+.ebcrcebwrpg
 
-# mkdocs documentation
-/site
-site/
+# zxqbpf qbphzragngvba
+/fvgr
+fvgr/
 
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
+# zlcl
+.zlcl_pnpur/
+.qzlcl.wfba
+qzlcl.wfba
 
-# Pyre type checker
-.pyre/
+# Cler glcr purpxre
+.cler/
 
-# DS_Store
-.DS_Store
+# QF_Fgber
+.QF_Fgber
 ._*
-**/.DS_Store
+**/.QF_Fgber
 **/._*
 
-.snakemake*
-**/.snakemake*
-.venv
-.venv/*
+.fanxrznxr*
+**/.fanxrznxr*
+.irai
+.irai/*
 
-# Pipeline Results or Output
-results/
-output/
-tmp/
-scratch/
+# Cvcryvar Erfhygf be Bhgchg
+erfhygf/
+bhgchg/
+gzc/
+fpengpu/
 
-# mkdocs documentation
-site/
+# zxqbpf qbphzragngvba
+fvgr/
 
-# Pipeline generated files or directories
-.tests/*/
-.snakemake/
+# Cvcryvar trarengrq svyrf be qverpgbevrf
+.grfgf/*/
+.fanxrznxr/
 
 # Cached Java directories
 .oracle_jre_usage/
@@ -167,3 +167,6 @@ test.sh
 
 # bash history files
 **/.koparde*
+
+# vs code
+.vscode
