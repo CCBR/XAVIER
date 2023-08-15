@@ -5,61 +5,56 @@ import pandas as pd
 configfile: "config/config.yml"
 
 params_csv = config['paramspace']
-
 paramspace = Paramspace(pd.read_csv(params_csv), param_sep="-")
 print(*[p for p in paramspace.instance_patterns], sep = '\n')
 
-wildcards = glob_wildcards("data/bams/{sample}.bam")
+wildcards = glob_wildcards("data/raw_fastqs/{sample}.R{read}.fastq.gz")
 
 rule all:
     input:
-        expand("results/{params}/command.sh", params=paramspace.instance_patterns)
+        expand("log/{params}/submitted.txt", params=paramspace.instance_patterns)
 
-rule bam2fastq:
+rule select_region:
     input:
-        bam="data/bams/{file}.bam"
+        bam="data/bams/{sample}.chr22.split.bam",
     output:
-        fastq=temp("data/fastqs_from_bams/{file}.fastq")
+        txt=temp("data/subset_fastqs/{sample}.chr22.split.subset.txt"),
+    params:
+        chrom=22,
+        start=40797000,
+        end=41000000,
+    conda: "envs/samtools.yml"
     shell:
         """
-        samtools bam2fq {input.bam} > {output.fastq}
+        samtools view -b -h {input.bam} "chr{params.chrom}:{params.start}-{params.end}" | \
+            samtools bam2fq -n - | \
+            grep "^@" | \
+            sed "s/^@//" | \
+            sort | \
+            uniq > {output.txt}
         """
 
-# TODO: get original untrimmed reads from raw fastqs based on seq IDs from bam
-# TODO: instead of entire chromosome, select a region that results in files < 50 MB
-rule deinterleave_fastq: # source https://www.biostars.org/p/141256/
+rule subset_fastq:
     input:
-        fastq="data/fastqs_from_bams/{file}.fastq",
-        sh="workflow/scripts/deinterleave.sh"
+        names=rules.select_region.output.txt,
+        fastq="data/raw_fastqs/{sample}.R{read}.fastq.gz",
     output:
-        r1="data/fastqs_deinterleaved/{file}.R1.fastq",
-        r2="data/fastqs_deinterleaved/{file}.R2.fastq"
+        fastq="data/subset_fastqs/{sample}.chr22.split.R{read}.fastq.gz",
+    conda: "envs/seqtk.yml"
     shell:
         """
-        cat {input.fastq} | {input.sh} {output.r1} {output.r2}
+        seqtk subseq {input.fastq} {input.names} | gzip > {output.fastq}
         """
 
-
-rule gzip:
-    input:
-        "{file}"
-    output:
-        "{file}.gz"
-    shell:
-        """
-        gzip {input}
-        """
-
- 
 rule construct_xavier:
     input:
-        fastq=expand('data/fastqs_deinterleaved/{sample}.R{read}.fastq.gz', 
+        fastq=expand('data/subset_fastqs/{sample}.chr22.split.R{read}.fastq.gz', 
                 sample=wildcards.sample, read=(1,2))
     output:
         sh=f"results/{paramspace.wildcard_pattern}/command.sh"
     params:
         p=paramspace.instance,
-        inputdir = 'data/fastqs_deinterleaved/*.fastq.gz',
+        inputdir = 'data/subset_fastqs/*.fastq.gz',
         outdir=f'results/{paramspace.wildcard_pattern}',
         xavier = config['xavier_bin'],
         targets = config['targets'],
@@ -85,5 +80,16 @@ rule construct_xavier:
                 if runmode.startswith('run'):
                     outfile.write(cmd)
                 elif runmode == 'init':
-                    subprocess.call(cmd, shell=True)
+                    # TODO: subprocess fails on 'run' mode, maybe b/c XAVIER itself uses subprocess?
+                    subprocess.call(cmd, shell=True) 
 
+rule submit_xavier:
+    input:
+        sh=rules.construct_xavier.output.sh
+    output:
+        txt=f"log/{paramspace.wildcard_pattern}/submitted.txt"
+    shell:
+        """
+        bash {input.sh}
+        touch {output.txt}
+        """

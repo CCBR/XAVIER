@@ -3,4 +3,3 @@ targets: "/data/CCBR/projects/techDev/XAVIER/resources/Agilent_SSv7_allExons_hg3
 pairs: "config/pairs.txt"
 genome: 'hg38'
 paramspace: "config/params.csv"
-

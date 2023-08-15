@@ -1,10 +1,7 @@
-name: smk
+name: seqtk
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - pandas
-  - pysam
-  - samtools
-  - snakemake
+  - seqtk
