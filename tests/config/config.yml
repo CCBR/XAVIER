@@ -1,4 +1,4 @@
-xavier_bin: "/data/CCBR_Pipeliner/Pipelines/XAVIER/hotfix/bin/xavier"
+xavier_bin: "/data/CCBR/projects/techDev/test_xavier/bin/xavier"
 targets: "/data/CCBR/projects/techDev/XAVIER/resources/Agilent_SSv7_allExons_hg38.bed"
 pairs: "config/pairs.txt"
 genome: 'hg38'
