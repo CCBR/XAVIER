@@ -1,0 +1,89 @@
+from snakemake.utils import Paramspace
+import subprocess
+import pandas as pd
+
+configfile: "config/config.yml"
+
+params_csv = config['paramspace']
+
+paramspace = Paramspace(pd.read_csv(params_csv), param_sep="-")
+print(*[p for p in paramspace.instance_patterns], sep = '\n')
+
+wildcards = glob_wildcards("data/bams/{sample}.bam")
+
+rule all:
+    input:
+        expand("results/{params}/command.sh", params=paramspace.instance_patterns)
+
+rule bam2fastq:
+    input:
+        bam="data/bams/{file}.bam"
+    output:
+        fastq=temp("data/fastqs_from_bams/{file}.fastq")
+    shell:
+        """
+        samtools bam2fq {input.bam} > {output.fastq}
+        """
+
+# TODO: get original untrimmed reads from raw fastqs based on seq IDs from bam
+# TODO: instead of entire chromosome, select a region that results in files < 50 MB
+rule deinterleave_fastq: # source https://www.biostars.org/p/141256/
+    input:
+        fastq="data/fastqs_from_bams/{file}.fastq",
+        sh="workflow/scripts/deinterleave.sh"
+    output:
+        r1="data/fastqs_deinterleaved/{file}.R1.fastq",
+        r2="data/fastqs_deinterleaved/{file}.R2.fastq"
+    shell:
+        """
+        cat {input.fastq} | {input.sh} {output.r1} {output.r2}
+        """
+
+
+rule gzip:
+    input:
+        "{file}"
+    output:
+        "{file}.gz"
+    shell:
+        """
+        gzip {input}
+        """
+
+ 
+rule construct_xavier:
+    input:
+        fastq=expand('data/fastqs_deinterleaved/{sample}.R{read}.fastq.gz', 
+                sample=wildcards.sample, read=(1,2))
+    output:
+        sh=f"results/{paramspace.wildcard_pattern}/command.sh"
+    params:
+        p=paramspace.instance,
+        inputdir = 'data/fastqs_deinterleaved/*.fastq.gz',
+        outdir=f'results/{paramspace.wildcard_pattern}',
+        xavier = config['xavier_bin'],
+        targets = config['targets'],
+        pairs = config['pairs'],
+        genome = config['genome'],
+        runmodes = ("init", "dryrun", "run --mode slurm"),
+    run:
+        # required arguments
+        options = ['--input', params.inputdir, '--output', params.outdir, '--targets', params.targets, '--genome', params.genome]
+        # flags
+        for flag in ('cnv', 'ffpe'):
+            if params.p[flag] == 'y':
+                options.append(f"--{flag}")
+        # named arguments
+        if params.p['pair'] == 'y':
+            options += ['--pairs', params.pairs]
+        
+        with open(output.sh, 'w') as outfile:
+            for runmode in params.runmodes:
+                cmd=' '.join([params.xavier, "run", "--runmode", runmode] + options)
+                print('COMMAND\n-------\n', cmd, '\n=======')
+                
+                if runmode.startswith('run'):
+                    outfile.write(cmd)
+                elif runmode == 'init':
+                    subprocess.call(cmd, shell=True)
+
