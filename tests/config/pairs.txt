@@ -1,1 +1,3 @@
-../../pairs.txt
+Normal	Tumor
+sample1-normal.chr22.split	sample1-tumor.chr22.split
+sample2-normal.chr22.split	sample2-tumor.chr22.split
