@@ -170,3 +170,6 @@ test.sh
 
 # vs code
 .vscode
+
+# python
+__pycache__
