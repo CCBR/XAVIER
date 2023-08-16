@@ -215,6 +215,7 @@ rule ffpefilter_mafs:
     input:
         filtered_vcf = os.path.join(SOBDetector_out, "{vc_outdir}", "pass2", "{samples}.artifact_filtered.vcf.gz")
     output:
+        filtered_vcf = os.path.join(output_somatic_base, SOBDetector_out, "{vc_outdir}", "vcf", "{samples}.vcf")
         maf = os.path.join(output_somatic_base, SOBDetector_out, "{vc_outdir}", "maf", "{samples}.maf")
     params:
         tumorsample = '{samples}',
@@ -230,8 +231,14 @@ rule ffpefilter_mafs:
         config['images']['vcf2maf'] 
     shell: """
 
+    if [ $file == *.vcf.gz ] ; then
+       zcat {input.filtered_vcf} > {output.filtered_vcf}
+    else 
+        {input.filtered_vcf} > {output.filtered_vcf}
+    fi
+
     vcf2maf.pl \\
-        --input-vcf {input.filtered_vcf} \\
+        --input-vcf {output.filtered_vcf} \\
         --output-maf {output.maf} \\
         --tumor-id {params.tumorsample} \\
         --vep-path /opt/vep/src/ensembl-vep \\
