@@ -86,10 +86,9 @@ rule construct_xavier:
 rule submit_xavier:
     input:
         sh=rules.construct_xavier.output.sh
-    output:
+    log:
         txt=f"log/{paramspace.wildcard_pattern}/submitted.txt"
     shell:
         """
-        bash {input.sh}
-        touch {output.txt}
+        bash {input.sh} > {log.txt}
         """
