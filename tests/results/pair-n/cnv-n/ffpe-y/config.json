@@ -30,11 +30,11 @@
     },
     "input_params": {
         "BAM_SOURCE": "",
-        "BASE_OUTDIR": "/vf/users/CCBR/projects/techDev/test_xavier/tests/results/pair-n/cnv-n/ffpe-n",
+        "BASE_OUTDIR": "/vf/users/CCBR/projects/techDev/test_xavier/tests/results/pair-n/cnv-n/ffpe-y",
         "CNV_CALLING": "false",
         "EXOME_TARGETS": "/data/CCBR_Pipeliner/db/PipeDB/lib/Agilent_SSv7_allExons_hg38.bed",
         "FASTQ_SOURCE": "",
-        "FFPE_FILTER": "false",
+        "FFPE_FILTER": "true",
         "GERMLINE": "false",
         "OTHER_SOMATIC_VCFS": {},
         "PAIRS_FILE": "None",
@@ -87,7 +87,7 @@
         "annotation": "hg38",
         "datapath": "/vf/users/CCBR/projects/techDev/test_xavier/tests/data/subset_fastqs",
         "filetype": "paired-end",
-        "git_commit_hash": "47d92bebd099fd31af263e091c5cfff6ec607a9c",
+        "git_commit_hash": "d6a56e66eefeaef1d63287dcdf0cd1871f65b54f",
         "id": "CCBR_XAVIER_Pipeline",
         "nends": 2,
         "pairs": "None",
@@ -98,7 +98,7 @@
         "userhome": "/home/sovacoolkl",
         "username": "sovacoolkl",
         "version": "v2.0",
-        "workpath": "/vf/users/CCBR/projects/techDev/test_xavier/tests/results/pair-n/cnv-n/ffpe-n"
+        "workpath": "/vf/users/CCBR/projects/techDev/test_xavier/tests/results/pair-n/cnv-n/ffpe-y"
     },
     "references": {
         "ADMIXTUREKEY": "/data/CCBR_Pipeliner/Exome-seek/hg38/1k_genomes/1k_genomes_superpop_key.txt",
