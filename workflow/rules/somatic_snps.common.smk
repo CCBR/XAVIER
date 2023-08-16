@@ -189,7 +189,6 @@ rule somatic_mafs:
     input:
         filtered_vcf = os.path.join(output_somatic_snpindels, "{vc_outdir}", "vcf", "{samples}.FINAL.norm.vcf")
     output:
-        filtered_vcf = os.path.join(output_somatic_snpindels, "{vc_outdir}", "vcf", "{samples}.temp.vcf"),
         maf = os.path.join(output_somatic_snpindels, "{vc_outdir}", "maf", "{samples}.maf")
     params: 
         tumorsample = '{samples}',
@@ -208,7 +207,7 @@ rule somatic_mafs:
     shell: """
 
     vcf2maf.pl \\
-        --input-vcf {output.filtered_vcf} \\
+        --input-vcf {input.filtered_vcf} \\
         --output-maf {output.maf} \\
         --tumor-id {params.tumorsample} {params.normalsample} \\
         --vep-path /opt/vep/src/ensembl-vep \\
