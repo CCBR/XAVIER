@@ -3,3 +3,4 @@ targets: "/data/CCBR_Pipeliner/db/PipeDB/lib/Agilent_SSv7_allExons_hg38.bed"
 pairs: "config/pairs.txt"
 genome: 'hg38'
 paramspace: "config/params.csv"
+mode: 'slurm'

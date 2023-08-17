@@ -60,7 +60,8 @@ rule construct_xavier:
         targets = config['targets'],
         pairs = config['pairs'],
         genome = config['genome'],
-        runmodes = ("init", "dryrun", "run --mode slurm"),
+        mode = config['mode'],
+        run = ("init", "dryrun", "run"),
     run:
         # required arguments
         options = ['--input', params.inputdir, '--output', params.outdir, '--targets', params.targets, '--genome', params.genome]
@@ -73,13 +74,13 @@ rule construct_xavier:
             options += ['--pairs', params.pairs]
         
         with open(output.sh, 'w') as outfile:
-            for runmode in params.runmodes:
-                cmd=' '.join([params.xavier, "run", "--runmode", runmode] + options)
+            for run in params.run:
+                cmd=' '.join([params.xavier, "run", "--runmode", run, '--mode', params.mode] + options)
                 print('COMMAND\n-------\n', cmd, '\n=======')
                 
-                if runmode.startswith('run'):
+                if run == 'run':
                     outfile.write(cmd)
-                elif runmode == 'init':
+                elif run == 'init':
                     # TODO: subprocess fails on 'run' mode, maybe b/c XAVIER itself uses subprocess?
                     subprocess.call(cmd, shell=True) 
 
