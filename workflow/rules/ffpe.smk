@@ -230,8 +230,9 @@ rule ffpefilter_mafs:
     container:
         config['images']['vcf2maf'] 
     shell: """
-    if [ $file == *.vcf.gz ] ; then
-       zcat {input.filtered_vcf} > {output.filtered_vcf}
+    filetype=$(file -b --mime-type {input.filtered_vcf})
+    if [ $filetype == "application/gzip" ] ; then
+        zcat {input.filtered_vcf} > {output.filtered_vcf}
     else 
         {input.filtered_vcf} > {output.filtered_vcf}
     fi
