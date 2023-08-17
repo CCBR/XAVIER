@@ -35,7 +35,8 @@
 	  	"SOMALIER": {
 	   		"SITES_VCF": "/data/CCBR_Pipeliner/Exome-seek/mm10/somalier/mm10.sites.vcf.gz",
 	   		"NCBI_BUILD": "GRCm38",
-	   		"SPECIES": "mus_musculus"
+	   		"SPECIES": "mus_musculus",
+			"MIN_CHROMS": 20
 		}
   }
 }

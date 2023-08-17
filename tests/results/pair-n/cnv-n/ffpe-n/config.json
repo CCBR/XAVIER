@@ -87,7 +87,7 @@
         "annotation": "hg38",
         "datapath": "/vf/users/CCBR/projects/techDev/test_xavier/tests/data/subset_fastqs",
         "filetype": "paired-end",
-        "git_commit_hash": "47d92bebd099fd31af263e091c5cfff6ec607a9c",
+        "git_commit_hash": "7ab7f69f836906c4447fcb14d9e04a324132e60a",
         "id": "CCBR_XAVIER_Pipeline",
         "nends": 2,
         "pairs": "None",
@@ -135,6 +135,7 @@
         "SNPEFF_GENOME": "GRCh38.86",
         "SOMALIER": {
             "ANCESTRY_DB": "/data/CCBR_Pipeliner/Exome-seek/hg38/somalier/1kg-somalier",
+            "MIN_CHROMS": 20,
             "NCBI_BUILD": "GRCh38",
             "SITES_VCF": "/data/CCBR_Pipeliner/Exome-seek/hg38/somalier/sites.hg38.vcf.gz",
             "SPECIES": "homo_sapiens"
