@@ -205,6 +205,7 @@ rule somatic_mafs:
     container:
         config['images']['vcf2maf'] 
     shell: """
+
     vcf2maf.pl \\
         --input-vcf {input.filtered_vcf} \\
         --output-maf {output.maf} \\
