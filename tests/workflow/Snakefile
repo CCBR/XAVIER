@@ -103,13 +103,14 @@ def set_tmp():
         if [ -d {user_tmpdisk} ]; then
             echo "Using user-provided tmpdisk"
             tmpdisk={user_tmpdisk}
-        elif [ -n $SLURM_JOBID ] && [ -d /lscratch/$SLURM_JOBID ]; then
+        elif [ ! -z ${{SLURM_JOBID:-}} ] && [ -d /lscratch/$SLURM_JOBID ]; then
             tmpdisk=/lscratch/$SLURM_JOBID
         else
-            tmpdisk=/dev/shm/
+            tmpdisk=/dev/shm
         fi
 
         tmp=$tmpdisk/{random_str}
+        echo "tmp: $tmp"
         mkdir -p $tmp
         trap 'rm -rf "$tmp"' EXIT
         """
@@ -123,7 +124,6 @@ rule test_tmp_disk1:
         """
         echo "1"
         {params.set_tmp}
-        echo "tmp: $tmp"
         echo "hello world" > $tmp/file.txt
         cat $tmp/file.txt
         ls $tmp
