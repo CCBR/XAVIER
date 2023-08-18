@@ -98,45 +98,44 @@ rule submit_xavier:
 
 # handle different temp dir locations depending on platform
 user_tmpdisk = config['input_params']['tmpdisk']
-shell_set_tmp = r"""
-if [ -d {user_tmpdisk} ]; then
-    echo "Using user-provided tmpdisk"
-    tmpdisk={user_tmpdisk}
-elif [ -n $SLURM_JOBID ] && [ -d /lscratch/$SLURM_JOBID ]; then
-    tmpdisk=/lscratch/$SLURM_JOBID
-else
-    tmpdisk=/dev/shm/
-fi
+def set_tmp():
+    shell = r"""
+        if [ -d {user_tmpdisk} ]; then
+            echo "Using user-provided tmpdisk"
+            tmpdisk={user_tmpdisk}
+        elif [ -n $SLURM_JOBID ] && [ -d /lscratch/$SLURM_JOBID ]; then
+            tmpdisk=/lscratch/$SLURM_JOBID
+        else
+            tmpdisk=/dev/shm/
+        fi
 
-tmp=$tmpdisk/{random_str}
-echo "tmp: $tmp"
-mkdir -p $tmp
-trap 'rm -rf "$tmp"' EXIT
-"""
+        tmp=$tmpdisk/{random_str}
+        mkdir -p $tmp
+        trap 'rm -rf "$tmp"' EXIT
+        """
+    print(shell)
+    return shell.format(user_tmpdisk=user_tmpdisk, random_str = str(uuid.uuid4())        )
 
 rule test_tmp_disk1:
     params:
-        set_tmp=shell_set_tmp.format(
-            user_tmpdisk=user_tmpdisk, 
-            random_str = str(uuid.uuid4())
-        )
+        set_tmp=set_tmp()
     shell:
         """
         echo "1"
         {params.set_tmp}
+        echo "tmp: $tmp"
         echo "hello world" > $tmp/file.txt
         cat $tmp/file.txt
         ls $tmp
         """
 
+
 rule test_tmp_disk2:
     params:
-        set_tmp=shell_set_tmp.format(
-            user_tmpdisk=user_tmpdisk, 
-            random_str = str(uuid.uuid4())
-        )
+        set_tmp=set_tmp()
     shell:
         """
         echo "2"
         {params.set_tmp}
+        echo "tmp: $tmp"
         """
