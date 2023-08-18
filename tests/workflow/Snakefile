@@ -100,7 +100,7 @@ rule submit_xavier:
 user_tmpdisk = config['input_params']['tmpdisk']
 def set_tmp():
     shell = r"""
-        if [ -d {user_tmpdisk} ]; then
+        if [ ! -z {user_tmpdisk} ] && [ -d {user_tmpdisk} ]; then
             echo "Using user-provided tmpdisk"
             tmpdisk={user_tmpdisk}
         elif [ ! -z ${{SLURM_JOBID:-}} ] && [ -d /lscratch/$SLURM_JOBID ]; then
@@ -108,14 +108,12 @@ def set_tmp():
         else
             tmpdisk=/dev/shm
         fi
-
         tmp=$tmpdisk/{random_str}
         echo "tmp: $tmp"
         mkdir -p $tmp
         trap 'rm -rf "$tmp"' EXIT
         """
-    print(shell)
-    return shell.format(user_tmpdisk=user_tmpdisk, random_str = str(uuid.uuid4())        )
+    return shell.format(user_tmpdisk=user_tmpdisk, random_str = str(uuid.uuid4()))
 
 rule test_tmp_disk1:
     params:
@@ -129,13 +127,13 @@ rule test_tmp_disk1:
         ls $tmp
         """
 
-
 rule test_tmp_disk2:
     params:
         set_tmp=set_tmp()
     shell:
         """
         echo "2"
+        echo "the random string should be different from test_tmp_disk1's"
         {params.set_tmp}
         echo "tmp: $tmp"
         """

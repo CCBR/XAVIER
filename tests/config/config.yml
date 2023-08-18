@@ -5,4 +5,4 @@ genome: 'hg38'
 paramspace: "config/params.csv"
 mode: 'slurm'
 input_params:
-  tmpdisk: 'NOT_A_PATH'
+  tmpdisk: ''
