@@ -8,6 +8,7 @@ import re
 import sys
 import glob
 import datetime
+import uuid
 
 ## FROM: https://github.com/skchronicles/RNA-seek/blob/main/rna-seek
 def rename(filename):
