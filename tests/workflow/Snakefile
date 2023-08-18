@@ -7,7 +7,6 @@ configfile: "config/config.yml"
 
 params_csv = config['paramspace']
 paramspace = Paramspace(pd.read_csv(params_csv), param_sep="-")
-print(*[p for p in paramspace.instance_patterns], sep = '\n')
 
 wildcards = glob_wildcards("data/raw_fastqs/{sample}.R{read}.fastq.gz")
 
@@ -100,19 +99,18 @@ rule submit_xavier:
 user_tmpdisk = config['input_params']['tmpdisk']
 def set_tmp():
     shell = r"""
-        if [ ! -z {user_tmpdisk} ] && [ -d {user_tmpdisk} ]; then
-            echo "Using user-provided tmpdisk"
-            tmpdisk={user_tmpdisk}
-        elif [ ! -z ${{SLURM_JOBID:-}} ] && [ -d /lscratch/$SLURM_JOBID ]; then
-            tmpdisk=/lscratch/$SLURM_JOBID
-        else
-            tmpdisk=/dev/shm
-        fi
-        tmp=$tmpdisk/{random_str}
-        echo "tmp: $tmp"
-        mkdir -p $tmp
-        trap 'rm -rf "$tmp"' EXIT
-        """
+if [ ! -z {user_tmpdisk} ] && [ -d {user_tmpdisk} ]; then
+    echo "Using user-provided tmpdisk"
+    tmpdisk={user_tmpdisk}
+elif [ ! -z ${{SLURM_JOBID:-}} ] && [ -d /lscratch/$SLURM_JOBID ]; then
+    tmpdisk=/lscratch/$SLURM_JOBID
+else
+    tmpdisk=/dev/shm
+fi
+tmp=$tmpdisk/{random_str}
+mkdir -p $tmp
+trap 'rm -rf "$tmp"' EXIT
+"""
     return shell.format(user_tmpdisk=user_tmpdisk, random_str = str(uuid.uuid4()))
 
 rule test_tmp_disk1:
@@ -122,6 +120,8 @@ rule test_tmp_disk1:
         """
         echo "1"
         {params.set_tmp}
+        echo "{params.set_tmp}"
+        echo "tmp: $tmp"
         echo "hello world" > $tmp/file.txt
         cat $tmp/file.txt
         ls $tmp

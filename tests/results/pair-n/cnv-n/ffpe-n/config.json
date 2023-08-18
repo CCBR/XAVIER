@@ -87,7 +87,7 @@
         "annotation": "hg38",
         "datapath": "/vf/users/CCBR/projects/techDev/test_xavier/tests/data/subset_fastqs",
         "filetype": "paired-end",
-        "git_commit_hash": "7ab7f69f836906c4447fcb14d9e04a324132e60a",
+        "git_commit_hash": "02258f45346b9ae4c50b1d4b4bff0eda69ae78f6",
         "id": "CCBR_XAVIER_Pipeline",
         "nends": 2,
         "pairs": "None",

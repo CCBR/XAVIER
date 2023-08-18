@@ -1,0 +1,12 @@
+{
+    "__default__": {
+        "partition": "norm",
+        "threads":"1",
+        "mem": "1G",
+        "gres": "lscratch:256",
+        "time": "00:10:00",
+        "name"      : "{rule}.{wildcards}",
+        "output"    : "log/slurm/${{SLURM_JOBID}}.%j.{rule}.{wildcards}.out",
+        "error"     : "log/slurm/${{SLURM_JOBID}}.%j.{rule}.{wildcards}.err"
+    }
+}
