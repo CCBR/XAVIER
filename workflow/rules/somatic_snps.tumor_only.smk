@@ -48,7 +48,7 @@ rule pileup_single:
         ver_gatk = config['tools']['gatk4']['version'],
         chroms = chroms,
         rname = 'pileup',
-        tmpdir = config['input_params']['tmpdisk']
+        set_tmp = set_tmp()
     envmodules:
         config['tools']['gatk4']['modname']
     container:
@@ -57,8 +57,7 @@ rule pileup_single:
     # Setups temporary directory for
     # intermediate files with built-in 
     # mechanism for deletion on exit
-    tmp=$(mktemp -d -p "{params.tmpdir}")
-    trap 'rm -rf "${{tmp}}"' EXIT
+    {params.set_tmp}
 
     gatk --java-options "-Xmx10g -Djava.io.tmpdir=${{tmp}}" GetPileupSummaries \\
         -R {params.genome} \\
@@ -103,7 +102,7 @@ rule mutect_single:
         dbsnp_cosmic = config['references']['DBSNP_COSMIC'],
         ver_mutect = config['tools']['mutect']['version'],
         rname = 'mutect',
-        tmpdir = config['input_params']['tmpdisk']
+        set_tmp = set_tmp()
     envmodules:
         config['tools']['mutect']['modname']
     container:
@@ -112,8 +111,7 @@ rule mutect_single:
     # Setups temporary directory for
     # intermediate files with built-in 
     # mechanism for deletion on exit
-    tmp=$(mktemp -d -p "{params.tmpdir}")
-    trap 'rm -rf "${{tmp}}"' EXIT
+    {params.set_tmp}
 
     if [ ! -d "$(dirname {output.vcf})" ]; then 
         mkdir -p "$(dirname {output.vcf})"
@@ -145,7 +143,7 @@ rule mutect_filter_single:
         ver_gatk = config['tools']['gatk4']['version'],
         ver_bcftools = config['tools']['bcftools']['version'],
         rname = 'mutect_filter',
-        tmpdir = config['input_params']['tmpdisk'],
+        set_tmp = set_tmp(),
     threads: 4
     envmodules:
         config['tools']['gatk4']['modname'],
@@ -156,8 +154,7 @@ rule mutect_filter_single:
     # Setups temporary directory for
     # intermediate files with built-in 
     # mechanism for deletion on exit
-    tmp=$(mktemp -d -p "{params.tmpdir}")
-    trap 'rm -rf "${{tmp}}"' EXIT
+    {params.set_tmp}
 
     gatk SelectVariants \\
         -R {params.genome} \\
@@ -233,7 +230,7 @@ rule vardict_filter_single:
         ver_gatk = config['tools']['gatk4']['version'],
         ver_bcftools = config['tools']['bcftools']['version'],
         rname = 'vardict_filter', 
-        tmpdir = config['input_params']['tmpdisk']
+        set_tmp = set_tmp(),
     threads: 4
     envmodules:
         config['tools']['bcftools']['modname'],
@@ -244,8 +241,7 @@ rule vardict_filter_single:
     # Setups temporary directory for
     # intermediate files with built-in 
     # mechanism for deletion on exit
-    tmp=$(mktemp -d -p "{params.tmpdir}")
-    trap 'rm -rf "${{tmp}}"' EXIT
+    {params.set_tmp}
 
     gatk SelectVariants \\
         -R {params.genome} \\
@@ -312,7 +308,7 @@ rule varscan_filter_single:
         ver_varscan = config['tools']['varscan']['version'],
         ver_bcftools = config['tools']['bcftools']['version'],
         rname = 'varscan_filter',
-        tmpdir = config['input_params']['tmpdisk'],
+        set_tmp = set_tmp(),
     threads: 4
     envmodules:
         config['tools']['varscan']['modname'],
@@ -324,8 +320,7 @@ rule varscan_filter_single:
     # Setups temporary directory for
     # intermediate files with built-in 
     # mechanism for deletion on exit
-    tmp=$(mktemp -d -p "{params.tmpdir}")
-    trap 'rm -rf "${{tmp}}"' EXIT
+    {params.set_tmp}
 
     varscan filter \\
         {input.vcf} \\
