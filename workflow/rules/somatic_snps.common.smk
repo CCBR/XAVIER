@@ -74,7 +74,7 @@ rule mutect2_filter:
         ver_gatk = config['tools']['gatk4']['version'],
         ver_bcftools = config['tools']['bcftools']['version'],
         rname = 'mutect2_filter',
-        tmpdir = config['input_params']['tmpdisk'],
+        set_tmp = set_tmp(),
     threads: 2
     envmodules:
         config['tools']['gatk4']['modname'],
@@ -85,8 +85,7 @@ rule mutect2_filter:
     # Setups temporary directory for
     # intermediate files with built-in 
     # mechanism for deletion on exit
-    tmp=$(mktemp -d -p "{params.tmpdir}")
-    trap 'rm -rf "${{tmp}}"' EXIT
+    {params.set_tmp}
 
     statfiles="--stats $(echo "{input.statsfiles}" | sed -e 's/ / --stats /g')"
     
@@ -154,7 +153,7 @@ rule somatic_merge_callers:
         variantsargs = lambda w: [merge_callers_args[w.samples]],
         ver_gatk = config['tools']['gatk3']['version'],
         rname = 'MergeSomaticCallers',
-        tmpdir = config['input_params']['tmpdisk'],
+        set_tmp = set_tmp(),
     threads: 4
     envmodules:
         config['tools']['gatk3']['modname']
@@ -164,8 +163,7 @@ rule somatic_merge_callers:
     # Setups temporary directory for
     # intermediate files with built-in 
     # mechanism for deletion on exit
-    tmp=$(mktemp -d -p "{params.tmpdir}")
-    trap 'rm -rf "${{tmp}}"' EXIT
+    {params.set_tmp}
 
     if [ ! -d "$(dirname {output.mergedvcf})" ]; then
       mkdir -p "$(dirname {output.mergedvcf})"
