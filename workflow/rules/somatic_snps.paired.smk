@@ -409,7 +409,7 @@ rule varscan_paired:
         tumorsample = '{samples}',
         ver_varscan = config['tools']['varscan']['version'],
         rname = 'varscan',
-        tmpdir = set_tmp(),
+        set_tmp = set_tmp(),
     threads: 4
     envmodules:
         config['tools']['varscan']['modname'],

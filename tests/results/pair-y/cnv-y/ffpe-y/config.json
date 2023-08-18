@@ -1,0 +1,277 @@
+{
+    "available_somatic_callers": {
+        "paired": [
+            "mutect2",
+            "strelka",
+            "mutect",
+            "vardict",
+            "varscan"
+        ],
+        "tumor_only": [
+            "mutect2",
+            "mutect",
+            "vardict",
+            "varscan"
+        ]
+    },
+    "images": {
+        "fastq_screen": "docker://nciccbr/ccbr_fastq_screen_0.13.0:v2.0",
+        "fastqc": "docker://nciccbr/ccbr_fastqc_0.11.9:v1.1",
+        "fastqvalidator": "docker://nciccbr/ccbr_fastqvalidator:v0.1.0",
+        "kraken": "docker://nciccbr/ccbr_kraken_v2.1.1:v0.0.1",
+        "miniconda": "docker://continuumio/miniconda3:4.9.2",
+        "multiqc": "docker://nciccbr/ccbr_multiqc_1.9:v0.0.1",
+        "mutect": "docker://nciccbr/ccbr_mutect:v0.1.0",
+        "picard": "docker://nciccbr/ccbr_picard:v0.0.1",
+        "python": "docker://nciccbr/ccbr_python:v0.0.1",
+        "qualimap": "docker://nciccbr/ccbr_qualimap:v0.0.1",
+        "vcf2maf": "docker://dnousome/ccbr_vcf2maf:v102.0.0",
+        "wes_base": "docker://nciccbr/ccbr_wes_base:v0.1.0"
+    },
+    "input_params": {
+        "BAM_SOURCE": "",
+        "BASE_OUTDIR": "/vf/users/CCBR/projects/techDev/test_xavier/tests/results/pair-y/cnv-y/ffpe-y",
+        "CNV_CALLING": "true",
+        "EXOME_TARGETS": "/data/CCBR_Pipeliner/db/PipeDB/lib/Agilent_SSv7_allExons_hg38.bed",
+        "FASTQ_SOURCE": "",
+        "FFPE_FILTER": "true",
+        "GERMLINE": "false",
+        "OTHER_SOMATIC_VCFS": {},
+        "PAIRS_FILE": "/vf/users/CCBR/projects/techDev/test_xavier/tests/config/pairs.txt",
+        "TN_MODE": "auto",
+        "VARIANT_CALLERS": [
+            "mutect2",
+            "mutect",
+            "strelka",
+            "vardict",
+            "varscan"
+        ],
+        "create_nidap_folder": "no",
+        "genome": "",
+        "tmpdisk": "/lscratch/$SLURM_JOBID/"
+    },
+    "input_params_test": {
+        "BAM_SOURCE": "/data/tandonm/pl_test_data/human/bams",
+        "BASE_OUTDIR": "pipe_out_1",
+        "CNV_CALLING": "false",
+        "EXOME_TARGETS": "/data/CCBR_Pipeliner/db/PipeDB/lib/Agilent_SSv7_allExons_hg38.bed",
+        "FASTQ_SOURCE": "/data/tandonm/pl_test_data/human/fastq",
+        "FFPE_FILTER": "false",
+        "OTHER_SOMATIC_VCFS": {},
+        "PAIRS_FILE": "pairs.tsv",
+        "VARIANT_CALLERS": [
+            "mutect2",
+            "mutect",
+            "strelka",
+            "vardict",
+            "varscan"
+        ]
+    },
+    "not_used": {
+        "1000G": "/data/GRIS_NCBR/resources/ALL.GRCh38_sites.nuclear.20170504.vcf.gz",
+        "EXAC": "/data/GRIS_NCBR/resources/exacv1_grch38_release1_ExAC.r1.sites.liftover.GRCh38.vcf.gz",
+        "PATTERNS": "/data/GRIS_NCBR/resources/multiqc_config_file.yaml",
+        "REGIONS": "/data/GRIS_NCBR/resources/HG19_vcrome2.1_with_PKv1_and_PKv2_with_SNPtrace.bed",
+        "SMOOVEEXCLUSIONS": "/data/GRIS_NCBR/resources/hg38_smoove_exclusion.bed",
+        "SMOOVEGFF": "/data/GRIS_NCBR/resources/gencode.v33.annotation.gff3.gz"
+    },
+    "output_params": {
+        "BAM": "bams",
+        "FASTQ": "fastqs",
+        "GERMLINE_VCF": {
+            "GATK": "germline_joint_genotyping"
+        },
+        "MERGED_SOMATIC_OUTDIR": "merged_somatic_variants"
+    },
+    "project": {
+        "annotation": "hg38",
+        "datapath": "/vf/users/CCBR/projects/techDev/test_xavier/tests/data/subset_fastqs",
+        "filetype": "paired-end",
+        "git_commit_hash": "ea4659a930459094b559ae3b719f8f073e5815e4",
+        "id": "CCBR_XAVIER_Pipeline",
+        "nends": 2,
+        "pairs": "/vf/users/CCBR/projects/techDev/test_xavier/tests/config/pairs.txt",
+        "pfamily": "dnaseq",
+        "pipehome": "/vf/users/CCBR/projects/techDev/test_xavier",
+        "pipeline": "XAVIER",
+        "samples": {},
+        "userhome": "/home/sovacoolkl",
+        "username": "sovacoolkl",
+        "version": "v2.0",
+        "workpath": "/vf/users/CCBR/projects/techDev/test_xavier/tests/results/pair-y/cnv-y/ffpe-y"
+    },
+    "references": {
+        "ADMIXTUREKEY": "/data/CCBR_Pipeliner/Exome-seek/hg38/1k_genomes/1k_genomes_superpop_key.txt",
+        "ADMIXTUREREFS": "5",
+        "AXIOM": "/data/CCBR_Pipeliner/Exome-seek/hg38/GATK_resource_bundle/Axiom_Exome_Plus.genotypes.all_populations.poly.hg38.vcf.gz",
+        "BWAGENOME": "/data/CCBR_Pipeliner/Exome-seek/hg38/genome/Homo_sapiens_assembly38.fasta",
+        "CONTAMINATION": "/data/CCBR_Pipeliner/Exome-seek/hg38/GATK_resource_bundle/ExomeContam.hg38.vcf.gz",
+        "COSMIC": "/data/CCBR_Pipeliner/Exome-seek/hg38/COSMIC/COSMIC_82_hg38.vcf.gz",
+        "DBSNP": "/data/CCBR_Pipeliner/Exome-seek/hg38/GATK_resource_bundle/dbsnp_138.hg38.vcf.gz",
+        "DBSNP_COSMIC": "--cosmic /data/CCBR_Pipeliner/Exome-seek/hg38/COSMIC/COSMIC_82_hg38.vcf.gz --dbsnp /data/CCBR_Pipeliner/Exome-seek/hg38/GATK_resource_bundle/dbsnp_138.hg38.vcf.gz",
+        "FASTQ_SCREEN_CONFIG": "resources/fastq_screen.biowulf.conf",
+        "FREECCHROMS": "/data/CCBR_Pipeliner/Exome-seek/hg38/FREEC/Chromosomes",
+        "FREECLENGTHS": "/data/CCBR_Pipeliner/Exome-seek/hg38/FREEC/hg38.filtered.fa.fai",
+        "FREECPILEUP": "/data/CCBR_Pipeliner/Exome-seek/hg38/FREEC/dbsnp_146.hg38.SingleDiNucl.IDs.vcf",
+        "FREECSNPS": "/data/CCBR_Pipeliner/Exome-seek/hg38/FREEC/dbsnp_146.hg38.SingleDiNucl.IDs.vcf",
+        "GENOME": "/data/CCBR_Pipeliner/Exome-seek/hg38/genome/Homo_sapiens_assembly38.fasta",
+        "GENOMEDICT": "/data/CCBR_Pipeliner/Exome-seek/hg38/genome/Homo_sapiens_assembly38.dict",
+        "GERMLINERESOURCE": "--germline-resource /data/CCBR_Pipeliner/Exome-seek/hg38/GNOMAD/somatic-hg38-af-only-gnomad.hg38.vcf.gz",
+        "GNOMAD": "/data/CCBR_Pipeliner/Exome-seek/hg38/GNOMAD/somatic-hg38-af-only-gnomad.hg38.vcf.gz",
+        "HAPMAP": "/data/CCBR_Pipeliner/Exome-seek/hg38/GATK_resource_bundle/hapmap_3.3.hg38.vcf.gz",
+        "KNOWNANCESTRY": "/data/CCBR_Pipeliner/Exome-seek/hg38/1k_genomes/1k_genomes_phase3_autosomes.hg38.vcf.gz",
+        "KNOWNINDELS": "-known /data/CCBR_Pipeliner/Exome-seek/hg38/GATK_resource_bundle/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz -known /data/CCBR_Pipeliner/Exome-seek/hg38/GATK_resource_bundle/ALL.wgs.1000G_phase3.GRCh38.ncbi_remapper.20150424.shapeit2_indels.vcf.gz",
+        "KNOWNRECAL": "--known-sites /data/CCBR_Pipeliner/Exome-seek/hg38/GATK_resource_bundle/dbsnp_138.hg38.vcf.gz --known-sites /data/CCBR_Pipeliner/Exome-seek/hg38/GATK_resource_bundle/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz --known-sites /data/CCBR_Pipeliner/Exome-seek/hg38/GATK_resource_bundle/ALL.wgs.1000G_phase3.GRCh38.ncbi_remapper.20150424.shapeit2_indels.vcf.gz",
+        "KNOWNSNPS": "/data/CCBR_Pipeliner/Exome-seek/hg38/GATK_resource_bundle/1000G_phase1.snps.high_confidence.hg38.vcf.gz",
+        "KRAKENBACDB": "/data/CCBR_Pipeliner/Exome-seek/hg38/kraken/20180907_standard_kraken2",
+        "MAF_FILTERVCF": "/data/CCBR_Pipeliner/Exome-seek/hg38/VCF2MAF/ExAC_nonTCGA.r0.3.1.sites.vep.GRCh38.vcf.gz",
+        "MAF_GENOME": "hg38",
+        "MILLS": "/data/CCBR_Pipeliner/Exome-seek/hg38/GATK_resource_bundle/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz",
+        "OMNI": "/data/CCBR_Pipeliner/Exome-seek/hg38/GATK_resource_bundle/1000G_omni2.5.hg38.vcf.gz",
+        "PON": "/data/CCBR_Pipeliner/Exome-seek/hg38/PON/hg38.noCOSMIC_ClinVar.pon.vcf.gz",
+        "SEQUENZAGC": "/data/CCBR_Pipeliner/Exome-seek/hg38/SEQUENZA/hg38_gc50Base.txt.gz",
+        "SNPEFF_BUNDLE": "/data/CCBR_Pipeliner/Exome-seek/hg38/snpEff/4.3t/",
+        "SNPEFF_CONFIG": "/data/CCBR_Pipeliner/Exome-seek/hg38/snpEff/4.3t/snpEff.config",
+        "SNPEFF_GENOME": "GRCh38.86",
+        "SOMALIER": {
+            "ANCESTRY_DB": "/data/CCBR_Pipeliner/Exome-seek/hg38/somalier/1kg-somalier",
+            "MIN_CHROMS": 20,
+            "NCBI_BUILD": "GRCh38",
+            "SITES_VCF": "/data/CCBR_Pipeliner/Exome-seek/hg38/somalier/sites.hg38.vcf.gz",
+            "SPECIES": "homo_sapiens"
+        },
+        "VCF2MAF": {
+            "GENOME_BUILD": "GRCh38",
+            "SPECIES": "homo_sapiens",
+            "VEPRESOURCEBUNDLEPATH": "/fdb/VEP/102/cache"
+        },
+        "chroms": [
+            "chr22"
+        ],
+        "trimmomatic.adapters": "resources/adapters.fa"
+    },
+    "scripts": {
+        "ancestry": "workflow/scripts/RScripts/sampleCompareAncestoryPlots.R",
+        "combineSamples": "workflow/scripts/RScripts/combineAllSampleCompareResults.R",
+        "correct_target_bed": "workflow/scripts/correct_target_bed.py",
+        "freec_p1_config": "workflow/scripts/make_freec_pass1_exome_tn_config.pl",
+        "freec_p2_config": "workflow/scripts/make_freec_pass2_exome_tn_config.pl",
+        "freec_plot": "workflow/scripts/makeGraph.R",
+        "freec_significance": "workflow/scripts/assess_significance.R",
+        "genderPrediction": "workflow/scripts/RScripts/predictGender.R",
+        "reformat_bed": "workflow/scripts/reformat_bed.py",
+        "run_sequenza": "workflow/scripts/run_sequenza.R",
+        "vcf2maf_wrapper": "workflow/scripts/vcf2maf_wrapper.bash"
+    },
+    "tools": {
+        "Control-FREEC": {
+            "modname": "freec/11.6",
+            "version": "11.6"
+        },
+        "R": {
+            "modname": "R/4.3.0",
+            "version": "4.3.0"
+        },
+        "bcftools": {
+            "modname": "bcftools/1.17",
+            "version": "1.17"
+        },
+        "bedtools": {
+            "modname": "bedtools/2.30.0",
+            "version": "2.30.0"
+        },
+        "bwa": {
+            "modname": "bwa/0.7.17",
+            "version": "0.7.17"
+        },
+        "fastq_screen": {
+            "modname": "fastq_screen/0.15.3",
+            "version": "0.15.3"
+        },
+        "fastqc": {
+            "modname": "fastqc/0.11.9",
+            "version": "0.11.9"
+        },
+        "freec": {
+            "modname": "freec/11.6",
+            "version": "11.6"
+        },
+        "gatk3": {
+            "modname": "GATK/3.8-1",
+            "version": "3.8-1"
+        },
+        "gatk4": {
+            "modname": "GATK/4.4.0.0",
+            "version": "4.4.0.0"
+        },
+        "java": {
+            "modname": "java/18.0.1.1",
+            "version": "18.0.1.1"
+        },
+        "kraken": {
+            "modname": "kraken/2.1.2",
+            "version": "2.1.2"
+        },
+        "kronatools": {
+            "modname": "kronatools/2.8.1",
+            "version": "2.8.1"
+        },
+        "multiqc": {
+            "modname": "multiqc/1.14",
+            "version": "1.14"
+        },
+        "mutect": {
+            "modname": "muTect/1.1.7",
+            "version": "1.1.7"
+        },
+        "picard": {
+            "modname": "picard/2.27.3",
+            "version": "2.27.3"
+        },
+        "python": {
+            "modname": "python/2.7",
+            "version": "2.7"
+        },
+        "python3": {
+            "modname": "python/3.10",
+            "version": "3.10"
+        },
+        "qualimap": {
+            "modname": "qualimap/2.2.1",
+            "version": "2.2.1"
+        },
+        "samblaster": {
+            "modname": "samblaster/0.1.26",
+            "version": "0.1.26"
+        },
+        "samtools": {
+            "modname": "samtools/1.17",
+            "version": "1.17"
+        },
+        "sequenza-utils": {
+            "modname": "bedtools/2.30.0",
+            "version": "3.0.0"
+        },
+        "snpEff": {
+            "modname": "snpEff/5.1d",
+            "version": "5.1d"
+        },
+        "strelka": {
+            "modname": "strelka/2.9.10",
+            "version": "2.9.10"
+        },
+        "trimmomatic": {
+            "modname": "trimmomatic/0.39",
+            "version": "0.39"
+        },
+        "varscan": {
+            "filter_settings": "--strand-filter 1 --min-reads2 5 --min-strands2 2 --min-var-freq 0.05 --p-value 0.01 --min-avg-qual 30",
+            "modname": "varscan/2.4.6",
+            "version": "2.4.6"
+        },
+        "vcftools": {
+            "modname": "vcftools/0.1.16",
+            "version": "0.1.16"
+        }
+    }
+}
