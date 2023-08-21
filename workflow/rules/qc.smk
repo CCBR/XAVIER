@@ -94,7 +94,7 @@ rule kraken:
         rname  ='kraken',
         outdir = os.path.join(output_qcdir, "kraken"),
         bacdb  = config['references']['KRAKENBACDB'],
-        localdisk = config['input_params']['tmpdisk']
+        set_tmp = set_tmp()
     envmodules:
         config['tools']['kraken']['modname'],
         config['tools']['kronatools']['modname']
@@ -104,8 +104,7 @@ rule kraken:
     # Setups temporary directory for
     # intermediate files with built-in 
     # mechanism for deletion on exit
-    tmp=$(mktemp -d -p "{params.localdisk}")
-    trap 'rm -rf "${{tmp}}"' EXIT
+    {params.set_tmp}
 
     # Copy kraken2 db to local node storage to reduce filesystem strain
     cp -rv {params.bacdb} ${{tmp}}
