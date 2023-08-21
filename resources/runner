@@ -222,8 +222,10 @@ function submit(){
           #fi
           if [[ "$HOSTNAME" == "biowulf.nih.gov" ]];then
             CLUSTER_OPTS="${CLUSTER_OPTS} --gres {cluster.gres}"
+          elif [[ "$HOSTNAME" == cn[0-9][0-9][0-9][0-9] ]];then
+            CLUSTER_OPTS="${CLUSTER_OPTS} --gres {cluster.gres}"
           fi
-          # Create sbacth script to build index
+          # Create sbatch script to build index
     cat << EOF > kickoff.sh
 #!/usr/bin/env bash
 #SBATCH --cpus-per-task=32 
@@ -241,6 +243,7 @@ snakemake --latency-wait 120 -s "$3/workflow/Snakefile" -d "$3" \\
   --use-singularity --singularity-args "'-B $4'" --configfile="$3/config.json" \\
   --printshellcmds --cluster-config "$3/cluster.json" \\
   --cluster "${CLUSTER_OPTS}" --keep-going --restart-times 3 -j 500 \\
+  --rerun-triggers mtime \\
   --rerun-incomplete --stats "$3/logfiles/runtime_statistics.json" \\
   --keep-remote --local-cores 30 2>&1
 EOF
