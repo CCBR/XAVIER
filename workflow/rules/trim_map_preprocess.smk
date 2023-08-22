@@ -22,7 +22,7 @@ rule bam2fastq:
         genome = config['references']['GENOME'],
         ver_gatk = config['tools']['gatk4']['version'],
         rname = 'bam2fastq',
-        tmpdir = config['input_params']['tmpdisk'],
+        set_tmp = set_tmp()
     envmodules:
         config['tools']['gatk4']['modname']
     container:
@@ -31,8 +31,7 @@ rule bam2fastq:
     # Setups temporary directory for
     # intermediate files with built-in 
     # mechanism for deletion on exit
-    tmp=$(mktemp -d -p "{params.tmpdir}")
-    trap 'rm -rf "${{tmp}}"' EXIT
+    {params.set_tmp}
 
     mkdir -p fastqs
     gatk SamToFastq \\
