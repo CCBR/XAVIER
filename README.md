@@ -24,8 +24,8 @@ For more information about issues or trouble-shooting a problem, please checkout
 
 [Snakemake](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) and [singularity](https://singularity.lbl.gov/all-releases) must be installed on the target system. Snakemake orchestrates the execution of each step in the pipeline. To guarantee the highest level of reproducibility, each step relies on versioned images from [DockerHub](https://hub.docker.com/orgs/nciccbr/repositories). Snakemake uses singaularity to pull these images onto the local filesystem prior to job execution, and as so, snakemake and singularity are the only two dependencies.
 
-### Run XAVIER pipeline
-#### Biowulf
+## Run XAVIER pipeline
+### Biowulf
 ```bash
 # XAVIER is configured to use different execution backends: local or slurm
 # view the help page for more information
@@ -65,7 +65,7 @@ xavier run \
 --runmode run 
 ```
 
-#### FRCE
+### FRCE
 ```bash
 # grab an interactive node
 srun --export all --pty --x11 bash
