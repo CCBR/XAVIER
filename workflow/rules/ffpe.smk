@@ -215,6 +215,7 @@ rule ffpefilter_mafs:
     input:
         filtered_vcf = os.path.join(SOBDetector_out, "{vc_outdir}", "pass2", "{samples}.artifact_filtered.vcf.gz")
     output:
+        filtered_vcf = os.path.join(output_somatic_base, SOBDetector_out, "{vc_outdir}", "vcf", "{samples}.temp.vcf"),
         maf = os.path.join(output_somatic_base, SOBDetector_out, "{vc_outdir}", "maf", "{samples}.maf")
     params:
         tumorsample = '{samples}',
@@ -222,23 +223,32 @@ rule ffpefilter_mafs:
         build= config['references']['VCF2MAF']['GENOME_BUILD'],
         filtervcf = config['references']['MAF_FILTERVCF'],
         bundle = config['references']['VCF2MAF']['VEPRESOURCEBUNDLEPATH'],
+        species = config['references']['VCF2MAF']['SPECIES'],
         rname = 'vcf2maf',
         vcf2maf_script = VCF2MAF_WRAPPER
     threads: 4
     container:
         config['images']['vcf2maf'] 
     shell: """
-    echo "Converting to MAF..."
-    bash {params.vcf2maf_script} \\
-        --vcf {input.filtered_vcf} \\
-        --maf {output.maf} \\
-        --tid {params.tumorsample} \\
-        --genomebuild {params.build} \\
-        --genomefasta {params.genome} \\
-        --threads {threads} \\
-        --vepresourcebundlepath {params.bundle} \\
-        --info "set"
-    echo "Done converting to MAF..."
+    filetype=$(file -b --mime-type {input.filtered_vcf})
+    if [ $filetype == "application/gzip" ] ; then
+        zcat {input.filtered_vcf} > {output.filtered_vcf}
+    else 
+        {input.filtered_vcf} > {output.filtered_vcf}
+    fi
+
+    vcf2maf.pl \\
+        --input-vcf {output.filtered_vcf} \\
+        --output-maf {output.maf} \\
+        --tumor-id {params.tumorsample} \\
+        --vep-path /opt/vep/src/ensembl-vep \\
+        --vep-data {params.bundle} \\
+        --ncbi-build {params.build} \\
+        --species {params.species} \\
+        --vep-forks {threads} \\
+        --ref-fasta {params.genome} \\
+        --vep-overwrite
+
     """
 
 

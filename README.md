@@ -24,13 +24,57 @@ For more information about issues or trouble-shooting a problem, please checkout
 
 [Snakemake](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) and [singularity](https://singularity.lbl.gov/all-releases) must be installed on the target system. Snakemake orchestrates the execution of each step in the pipeline. To guarantee the highest level of reproducibility, each step relies on versioned images from [DockerHub](https://hub.docker.com/orgs/nciccbr/repositories). Snakemake uses singaularity to pull these images onto the local filesystem prior to job execution, and as so, snakemake and singularity are the only two dependencies.
 
-## Installation
-Please clone this repository to your local filesystem using the following command:
+## Run XAVIER pipeline
+### Biowulf
 ```bash
-# Clone Repository from Github
-git clone https://github.com/CCBR/XAVIER.git
-# Change your working directory
-cd XAVIER/
+# XAVIER is configured to use different execution backends: local or slurm
+# view the help page for more information
+module load ccbrpipeliner
+xavier run --help
+
+# @slurm: uses slurm and singularity execution method
+# The slurm MODE will submit jobs to the cluster.
+# It is recommended running XAVIER in this mode.
+
+# Please note that you can dry-run the command below
+# by providing  --runmode dryrun flag
+
+# Do not run this on the head node!
+# Grab an interactive node
+sinteractive --mem=110g --cpus-per-task=12 --gres=lscratch:200
+module load ccbrpipeliner
+
+# First, initialize the output directory
+xavier run \
+--input data/*.R?.fastq.gz \
+--output /data/$USER/xavier_hg38 \
+--genome hg38 \
+--pairs pairs.txt \
+--targets Targets_hg38.bed \
+--mode slurm \
+--runmode init 
+
+# Then do a complete run
+xavier run \
+--input data/*.R?.fastq.gz \
+--output /data/$USER/xavier_hg38 \
+--genome hg38 \
+--pairs pairs.txt \
+--targets Targets_hg38.bed \
+--mode slurm \
+--runmode run 
+```
+
+### FRCE
+```bash
+# grab an interactive node
+srun --export all --pty --x11 bash
+
+# add renee to path correctly
+. /mnt/projects/CCBR-Pipelines/pipelines/guis/latest/bin/setup
+
+# run renee
+xavier --help
 ```
 
 ## Contribute 
