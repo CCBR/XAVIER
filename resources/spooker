@@ -7,11 +7,13 @@
 #
 
 set -o pipefail
+# current working dir for the output
 PIPELINE_OUTDIR=$1
 
-if [[ "$HOSTNAME" == "fsitgl-head01p.ncifcrf.gov" || "$HOSTNAME" == "biowulf.nih.gov" ]]; then # only run on biowulf or frce
+# check if you are on biowulf or frce
+if [[ "$HOSTNAME" == "fsitgl-head01p.ncifcrf.gov" || "$HOSTNAME" == "biowulf.nih.gov" || "$SLURM_SUBMIT_HOST" == "biowulf.nih.gov" || "$SLURM_SUBMIT_HOST" == "fsitgl-head01p.ncifcrf.gov" ]]; then
 
-    if [[ "$HOSTNAME" == "biowulf.nih.gov" ]];then
+    if [[ "$HOSTNAME" == "biowulf.nih.gov" || "$SLURM_SUBMIT_HOST" == "biowulf.nih.gov" ]];then
         SPOOK=$(type -P spook)
         if [[ "$SPOOK" == "" ]];then
             echo "spook is not in PATH."
@@ -26,7 +28,7 @@ if [[ "$HOSTNAME" == "fsitgl-head01p.ncifcrf.gov" || "$HOSTNAME" == "biowulf.nih
         fi
         SPOOK_COPY2DIR="/scratch/ccbrpipeliner"
     fi
-    if [[  "$HOSTNAME" == "fsitgl-head01p.ncifcrf.gov" ]];then
+    if [[  "$HOSTNAME" == "fsitgl-head01p.ncifcrf.gov" || "$SLURM_SUBMIT_HOST" == "fsitgl-head01p.ncifcrf.gov" ]];then
         SPOOK_COPY2DIR="/mnt/projects/CCBR-Pipelines/pipelines/userdata/ccbrpipeliner"
     fi
 
@@ -46,8 +48,8 @@ if [[ "$HOSTNAME" == "fsitgl-head01p.ncifcrf.gov" || "$HOSTNAME" == "biowulf.nih
         echo "USER:$USER" >> $treefile
         #GROUPS=$(groups 2>/dev/null)
         echo "GROUPS:" $(groups) >> $treefile
-        RENEE=$(which renee)
-        echo "RENEE:$RENEE" >> $treefile
+        XAVIER=which xavier)
+        echo "XAVIER:$XAVIER" >> $treefile
         echo "DATE:$DT" >> $treefile
         tree $PIPELINE_OUTDIR >> $treefile
         cmd="$cmd $treefile"
