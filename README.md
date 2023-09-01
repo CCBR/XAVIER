@@ -70,10 +70,10 @@ xavier run \
 # grab an interactive node
 srun --export all --pty --x11 bash
 
-# add renee to path correctly
+# add xavier to path correctly
 . /mnt/projects/CCBR-Pipelines/pipelines/guis/latest/bin/setup
 
-# run renee
+# run xavier
 xavier --help
 ```
 
