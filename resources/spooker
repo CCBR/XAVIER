@@ -48,7 +48,7 @@ if [[ "$HOSTNAME" == "fsitgl-head01p.ncifcrf.gov" || "$HOSTNAME" == "biowulf.nih
         echo "USER:$USER" >> $treefile
         #GROUPS=$(groups 2>/dev/null)
         echo "GROUPS:" $(groups) >> $treefile
-        XAVIER=which xavier)
+        XAVIER=$(which xavier)
         echo "XAVIER:$XAVIER" >> $treefile
         echo "DATE:$DT" >> $treefile
         tree $PIPELINE_OUTDIR >> $treefile
