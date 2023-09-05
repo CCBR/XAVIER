@@ -15,8 +15,6 @@ env:
 
 jobs:
   sync:
-    # only run this action from the forked repo
-    if: ${{ github.repository_owner == $FORK_OWNER }}
     runs-on: ubuntu-latest
     steps:
       - name: get repo name
@@ -24,5 +22,7 @@ jobs:
         run: |
             echo "REPO=$(basename ${{ github.repository }})" >> $GITHUB_ENV
       - name: sync fork
+        # only run this action from the forked repo
+        if: ${{ github.repository_owner == env.FORK_OWNER }}
         run: |
           gh repo sync ${{ github.repository }} --source $UPSTREAM_OWNER/$REPO --force
