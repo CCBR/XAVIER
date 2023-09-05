@@ -1,0 +1,21 @@
+name: Sync Fork
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # once every day
+  workflow_dispatch: # on button click
+  push:
+    paths:
+      - .github/workflows/sync-fork.yml
+
+env:
+  REPO: ${{ github.event.repository.name }}
+  GH_TOKEN: ${{ github.token }}
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: sync fork
+        run: |
+          gh repo sync NCIPangea/$REPO --source CCBR/$REPO --force
