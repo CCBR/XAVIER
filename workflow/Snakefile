@@ -8,6 +8,7 @@ import re
 import sys
 import glob
 import datetime
+import uuid
 
 ## FROM: https://github.com/skchronicles/RNA-seek/blob/main/rna-seek
 def rename(filename):
@@ -381,6 +382,25 @@ if 'CNV_CALLING' in config['input_params']:
             config['input_params']['PAIRS_FILE'] != "None"):
                 cnv_sample_list=pairs_ids
 
+# handle different temp dir locations depending on platform
+user_tmpdisk = config['input_params']['tmpdisk']
+def set_tmp():
+    shell = r"""
+if [ ! -z {user_tmpdisk} ] && [ -d {user_tmpdisk} ]; then
+    echo "Using user-provided tmpdisk"
+    tmpdisk={user_tmpdisk}
+elif [ ! -z ${{SLURM_JOBID:-}} ] && [ -d /lscratch/$SLURM_JOBID ]; then
+    tmpdisk=/lscratch/$SLURM_JOBID
+else
+    tmpdisk=/dev/shm
+fi
+tmp=$tmpdisk/{random_str}
+mkdir -p $tmp
+trap 'rm -rf "$tmp"' EXIT
+"""
+    return shell.format(user_tmpdisk=user_tmpdisk, random_str = str(uuid.uuid4()))
+
+
 #### July 28, 2021
 ## When I tried to run large data set through this pipeline (224 samples from CCLE),
 ## I was contacted by Biowulf staff pointing out that I was running too many short jobs.
@@ -482,11 +502,13 @@ onsuccess:
     #subprocess.run(shlex.split(jobby_cmd),capture_output=False,shell=False,text=True)
     print(jobby_cmd)
     shell(jobby_cmd)
+    print(spook_cmd)
     shell(spook_cmd)
 
 onerror:
     #subprocess.run(shlex.split(jobby_cmd),capture_output=False,shell=False,text=True)
     print(jobby_cmd)
     shell(jobby_cmd)
+    print(spook_cmd)
     shell(spook_cmd)
     

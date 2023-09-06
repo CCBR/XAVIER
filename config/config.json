@@ -11,7 +11,7 @@
       "GERMLINE": "false",
       "FFPE_FILTER": "false",
       "CNV_CALLING": "false",
-      "tmpdisk": "/lscratch/$SLURM_JOBID/",
+      "tmpdisk": "",
       "genome": ""
     },
     "input_params_test": {

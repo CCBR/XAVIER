@@ -1,49 +1,9 @@
-# CCBR XAVIER Pipeline
-***XAVIER: eXome Analysis and Variant explorER***
+# Version changes:
 
+## v3.0
 
-**Before**:
-```
-CCBR_GATK4_Exome_Seq_Pipeline/
-├── config
-│   ├── cluster.json
-│   ├── config.json
-│   └── pairs.mixed.tsv
-├── pipeline
-│   └── run.sh
-├── README.md
-├── resources
-│   └── fastq_screen.conf
-└── workflow
-    ├── rules
-    │   ├── cnv.smk
-    │   ├── ffpe.smk
-    │   ├── germline.smk
-    │   ├── qc.smk
-    │   ├── somatic_snps.common.smk
-    │   ├── somatic_snps.paired.smk
-    │   ├── somatic_snps.tumor_only.smk
-    │   └── trim_map_preprocess.smk
-    ├── scripts
-    │   ├── freec
-    │   │   ├── make_freec_config.py
-    │   │   └── py_config
-    │   │       └── config.txt
-    │   ├── get_flowcell_lanes.py
-    │   ├── parse_tn_mode.py
-    │   ├── reformat_bed.py
-    │   └── RScripts
-    │       ├── combineAllSampleCompareResults.R
-    │       ├── combineVerifyBAMIDResults.R
-    │       ├── predictGender.R
-    │       └── sampleCompareAncestoryPlots.R
-    └── Snakefile
-
-9 directories, 24 files
-```
-
-**After**:
-```
-
-```
-
+- added [FRCE](https://ncifrederick.cancer.gov/staff/frce/welcome) support.
+- adding `$triggeroptions` to _snakemake_ cli.
+- using `SLURM_SUBMIT_HOST` as a secondary environmental variable to extract cluster name information on compute nodes.
+- `func set_tmp()` added to repeat `tmpdir` assignments accross multiple rules.
+- `vcf2maf` fix applied. 
