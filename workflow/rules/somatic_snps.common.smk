@@ -116,7 +116,6 @@ rule mutect2_filter:
         | sed '/^$/d' > {output.norm}
     """
            
-localrules: somatic_merge_chrom           
 rule somatic_merge_chrom:
     input:
         vcf = expand(os.path.join(output_somatic_snpindels, "{{vc_out}}", "chrom_split", "{{samples}}.{chroms}.vcf"), chroms=chroms),
