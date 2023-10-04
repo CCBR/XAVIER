@@ -134,7 +134,7 @@ rule somatic_merge_chrom:
     shell: """
     input_str="-I $(echo "{input.vcf}" | sed -e 's/ / -I /g')"
 
-    gatk --java-options "-Xmx30g" MergeVcfs \\
+    gatk --java-options "-Xmx60g" MergeVcfs \\
         -O "{output.vcf}" \\
         -D {params.genomedict} \\
         $input_str
