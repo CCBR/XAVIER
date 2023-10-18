@@ -213,8 +213,9 @@ rule somatic_mafs:
         --species {params.species} \\
         --vep-forks {threads} \\
         --ref-fasta {params.genome} \\
+        --retain-info "set" \\
         --vep-overwrite
-
+        
     """
 
 
