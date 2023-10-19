@@ -174,17 +174,20 @@ def setup(sub_args, repo_path, output_path, create_nidap_folder_YN = 'no',links=
     ifiles = sym_safe(input_data = links, target = output_path)
     mixed_inputs(ifiles)
 
-    hostname = os.getenv("HOSTNAME")
-    slurmsubmithost = os.getenv("SLURM_SUBMIT_HOST")
-    if hostname == "fsitgl-head01p.ncifcrf.gov" or slurmsubmithost == "fsitgl-head01p.ncifcrf.gov" :
-        shorthostname = "frce"
-    elif hostname == "biowulf.nih.gov" or slurmsubmithost == "biowulf.nih.gov":
+    hpcget = subprocess.run(
+        "scontrol show config", shell=True, capture_output=True, text=True
+    )
+    hpcname = ""
+
+    if "biowulf" in hpcget.stdout:
         shorthostname = "biowulf"
-    #elif re.match("cn[0-9][0-9][0-9][0-9]",hostname):
-    #    shorthostname = "biowulf"
+        print("Thank you for running XAVIER on Biowulf")
+    elif "fsitgl" in hpcget.stdout:
+        shorthostname = "frce"
+        print("Thank you for running XAVIER on FRCE")
     else:
         shorthostname = "biowulf"
-        print("%s unknown host. Configuration files for references may not be correct. Defaulting to Biowulf config"%(hostname))
+        print("%s unknown host. Configuration files for references may not be correct. Defaulting to Biowulf config"%(hpcget))
 
     genome_config = os.path.join(repo_path,'config','genomes', sub_args.genome + '.' + shorthostname + '.json')
     
