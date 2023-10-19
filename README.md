@@ -54,6 +54,16 @@ xavier run \
 --mode slurm \
 --runmode init 
 
+# Second, do a dry run to visualize outputs
+xavier run \
+--input data/*.R?.fastq.gz \
+--output /data/$USER/xavier_hg38 \
+--genome hg38 \
+--pairs pairs.txt \
+--targets Targets_hg38.bed \
+--mode slurm \
+--runmode dryrun 
+
 # Then do a complete run
 xavier run \
 --input data/*.R?.fastq.gz \
