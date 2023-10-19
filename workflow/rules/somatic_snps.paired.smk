@@ -162,7 +162,7 @@ rule strelka:
     """
 
 
-checkpoint strelka_filter:
+rule strelka_filter:
     input:
         vcf = os.path.join(output_somatic_snpindels, "strelka_out", "vcf", "{samples}.collected.vcf"),
     output:
@@ -258,7 +258,7 @@ rule mutect_paired:
     """
 
 
-checkpoint mutect_filter:
+rule mutect_filter:
     input:
         vcf = os.path.join(output_somatic_snpindels, "mutect_out", "vcf", "{samples}.collected.vcf"),
     output:
@@ -343,7 +343,7 @@ rule vardict_paired:
     """
 
 
-checkpoint vardict_filter:
+rule vardict_filter:
     input:
         vcf = os.path.join(output_somatic_snpindels, "vardict_out", "vcf", "{samples}.collected.vcf"),
     output:
@@ -450,7 +450,7 @@ rule varscan_paired:
     """
 
 
-checkpoint varscan_filter:
+rule varscan_filter:
     input:
         vcf = os.path.join(output_somatic_snpindels, "varscan_out", "vcf", "{samples}.collected.vcf"),
     output:

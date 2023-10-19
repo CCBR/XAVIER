@@ -116,7 +116,7 @@ rule mutect2_filter:
         | sed '/^$/d' > {output.norm}
     """
            
-checkpoint somatic_merge_chrom:
+rule somatic_merge_chrom:
     input:
         vcf = expand(os.path.join(output_somatic_snpindels, "{{vc_out}}", "chrom_split", "{{samples}}.{chroms}.vcf"), chroms=chroms),
     output:
@@ -141,7 +141,7 @@ checkpoint somatic_merge_chrom:
     """
 
 
-checkpoint somatic_merge_callers:
+rule somatic_merge_callers:
     input:
         vcf = expand(os.path.join(output_somatic_snpindels, "{vc_outdir}_out", "vcf", "{{samples}}.FINAL.norm.vcf"), vc_outdir=caller_list)
     output: 
@@ -182,7 +182,7 @@ checkpoint somatic_merge_callers:
     """
 
 
-checkpoint somatic_mafs:
+rule somatic_mafs:
     input:
         filtered_vcf = os.path.join(output_somatic_snpindels, "{vc_outdir}", "vcf", "{samples}.FINAL.norm.vcf")
     output:
@@ -219,7 +219,7 @@ checkpoint somatic_mafs:
 
 
 localrules: collect_cohort_mafs
-checkpoint collect_cohort_mafs:
+rule collect_cohort_mafs:
     input: 
         mafs = expand(os.path.join(output_somatic_snpindels, "{{vc_outdir}}", "maf", "{samples}"+".maf"), samples=samples_for_caller_merge)
     output: 

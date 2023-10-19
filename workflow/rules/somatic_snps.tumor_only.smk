@@ -131,7 +131,7 @@ rule mutect_single:
     """
             
 
-checkpoint mutect_filter_single:
+rule mutect_filter_single:
     input:
         vcf = os.path.join(output_somatic_snpindels, "mutect_out", "vcf", "{samples}.collected.vcf"),
     output:
@@ -216,7 +216,7 @@ rule vardict_single:
     """
 
 
-checkpoint vardict_filter_single:
+rule vardict_filter_single:
     input: 
         vcf = os.path.join(output_somatic_snpindels, "vardict_out", "vcf", "{samples}.collected.vcf"),
     output:
@@ -289,7 +289,7 @@ rule varscan_single:
     """
 
 
-checkpoint varscan_filter_single:
+rule varscan_filter_single:
     input:
         vcf = os.path.join(output_somatic_snpindels, "varscan_out", "vcf", "{samples}.collected.vcf"),
     output:

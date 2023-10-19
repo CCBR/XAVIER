@@ -487,7 +487,7 @@ if config['project']['annotation']=='hg38':
 
 
 
-    checkpoint multiqc:
+    rule multiqc:
         """
         Reporting step to aggregate sample summary statistics and quality-control
         information across all samples. This will be one of the last steps of the 
@@ -603,7 +603,7 @@ if config['project']['annotation']=='mm10':
         
         """
 
-    checkpoint multiqc:
+    rule multiqc:
         """
         Reporting step to aggregate sample summary statistics and quality-control
         information across all samples. This will be one of the last steps of the 
