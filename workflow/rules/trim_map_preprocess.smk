@@ -203,7 +203,7 @@ rule gatk_recal:
     """
 
 
-rule bam_check:
+checkpoint bam_check:
     """
     This is a checkpoint to make sure BAMs are ready for variant calling.
     The read group (RG) tags are checked to make sure they match the sample ID
