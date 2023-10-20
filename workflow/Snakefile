@@ -361,7 +361,7 @@ if (len(caller_list) >= 1):
     samples_for_caller_merge=pairs_ids
     somatic_callers_dirs=list(somatic_callers_dirs + [merge_outdir])
 
-VCF2MAF_WRAPPER=config['scripts']['vcf2maf_wrapper']
+#VCF2MAF_WRAPPER=config['scripts']['vcf2maf_wrapper']
 SOBDetector_out=os.path.join(output_somatic_base,"ffpe_filter","sobdetector")
 SOBDetector_JARFILE=os.path.join(SOBDetector_out, "jarfile","SOBDetector_v1.0.2.jar")
 
@@ -477,13 +477,6 @@ if 'CNV_CALLING' in config['input_params']:
 if 'FFPE_FILTER' in config['input_params']:
     if config['input_params']['FFPE_FILTER'].lower() in ['true','t','yes']:
         include: "rules/ffpe.smk"
-
-if config['project']['annotation']=='mm10':
-    include: "rules/qc_mm10.smk"
-elif config['project']['annotation']=='hg38':
-    include: "rules/qc_human.smk"
-elif config['project']['annotation']=='hg19':
-    include: 'rules/qc_human.smk'
 
 if tn_mode=="paired":
     include: "rules/somatic_snps.paired.smk"

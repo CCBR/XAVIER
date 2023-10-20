@@ -194,6 +194,7 @@ function submit(){
           # Create directory for logfiles
           mkdir -p "$3"/logfiles/slurmfiles/
           CLUSTER_OPTS="sbatch --cpus-per-task {cluster.threads} -p {cluster.partition} -t {cluster.time} --mem {cluster.mem} --job-name {cluster.name} --output {cluster.output} --error {cluster.error}"
+          snakemakeVer=$(snakemake --version 2>/dev/null)
           # Submit the master job to the cluster
           # sbatch --parsable -J {jobname} --time=5-00:00:00 --mail-type=BEGIN,END,FAIL 
           # --cpus-per-task=24 --mem=96g --gres=lscratch:500 
@@ -220,6 +221,12 @@ function submit(){
           #if [[ ${6#\'} != /lscratch* ]]; then
           #  CLUSTER_OPTS="sbatch --cpus-per-task {cluster.threads} -p {cluster.partition} -t {cluster.time} --mem {cluster.mem} --job-name={params.rname} -e $SLURM_DIR/slurm-%j_{params.rname}.out -o $SLURM_DIR/slurm-%j_{params.rname}.out"
           #fi
+          verlte() {
+        [  "$1" = "`echo -e "$1\n$2" | sort -V | head -n1`" ]
+          }
+          verlt() {
+        [ "$1" = "$2" ] && return 1 || verlte $1 $2
+          }
           snakemakeOld=$(verlt $snakemakeVer 7.8 && echo "yes" || echo "no") # check if snakemake is older than 7.8
           if [ "$snakemakeOld" == "no" ];then
             triggeroptions="--rerun-triggers mtime"

@@ -11,9 +11,11 @@ set -o pipefail
 PIPELINE_OUTDIR=$1
 
 # check if you are on biowulf or frce
-if [[ "$HOSTNAME" == "fsitgl-head01p.ncifcrf.gov" || "$HOSTNAME" == "biowulf.nih.gov" || "$SLURM_SUBMIT_HOST" == "biowulf.nih.gov" || "$SLURM_SUBMIT_HOST" == "fsitgl-head01p.ncifcrf.gov" ]]; then
+nbiowulf=$(scontrol show config | grep -i -c biowulf)
+nfrce=$(scontrol show config | grep -i -c fsitgl)
 
-    if [[ "$HOSTNAME" == "biowulf.nih.gov" || "$SLURM_SUBMIT_HOST" == "biowulf.nih.gov" ]];then
+if [[ "$nbiowulf" > 0  ||  "$nfrce" > 0 ]]; then
+    if [[ "$nbiowulf" > 0 ]]; then
         SPOOK=$(type -P spook)
         if [[ "$SPOOK" == "" ]];then
             echo "spook is not in PATH."
@@ -28,7 +30,7 @@ if [[ "$HOSTNAME" == "fsitgl-head01p.ncifcrf.gov" || "$HOSTNAME" == "biowulf.nih
         fi
         SPOOK_COPY2DIR="/scratch/ccbrpipeliner"
     fi
-    if [[  "$HOSTNAME" == "fsitgl-head01p.ncifcrf.gov" || "$SLURM_SUBMIT_HOST" == "fsitgl-head01p.ncifcrf.gov" ]];then
+    if [[ "$nfrce" > 0 ]]; then
         SPOOK_COPY2DIR="/mnt/projects/CCBR-Pipelines/pipelines/userdata/ccbrpipeliner"
     fi
 
@@ -71,12 +73,12 @@ if [[ "$HOSTNAME" == "fsitgl-head01p.ncifcrf.gov" || "$HOSTNAME" == "biowulf.nih
         # copy over the archive to secrete location and delete it
         if [ -f "${archivefile}" ];then
             gzip -f $archivefile
-            if [[ "$HOSTNAME" == "biowulf.nih.gov" ]];then
+            if [[ "$nbiowulf" > 0 ]];then
                 cmd="$SPOOK -f ${archivefile}.gz -d $SPOOK_COPY2DIR"
                 echo $cmd
                 $cmd
             fi
-            if [[ "$HOSTNAME" == "fsitgl-head01p.ncifcrf.gov" ]];then
+            if [[ "$nfrce" > 0 ]];then
                 cmd="cp -rv ${archivefile}.gz $SPOOK_COPY2DIR"
                 echo $cmd
                 $cmd

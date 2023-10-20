@@ -116,7 +116,6 @@ rule mutect2_filter:
         | sed '/^$/d' > {output.norm}
     """
            
-localrules: somatic_merge_chrom           
 rule somatic_merge_chrom:
     input:
         vcf = expand(os.path.join(output_somatic_snpindels, "{{vc_out}}", "chrom_split", "{{samples}}.{chroms}.vcf"), chroms=chroms),
@@ -135,7 +134,7 @@ rule somatic_merge_chrom:
     shell: """
     input_str="-I $(echo "{input.vcf}" | sed -e 's/ / -I /g')"
 
-    gatk --java-options "-Xmx30g" MergeVcfs \\
+    gatk --java-options "-Xmx60g" MergeVcfs \\
         -O "{output.vcf}" \\
         -D {params.genomedict} \\
         $input_str
@@ -195,7 +194,6 @@ rule somatic_mafs:
         species = config['references']['VCF2MAF']['SPECIES'],
         bundle = config['references']['VCF2MAF']['VEPRESOURCEBUNDLEPATH'],
         rname = 'vcf2maf',
-        vcf2maf_script = VCF2MAF_WRAPPER,
         normalsample =  lambda w: "--normal-id {0}".format(
             pairs_dict[w.samples]
         ) if pairs_dict[w.samples] else "",  
@@ -214,8 +212,9 @@ rule somatic_mafs:
         --species {params.species} \\
         --vep-forks {threads} \\
         --ref-fasta {params.genome} \\
+        --retain-info "set" \\
         --vep-overwrite
-
+        
     """
 
 
