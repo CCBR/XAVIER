@@ -488,18 +488,22 @@ if config['input_params']['create_nidap_folder'] == 'yes':
     include: "rules/nidap.smk"
 
 # create jobby tables
-jobby_cmd = os.path.join('resources', 'run_jobby_on_snakemake_log') + " " + os.path.join('logfiles', 'snakemake.log') + " | tee " + os.path.join('logfiles', 'snakemake.log.jobby') + " | cut -f2,3,18 > " + os.path.join('logfiles', 'snakemake.log.jobby.short')
-spook_cmd = os.path.join('resources', 'spooker')  + " " + BASEDIR
+jobby_cmd = 'run_jobby_on_snakemake_log ' + os.path.join('logfiles', 'snakemake.log') + " | tee " + os.path.join('logfiles', 'snakemake.log.jobby') + " | cut -f2,3,18 > " + os.path.join('logfiles', 'snakemake.log.jobby.short')
+spook_cmd = 'spooker ' + BASEDIR + " XAVIER | tee " + os.path.join('logfiles', 'spooker.log')
 
 onsuccess:
-    #subprocess.run(shlex.split(jobby_cmd),capture_output=False,shell=False,text=True)
+    print("OnSuccess")
+    shell("printenv")
+    shell("module list")
     print(jobby_cmd)
     shell(jobby_cmd)
     print(spook_cmd)
     shell(spook_cmd)
 
 onerror:
-    #subprocess.run(shlex.split(jobby_cmd),capture_output=False,shell=False,text=True)
+    print("OnError")
+    shell("printenv")
+    shell("module list")
     print(jobby_cmd)
     shell(jobby_cmd)
     print(spook_cmd)
