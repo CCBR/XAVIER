@@ -194,6 +194,7 @@ function submit(){
           # Create directory for logfiles
           mkdir -p "$3"/logfiles/slurmfiles/
           CLUSTER_OPTS="sbatch --cpus-per-task {cluster.threads} -p {cluster.partition} -t {cluster.time} --mem {cluster.mem} --job-name {cluster.name} --output {cluster.output} --error {cluster.error}"
+          snakemakeVer=$(snakemake --version 2>/dev/null)
           # Submit the master job to the cluster
           # sbatch --parsable -J {jobname} --time=5-00:00:00 --mail-type=BEGIN,END,FAIL 
           # --cpus-per-task=24 --mem=96g --gres=lscratch:500 
@@ -220,10 +221,24 @@ function submit(){
           #if [[ ${6#\'} != /lscratch* ]]; then
           #  CLUSTER_OPTS="sbatch --cpus-per-task {cluster.threads} -p {cluster.partition} -t {cluster.time} --mem {cluster.mem} --job-name={params.rname} -e $SLURM_DIR/slurm-%j_{params.rname}.out -o $SLURM_DIR/slurm-%j_{params.rname}.out"
           #fi
+          verlte() {
+        [  "$1" = "`echo -e "$1\n$2" | sort -V | head -n1`" ]
+          }
+          verlt() {
+        [ "$1" = "$2" ] && return 1 || verlte $1 $2
+          }
+          snakemakeOld=$(verlt $snakemakeVer 7.8 && echo "yes" || echo "no") # check if snakemake is older than 7.8
+          if [ "$snakemakeOld" == "no" ];then
+            triggeroptions="--rerun-triggers mtime"
+          else
+            triggeroptions=""
+          fi
           if [[ "$HOSTNAME" == "biowulf.nih.gov" ]];then
             CLUSTER_OPTS="${CLUSTER_OPTS} --gres {cluster.gres}"
+          elif [[ "$HOSTNAME" == cn[0-9][0-9][0-9][0-9] ]];then
+            CLUSTER_OPTS="${CLUSTER_OPTS} --gres {cluster.gres}"
           fi
-          # Create sbacth script to build index
+          # Create sbatch script to build index
     cat << EOF > kickoff.sh
 #!/usr/bin/env bash
 #SBATCH --cpus-per-task=32 
@@ -241,6 +256,7 @@ snakemake --latency-wait 120 -s "$3/workflow/Snakefile" -d "$3" \\
   --use-singularity --singularity-args "'-B $4'" --configfile="$3/config.json" \\
   --printshellcmds --cluster-config "$3/cluster.json" \\
   --cluster "${CLUSTER_OPTS}" --keep-going --restart-times 3 -j 500 \\
+  $triggeroptions \\
   --rerun-incomplete --stats "$3/logfiles/runtime_statistics.json" \\
   --keep-remote --local-cores 30 2>&1
 EOF

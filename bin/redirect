@@ -5,7 +5,7 @@
 # - loads require modules
 # - parses the variables directly to the python script
 
-SCRIPTNAME="$0"
+SCRIPTNAME="$BASH_SOURCE"
 SCRIPTDIRNAME=$(readlink -f $(dirname "$SCRIPTNAME"))
 
 # add "bin" to PATH
@@ -17,24 +17,40 @@ TOOLDIR=$(dirname "$SCRIPTDIRNAME")
 TOOLNAME=$(basename "$SCRIPTNAME")
 echo $TOOLNAME
 
-# load conda
-if [[ "$HOSTNAME" == "biowulf.nih.gov" ]];then
+# find out if you are running on biowulf or frce and load conda 
+nbiowulf=$(scontrol show config | grep -i -c biowulf)
+if [[ "$nbiowulf" > 0 ]];then ISBIOWULF=true; else ISBIOWULF=false;fi
+nfrce=$(scontrol show config | grep -i -c fsitgl)
+if [[ "$nfrce" > 0 ]];then ISFRCE=true; else ISFRCE=false;fi
+
+
+if [[ $ISBIOWULF == true ]];then
        . "/data/CCBR_Pipeliner/db/PipeDB/Conda/etc/profile.d/conda.sh"
-elif [[ "$HOSTNAME" == "fsitgl-head01p.ncifcrf.gov" ]];then
+	conda activate py311
+elif [[ $ISFRCE == true ]];then
        . "/mnt/projects/CCBR-Pipelines/resources/miniconda3/etc/profile.d/conda.sh"
+	conda activate py311
+else
+	echo "You are NOT running on BIOWULF or on FRCE"
+	echo "Please make sure that:"
+	echo "  - py311 conda environment is activated"
+	echo "  - singularity is in PATH"
+	echo "  - snakemake is in PATH"
 fi
-conda activate py311
 
 # load required modules
-module purge
-module load singularity 
-if [[ "$HOSTNAME" == "biowulf.nih.gov" ]];then
+if [[ $ISBIOWULF == true ]];then
+	module purge
+	module load singularity
 	module load snakemake
-elif [[ "$HOSTNAME" == "fsitgl-head01p.ncifcrf.gov" ]];then
+elif [[ $ISFRCE == true ]];then
 # snakemake module on FRCE does not work as expected
 # use the conda installed version of snakemake instead
+	module purge
+	module load singularity
 	export PATH="/mnt/projects/CCBR-Pipelines/bin:$PATH"
 fi
+
 
 ${TOOLDIR}/${TOOLNAME} "$@" || true
 
