@@ -100,7 +100,8 @@ markdown_extensions:
 # Page Tree
 nav:
   - About: index.md
-  - Commands: 
+  - Getting Started: usage/gui.md
+  - Command Line:
     - xavier run: usage/run.md
     - xavier unlock: usage/unlock.md
     - xavier cache: usage/cache.md
