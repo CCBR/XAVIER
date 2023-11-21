@@ -83,8 +83,24 @@ srun --export all --pty --x11 bash
 # add xavier to path correctly
 . /mnt/projects/CCBR-Pipelines/pipelines/guis/latest/bin/setup
 
+# add SIF cache and TMPDIR path
+SIFCACHE="/mnt/projects/CCBR-Pipelines/SIFs/XAVIER"
+TMPDIR="/scratch/cluster_scratch/$USER"
+
 # run xavier
-xavier --help
+
+# Initialize and then dryrun (or run)
+xavier run \
+--input data/*.R?.fastq.gz \
+--output /data/$USER/xavier_hg38 \
+--genome hg38 \
+--sif-cache $SIFCACHE \
+--tmp-dir $TMPDIR \
+--pairs pairs.txt \
+--targets Targets_hg38.bed \
+--mode slurm \
+--runmode init # run
+
 ```
 
 ## Contribute 
