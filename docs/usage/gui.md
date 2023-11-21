@@ -72,24 +72,24 @@ xavier_gui
 and it will launch the XAVIER window.
 > Note: Please wait until `window created!` message appears on the terminal.
 
-![xavier_launchscreen](/assets/images/gui_launch.png)
+![xavier_launchscreen](assets/images/gui_launch.png)
 
 ### 3.2 Folder paths and reference genomes
 To enter the location of the input folder containing FASTQ files and the location where the output folders should be created, either simply type the absolute paths
 
-![xavier_enterPath](/assets/images/gui_path.png)
+![xavier_enterPath](assets/images/gui_path.png)
 
 or use the **Browse** tab to choose the input and output directories
 
-![xavier_browsePath](/assets/images/gui_browse.png)
+![xavier_browsePath](assets/images/gui_browse.png)
 
 Next, from the drop down menu select the reference genome (hg38/mm10)
 
-![xavier_genome](/assets/images/gui_genome.png)
+![xavier_genome](assets/images/gui_genome.png)
 
 and enter a job name of this run.
 
-![xavier_jobname](/assets/images/gui_jobname.png)
+![xavier_jobname](assets/images/gui_jobname.png)
 
 ### 3.3 Analysis mode
 
@@ -112,13 +112,13 @@ Similar to input and output folder paths, either type the path to the pairsInfo.
 
 In case of paired mode, XAVIER can also perform copy number variants (CNV) analysis.
 
-![xavier_pair](/assets/images/gui_pair.png)
+![xavier_pair](assets/images/gui_pair.png)
 
 #### 3.3b Tumor-only analysis
 
 In case the paired normal samples are unavailable, XAVIER pipeline can be run in tumor-only mode which does not require paired samples information. However, in the absence of matching normal samples, CNV analysis is also unavailable.
 
-![xavier_tumorOnly](/assets/images/gui_tumorOnly.png)
+![xavier_tumorOnly](assets/images/gui_tumorOnly.png)
 
 ### 3.4 Submit XAVIER job
 
@@ -126,13 +126,13 @@ After all the information is filled out, press **Submit**.
 
 If the pipeline detects no errors and the run was submitted, a new window appears that has the output of a "dry-run" which summarizes each step of the pipeline. 
 
-![xavier_dryrun](/assets/images/gui_dryrun.png)
+![xavier_dryrun](assets/images/gui_dryrun.png)
 
 Click **OK**
 
 A dialogue box will popup to confirm submitting the job to slurm.
 
-![xavier_submit](/assets/images/gui_submit.png)
+![xavier_submit](assets/images/gui_submit.png)
 
 Click **Yes**
 
@@ -141,7 +141,7 @@ An email notification will be sent out when the pipeline starts and ends.
 
 The XAVIER gui will ask to submit another job.
 
-![xavier_resubmit](/assets/images/gui_resubmit.png)
+![xavier_resubmit](assets/images/gui_resubmit.png)
 
 Click **Yes** to start again or **No** to close the XAVIER gui.
 
@@ -150,9 +150,9 @@ Click **Yes** to start again or **No** to close the XAVIER gui.
 
 Users can input certain additional settings for the pipeline run including running an additional step to correct strand orientation bias in Formalin-Fixed Paraffin-Embedded (FFPE) samples and to provide a custom exome targets BED file. This file can be obtained from the manufacturer of the target capture kit that was used.
 
-![gui_additionalSettings1](/assets/images/gui_additionalSettings1.png)
+![gui_additionalSettings1](assets/images/gui_additionalSettings1.png)
 
-![gui_additionalSettings2](/assets/images/gui_additionalSettings2.png)
+![gui_additionalSettings2](assets/images/gui_additionalSettings2.png)
 
 
 ## 4. Special instructions for Biowulf
@@ -163,12 +163,12 @@ Please see details [here](https://hpc.nih.gov/docs/nx.html) on how to install No
 
 Once connected to Biowulf using NX, right click to open a terminal connection
 
-![gui_nx_config1](/assets/images/gui_nx_config1.png)
+![gui_nx_config1](assets/images/gui_nx_config1.png)
 
 and start an interactive session.
 
-![gui_nx_config2](/assets/images/gui_nx_config2.png)
+![gui_nx_config2](assets/images/gui_nx_config2.png)
 
 Similar to the instructions above, load `ccbrpipeliner` module and enter `xavier_gui` to launch the XAVIER gui.
 
-![gui_nx_xavier](/assets/images/gui_nx_xavier.png)
+![gui_nx_xavier](assets/images/gui_nx_xavier.png)
