@@ -1,7 +1,7 @@
 {
 	"references": {
 		"FASTQ_SCREEN_CONFIG": "resources/fastq_screen.biowulf.conf",
-		"KRAKENBACDB": "/data/CCBR_Pipeliner/Exome-seek/hg38/kraken/20180907_standard_kraken2",
+		"KRAKENBACDB": "/data/CCBR_Pipeliner/Pipelines/XAVIER/resources/hg38/kraken/20180907_standard_kraken2",
 		"trimmomatic.adapters": "resources/adapters.fa",
 		"SNPEFF_GENOME": "GRCm38.86",
 		"SNPEFF_CONFIG": "/data/CCBR_Pipeliner/Pipelines/XAVIER/resources/mm10/snpEff/4.3t/snpEff.config",
