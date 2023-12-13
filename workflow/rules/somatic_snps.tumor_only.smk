@@ -285,7 +285,15 @@ rule varscan_single:
     pileup_cmd="samtools mpileup -d 100000 -q 15 -Q 15 -f {params.genome} {input.tumor}"
     varscan_cmd="varscan mpileup2cns <($pileup_cmd) $varscan_opts"
     eval "$varscan_cmd > {output.vcf}.gz"
-    eval "bcftools view -U {output.vcf}.gz > {output.vcf}"
+    eval "bcftools view -U {output.vcf}.gz > {output.vcf}_temp"
+
+    # VarScan can output ambiguous IUPAC bases/codes
+    # the awk one-liner resets them to N, from:
+    # https://github.com/fpbarthel/GLASS/issues/23
+
+    awk '{{gsub(/\y[W|K|Y|R|S|M]\y/,"N",$4); OFS = "\t"; print}}' {output.vcf}_temp \\
+        | sed '/^$/d' > {output.vcf}
+
     """
 
 
