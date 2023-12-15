@@ -167,7 +167,7 @@ rule mutect_filter_single:
     # https://github.com/fpbarthel/GLASS/issues/23
     bcftools sort -T ${{tmp}} "{output.final}" \\
         | bcftools norm --threads {threads} --check-ref s -f {params.genome} -O v \\
-        | awk '{{gsub(/\y[W|K|Y|R|S|M]\y/,"N",$4); OFS = "\t"; print}}' \\
+        | awk '{{gsub(/\y[W|K|Y|R|S|M|B|D|H|V]\y/,"N",$4); OFS = "\t"; print}}' \\
         | sed '/^$/d' > {output.norm}
     """
 
@@ -255,7 +255,7 @@ rule vardict_filter_single:
     # https://github.com/fpbarthel/GLASS/issues/23
     bcftools sort -T ${{tmp}} "{output.final}" \\
         | bcftools norm --threads {threads} --check-ref s -f {params.genome} -O v \\
-        | awk '{{gsub(/\y[W|K|Y|R|S|M]\y/,"N",$4); OFS = "\t"; print}}' \\
+        | awk '{{gsub(/\y[W|K|Y|R|S|M|B|D|H|V]\y/,"N",$4); OFS = "\t"; print}}' \\
         | sed '/^$/d' > {output.norm}
     """
 
@@ -291,7 +291,7 @@ rule varscan_single:
     # the awk one-liner resets them to N, from:
     # https://github.com/fpbarthel/GLASS/issues/23
 
-    awk '{{gsub(/\y[W|K|Y|R|S|M]\y/,"N",$4); OFS = "\t"; print}}' {output.vcf}_temp \\
+    awk '{{gsub(/\y[W|K|Y|R|S|M|B|D|H|V]\y/,"N",$4); OFS = "\t"; print}}' {output.vcf}_temp \\
         | sed '/^$/d' > {output.vcf}
 
     """
@@ -354,6 +354,6 @@ rule varscan_filter_single:
     # https://github.com/fpbarthel/GLASS/issues/23
     bcftools sort -T ${{tmp}} "{output.final}" \\
         | bcftools norm --threads {threads} --check-ref s -f {params.genome} -O v \\
-        | awk '{{gsub(/\y[W|K|Y|R|S|M]\y/,"N",$4); OFS = "\t"; print}}' \\
+        | awk '{{gsub(/\y[W|K|Y|R|S|M|B|D|H|V]\y/,"N",$4); OFS = "\t"; print}}' \\
         | sed '/^$/d' > {output.norm}
     """
