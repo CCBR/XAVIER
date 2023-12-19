@@ -1,7 +1,5 @@
 ## XAVIER development version
 
-## XAVIER development version
-
 ## XAVIER 3.1.4
 
 - Fix `pySimpleGUI` being removed from pip issue (#133, @samarth8392)
