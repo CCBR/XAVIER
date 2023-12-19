@@ -1,6 +1,15 @@
-# Version changes:
+# Version changes
 
-## v3.0
+## v3.0.2
+
+## v3.0.1
+
+Hotfixes for all!
+ - Increased memory for somatic merge rule
+ - Fixed spooker/runner calls for run info
+ - Fixed vcf2maf which missed the Intersection of calls
+
+## v3.0.0
 
 - added [FRCE](https://ncifrederick.cancer.gov/staff/frce/welcome) support.
 - adding `$triggeroptions` to _snakemake_ cli.
