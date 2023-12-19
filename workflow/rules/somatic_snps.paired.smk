@@ -211,7 +211,7 @@ rule strelka_filter:
     bcftools sort \\
         -T ${{tmp}} "{output.final}" \\
         | bcftools norm --threads {threads} --check-ref s -f {params.genome} -O v \\
-        | awk '{{gsub(/\y[W|K|Y|R|S|M]\y/,"N",$4); OFS = "\t"; print}}' \\
+        | awk '{{gsub(/\y[W|K|Y|R|S|M|B|D|H|V]\y/,"N",$4); OFS = "\t"; print}}' \\
         | sed '/^$/d' > {output.norm}
     """
 
@@ -296,7 +296,7 @@ rule mutect_filter:
     # https://github.com/fpbarthel/GLASS/issues/23
     bcftools sort -T ${{tmp}} "{output.final}" \\
         | bcftools norm --threads {threads} --check-ref s -f {params.genome} -O v \\
-        | awk '{{gsub(/\y[W|K|Y|R|S|M]\y/,"N",$4); OFS = "\t"; print}}' \\
+        | awk '{{gsub(/\y[W|K|Y|R|S|M|B|D|H|V]\y/,"N",$4); OFS = "\t"; print}}' \\
         | sed '/^$/d' > {output.norm}
     """
 
@@ -388,7 +388,7 @@ rule vardict_filter:
     # https://github.com/fpbarthel/GLASS/issues/23
     bcftools sort -T ${{tmp}} "{output.final}" \\
         | bcftools norm --threads {threads} --check-ref s -f {params.genome} -O v \\
-        | awk '{{gsub(/\y[W|K|Y|R|S|M]\y/,"N",$4); OFS = "\t"; print}}' \\
+        | awk '{{gsub(/\y[W|K|Y|R|S|M|B|D|H|V]\y/,"N",$4); OFS = "\t"; print}}' \\
         | sed '/^$/d' > {output.norm}
     """
 
@@ -434,9 +434,9 @@ rule varscan_paired:
     # VarScan can output ambiguous IUPAC bases/codes
     # the awk one-liner resets them to N, from:
     # https://github.com/fpbarthel/GLASS/issues/23
-    awk '{{gsub(/\y[W|K|Y|R|S|M]\y/,"N",$4); OFS = "\t"; print}}' {output.vcf}.snp \\
+    awk '{{gsub(/\y[W|K|Y|R|S|M|B|D|H|V]\y/,"N",$4); OFS = "\t"; print}}' {output.vcf}.snp \\
         | sed '/^$/d' > {output.vcf}.snp_temp
-    awk '{{gsub(/\y[W|K|Y|R|S|M]\y/,"N",$4); OFS = "\t"; print}}' {output.vcf}.indel \\
+    awk '{{gsub(/\y[W|K|Y|R|S|M|B|D|H|V]\y/,"N",$4); OFS = "\t"; print}}' {output.vcf}.indel \\
         | sed '/^$/d' > {output.vcf}.indel_temp
 
     java -Xmx12g -Djava.io.tmpdir=${{tmp}} -XX:ParallelGCThreads={threads} \\
@@ -508,6 +508,6 @@ rule varscan_filter:
     # https://github.com/fpbarthel/GLASS/issues/23
     bcftools sort -T ${{tmp}} "{output.final}" \\
         | bcftools norm --threads {threads} --check-ref s -f {params.genome} -O v \\
-        | awk '{{gsub(/\y[W|K|Y|R|S|M]\y/,"N",$4); OFS = "\t"; print}}' \\
+        | awk '{{gsub(/\y[W|K|Y|R|S|M|B|D|H|V]\y/,"N",$4); OFS = "\t"; print}}' \\
         | sed '/^$/d' > {output.norm}
     """

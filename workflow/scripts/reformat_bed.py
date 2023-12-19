@@ -29,7 +29,7 @@ with open(infile, 'r') as inputFile:
         ### Step through each line of input
         for line in inputFile:
             ### Skip comments
-            if not line.startswith("#"):
+            if not line.startswith("#") and not line.startswith("track") and not line.startswith("browser"):
                 curr_cols=line.strip().split("\t")
                 if (len(curr_cols) < 3):
                     sys.exit("Targets BED file must contain at least three columns: chr, start, end")
