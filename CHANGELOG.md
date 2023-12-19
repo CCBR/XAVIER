@@ -1,5 +1,7 @@
 # Version changes
 
+## development version
+
 ## v3.0.2
  - Documentation updates for GUI and other genome references 
  - Additional IUPAC changes to play nice with GATK tools (non ACGTN codes convert to N)
