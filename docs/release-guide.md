@@ -9,12 +9,12 @@ Only approve or merge PRs that either update the changelog or have no user-facin
 1. Determine the new version number according to [semantic versioning guidelines](https://semver.org/).
 1. Update `CHANGELOG.md`:
   1. Edit the heading for the development version to match the new version.
-  1. If needed, clean up the changelog to -- fix any typos, optionally create subheadings for 'New features' and 'Bug fixes' if there are lots of changes, etc.
+  1. If needed, clean up the changelog -- fix any typos, optionally create subheadings for 'New features' and 'Bug fixes' if there are lots of changes, etc.
 1. Update the version in [`src/__init__.py`](https://github.com/CCBR/XAVIER/blob/main/src/__init__.py).
 1. On GitHub, go to "Releases" and click "Draft a new release". <https://github.com/CCBR/XAVIER/releases/new>
   1. Choose a tag: same as the version number.
   1. Choose the target: most likely this should be the main branch, or a specific commit hash.
-  1. Set the title as the project name and version number, e.g. **XAVIER 3.0.2**
+  1. Set the title as the new version number, e.g. **v3.0.2**
   1. Copy and paste the release notes from the CHANGELOG into the description box.
   1. Check the box "Set as the latest release".
   1. Click "Publish release".
@@ -45,7 +45,7 @@ readlink -f v3.0
 
 Versions of the `ccbrpipeliner` module only specify the major and minor version of each pipeline.
 If the new pipeline release only increments the patch number, `ccbrpipeliner` will use it automatically after you update the symlink as above.
-If you need to release a new major or minor version of a pipeline on biowulf, contact [Kelly](mailto:kelly.sovacool@nih.gov) or [Vishal](vishal.koparde@nih.gov).
+If you need to release a new major or minor version of a pipeline on biowulf, contact [Kelly](mailto:kelly.sovacool@nih.gov) or [Vishal](mailto:vishal.koparde@nih.gov).
 
 Verify that `ccbrpipeliner` uses the latest version with:
 ```sh
