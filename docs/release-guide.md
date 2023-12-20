@@ -8,19 +8,19 @@ Only approve or merge PRs that either update the changelog or have no user-facin
 
 1. Determine the new version number according to [semantic versioning guidelines](https://semver.org/).
 1. Update `CHANGELOG.md`:
-  1. Edit the heading for the development version to match the new version.
-  1. If needed, clean up the changelog -- fix any typos, optionally create subheadings for 'New features' and 'Bug fixes' if there are lots of changes, etc.
+    - Edit the heading for the development version to match the new version.
+    - If needed, clean up the changelog -- fix any typos, optionally create subheadings for 'New features' and 'Bug fixes' if there are lots of changes, etc.
 1. Update the version in [`src/__init__.py`](https://github.com/CCBR/XAVIER/blob/main/src/__init__.py).
 1. On GitHub, go to "Releases" and click "Draft a new release". <https://github.com/CCBR/XAVIER/releases/new>
-  1. Choose a tag: same as the version number.
-  1. Choose the target: most likely this should be the main branch, or a specific commit hash.
-  1. Set the title as the new version number, e.g. **v3.0.2**
-  1. Copy and paste the release notes from the CHANGELOG into the description box.
-  1. Check the box "Set as the latest release".
-  1. Click "Publish release".
+    - Choose a tag: same as the version number.
+    - Choose the target: most likely this should be the main branch, or a specific commit hash.
+    - Set the title as the new version number, e.g. **v3.0.2**
+    - Copy and paste the release notes from the CHANGELOG into the description box.
+    - Check the box "Set as the latest release".
+    - Click "Publish release".
 1. Post release chores:
-  1. Add a new "development version" heading to the top of `CHANGELOG.md`.
-  1. Bump the version number in `src/__init__.py` to include `-dev`, e.g. `v3.0.2-dev` if you just released `v3.0.2`.  
+    - Add a new "development version" heading to the top of `CHANGELOG.md`.
+    - Bump the version number in `src/__init__.py` to include `-dev`, e.g. `v3.0.2-dev` if you just released `v3.0.2`.  
 
 ## How to install a release on biowulf
 
