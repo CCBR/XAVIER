@@ -33,6 +33,9 @@ cd /data/CCBR_Pipeliner/Pipelines/XAVIER
 # clone the new version tag (e.g. v3.0.2) to a hidden directory
 git clone --depth 1 --branch v3.0.2 https://github.com/CCBR/XAVIER .v3.0.2
 
+# change permissions for the new directory so anyone will be able to use the pipeline
+/data/CCBR_Pipeliner/Pipelines/ccbrpipeliner/bin/fix_pipeline_perm.sh /data/CCBR_Pipeliner/Pipelines/XAVIER/.v3.0.2
+
 # if needed, remove the old symlink for the minor version number
 rm v3.0
 
