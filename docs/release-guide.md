@@ -34,10 +34,11 @@ cd /data/CCBR_Pipeliner/Pipelines/XAVIER
 git clone --depth 1 --branch v3.0.2 https://github.com/CCBR/XAVIER .v3.0.2
 
 # change permissions for the new directory so anyone will be able to use the pipeline
-/data/CCBR_Pipeliner/Pipelines/ccbrpipeliner/bin/fix_pipeline_perm.sh /data/CCBR_Pipeliner/Pipelines/XAVIER/.v3.0.2
+chown -R :CCBR_Pipeliner .v3.0.2
+chmod -R a+rX /data/CCBR_Pipeliner/Pipelines/XAVIER/.v3.0.2
 
 # if needed, remove the old symlink for the minor version number
-rm v3.0
+rm -i v3.0
 
 # recreate the symlink to point to the new latest version
 ln -s .v3.0.2 v3.0
