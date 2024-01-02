@@ -27,6 +27,6 @@ jobs:
         if: ${{ github.repository_owner == matrix.FORK_OWNER }}
         run: |
           # required for actions scheduled via cron, as github.event.repository.name won't work
-          echo "REPO=$(basename ${{ github.repository }})" >> $GITHUB_ENV
+          REPO=$(basename ${{ github.repository }})
           # sync the fork from upstream
           gh repo sync ${{ github.repository }} --source $UPSTREAM_OWNER/$REPO --force
