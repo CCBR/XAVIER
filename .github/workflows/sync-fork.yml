@@ -2,11 +2,14 @@ name: Sync Fork
 
 on:
   schedule:
-    - cron: '0 0 * * *' # once every day
+    - cron: '0 11 * * *' # once every day
   workflow_dispatch: # on button click
   push:
     paths:
       - .github/workflows/sync-fork.yml
+
+permissions:
+  contents: write
 
 env:
   GH_TOKEN: ${{ github.token }}
