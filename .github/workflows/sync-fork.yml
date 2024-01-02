@@ -2,7 +2,7 @@ name: Sync Fork
 
 on:
   schedule:
-    - cron: '0 11 * * *' # once every day
+    - cron: '8 11 * * *' # once every day
   workflow_dispatch: # on button click
   push:
     paths:
