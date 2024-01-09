@@ -36,7 +36,7 @@ with open(infile, 'r') as inputFile:
                 
                 
                 if (len(curr_cols) < 4):
-                    curr_cols[3]="."
+                    curr_cols.append(".")
                 
                 min_output=curr_cols[0] + "\t" + curr_cols[1]  + "\t" + curr_cols[2]
                 
