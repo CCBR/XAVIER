@@ -1,0 +1,7 @@
+overrides:
+  - files:
+      - "*.md"
+      - "citation.cff"
+      - ".prettierrc"
+    options:
+      tabWidth: 2
