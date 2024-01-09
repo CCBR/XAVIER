@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "Please cite XAVIER as below."
+authors:
+  - family-names: Nousome
+    given-names: Darryl
+  - family-names: Mathur
+    given-names: Samarth
+  - family-names: Sovacool
+    given-names: Kelly
+    orcid: https://orcid.org/0000-0003-3283-829X
+  - family-names: Koparde
+    given-names: Vishal
+    orcid: https://orcid.org/0000-0001-8978-8495
+title: "XAVIER: eXome Analysis and Variant explorER"
+url: https://ccbr.github.io/XAVIER/
+repository-code: https://github.com/CCBR/XAVIER
+license: MIT
+type: software
+version: 3.0.2
+date-released: 2023-12-19
