@@ -596,6 +596,7 @@ def dryrun(outdir, config='config.json', snakefile=os.path.join('workflow', 'Sna
     try:
         dryrun_output = subprocess.check_output([
             'snakemake', '-npr',
+            '--rerun-incomplete',
             '-s', str(snakefile),
             '--use-singularity',
             '--cores', str(1),
