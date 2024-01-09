@@ -16,6 +16,10 @@
             "version": "0.7.17",
             "modname": "bwa/0.7.17"
         },
+        "bwa_mem2": {
+            "version": "2.2.1",
+            "modname": "bwa-mem2/2.2.1"
+        },
         "gatk3": {
             "version": "3.8-1",
             "modname": "GATK/3.8-1"

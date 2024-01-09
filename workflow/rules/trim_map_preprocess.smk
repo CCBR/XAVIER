@@ -88,7 +88,7 @@ rule trimmomatic:
     """
 
 
-rule bwa_mem:
+rule bwa_mem2:
     """
     Map trimmed paired reads to the reference genome using the 'bwa' aligner.
     @Input:
@@ -97,27 +97,27 @@ rule bwa_mem:
         Aligned reads in BAM format
     """
     input:
-        os.path.join(output_fqdir, "{samples}.R1.trimmed.fastq.gz"),
-        os.path.join(output_fqdir, "{samples}.R2.trimmed.fastq.gz")
+        r1 = os.path.join(input_fqdir, "{samples}.R1.fastq.gz"),
+        r2 = os.path.join(input_fqdir, "{samples}.R2.fastq.gz")
     output:
         temp(os.path.join(output_bamdir, "preprocessing", "{samples}.raw_map.bam"))
     params:
-        genome = config['references']['BWAGENOME'],
+        genome = config['references']['BWA2GENOME'],
         sample = "{samples}",
         ver_samtools = config['tools']['samtools']['version'],
-        ver_bwa = config['tools']['bwa']['version'],
-        rname = 'bwamem'
+        ver_bwa = config['tools']['bwa_mem2']['version'],
+        rname = 'bwa_mem2'
     envmodules: 
        config['tools']['samtools']['modname'],
-       config['tools']['bwa']['modname'],
+       config['tools']['bwa_mem2']['modname'],
        config['tools']['samblaster']['modname']
-    container:
-        config['images']['wes_base'] 
+    #container: No container options
+    #    config['images']['wes_base'] 
     threads: 24
     shell: """
     myoutdir="$(dirname {output})"
     if [ ! -d "$myoutdir" ]; then mkdir -p "$myoutdir"; fi
-    bwa mem -M \\
+    bwa-mem2 mem -M \\
         -R \'@RG\\tID:{params.sample}\\tSM:{params.sample}\\tPL:illumina\\tLB:{params.sample}\\tPU:{params.sample}\\tCN:hgsc\\tDS:wes\' \\
         -t {threads} \\
         {params.genome} \\
