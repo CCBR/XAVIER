@@ -3,6 +3,7 @@ message: "Please cite XAVIER as below."
 authors:
   - family-names: Nousome
     given-names: Darryl
+    orcid: https://orcid.org/0000-0002-5259-8599
   - family-names: Mathur
     given-names: Samarth
     orcid: https://orcid.org/0000-0002-6446-5718
