@@ -1,17 +1,25 @@
 cff-version: 1.2.0
 message: "Please cite XAVIER as below."
 authors:
-  - family-names: Nousome
-    given-names: Darryl
-  - family-names: Mathur
-    given-names: Samarth
-    orcid: https://orcid.org/0000-0002-6446-5718
-  - family-names: Sovacool
-    given-names: Kelly
-    orcid: https://orcid.org/0000-0003-3283-829X
-  - family-names: Koparde
-    given-names: Vishal
-    orcid: https://orcid.org/0000-0001-8978-8495
+    - family-names: Nousome
+      given-names: Darryl
+    - family-names: Mathur
+      given-names: Samarth
+      orcid: https://orcid.org/0000-0002-6446-5718
+    - family-names: Sovacool
+      given-names: Kelly
+      orcid: https://orcid.org/0000-0003-3283-829X
+    - family-names: Sevilla
+      given-names: Samantha
+      affiliation: Frederick National Laboratory for Cancer Research
+    - family-names: Kuhn
+      given-names: Skyler
+      orcid: https://orcid.org/0000-0003-0606-2125
+    - family-names: Tandon
+      given-names: Mayank
+    - family-names: Koparde
+      given-names: Vishal
+      orcid: https://orcid.org/0000-0001-8978-8495
 title: "XAVIER: eXome Analysis and Variant explorER"
 url: https://ccbr.github.io/XAVIER/
 repository-code: https://github.com/CCBR/XAVIER
