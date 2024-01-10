@@ -168,8 +168,6 @@ rule somatic_merge_callers:
       mkdir -p "$(dirname {output.mergedvcf})"
     fi
 
-    input_str="--variant $(echo "{input.vcf}" | sed -e 's/ / --variant /g')"
-
     java -Xmx60g -Djava.io.tmpdir=${{tmp}} -jar $GATK_JAR -T CombineVariants \\
         -R {params.genome} \\
         -nt {threads} \\
