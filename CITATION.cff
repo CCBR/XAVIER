@@ -6,11 +6,14 @@ authors:
   - family-names: Mathur
     given-names: Samarth
     orcid: https://orcid.org/0000-0002-6446-5718
+    affiliation: Frederick National Laboratory for Cancer Research
   - family-names: Sovacool
     given-names: Kelly
     orcid: https://orcid.org/0000-0003-3283-829X
+    affiliation: Frederick National Laboratory for Cancer Research
   - family-names: Sevilla
     given-names: Samantha
+    orcid: https://orcid.org/0000-0002-8734-9875
     affiliation: Frederick National Laboratory for Cancer Research
   - family-names: Kuhn
     given-names: Skyler
@@ -20,6 +23,7 @@ authors:
   - family-names: Koparde
     given-names: Vishal
     orcid: https://orcid.org/0000-0001-8978-8495
+    affiliation: Frederick National Laboratory for Cancer Research
 title: "XAVIER: eXome Analysis and Variant explorER"
 url: https://ccbr.github.io/XAVIER/
 repository-code: https://github.com/CCBR/XAVIER
