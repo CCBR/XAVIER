@@ -3,7 +3,8 @@ default_stages: [pre-commit]
 exclude: |
   (?x)(
       ^assets/|
-      ^docs/.*.html
+      ^docs/.*.html|
+      ^_extensions/
    )
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -12,6 +13,7 @@ repos:
       - id: check-added-large-files
       - id: end-of-file-fixer
       - id: trailing-whitespace
+      - id: check-json
   # spell check
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.4
