@@ -4,28 +4,29 @@ authors:
   - family-names: Nousome
     given-names: Darryl
     orcid: https://orcid.org/0000-0002-5259-8599
-    affiliation: Frederick National Laboratory for Cancer Research
+    affiliation: Advanced Biomedical Computational Science, Frederick National Laboratory for Cancer Research, Frederick, MD 21702, USA
   - family-names: Mathur
     given-names: Samarth
     orcid: https://orcid.org/0000-0002-6446-5718
-    affiliation: Frederick National Laboratory for Cancer Research
+    affiliation: Advanced Biomedical Computational Science, Frederick National Laboratory for Cancer Research, Frederick, MD 21702, USA
   - family-names: Sovacool
     given-names: Kelly
     orcid: https://orcid.org/0000-0003-3283-829X
-    affiliation: Frederick National Laboratory for Cancer Research
+    affiliation: Advanced Biomedical Computational Science, Frederick National Laboratory for Cancer Research, Frederick, MD 21702, USA
   - family-names: Sevilla
     given-names: Samantha
     orcid: https://orcid.org/0000-0002-8734-9875
-    affiliation: Frederick National Laboratory for Cancer Research
+    affiliation: Advanced Biomedical Computational Science, Frederick National Laboratory for Cancer Research, Frederick, MD 21702, USA
   - family-names: Kuhn
     given-names: Skyler
     orcid: https://orcid.org/0000-0003-0606-2125
   - family-names: Tandon
     given-names: Mayank
+    orcid: https://orcid.org/0000-0002-1675-5040
   - family-names: Koparde
     given-names: Vishal
     orcid: https://orcid.org/0000-0001-8978-8495
-    affiliation: Frederick National Laboratory for Cancer Research
+    affiliation: Advanced Biomedical Computational Science, Frederick National Laboratory for Cancer Research, Frederick, MD 21702, USA
 title: "XAVIER: eXome Analysis and Variant explorER"
 url: https://ccbr.github.io/XAVIER/
 repository-code: https://github.com/CCBR/XAVIER
