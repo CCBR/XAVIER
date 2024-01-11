@@ -110,7 +110,7 @@ rule strelka:
     output:
         vcf = os.path.join(output_somatic_snpindels, "strelka_out", "chrom_split", "{samples}.{chroms}.vcf"),
     params:
-        genome = config['references']['GENOME'],
+        genome = config['references']['BWA2GENOME'],
         pon = config['references']['PON'],
         basedir = BASEDIR,
         ver_strelka = config['tools']['strelka']['version'],
