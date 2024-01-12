@@ -9,6 +9,7 @@
 		"BWAGENOME": "/data/CCBR_Pipeliner/Pipelines/XAVIER/resources/hg38/genome/Homo_sapiens_assembly38.fasta",
 		"BWA2GENOME": "/fdb/bwa-mem2/hg38/genome.fa",
 		"GENOME": "/data/CCBR_Pipeliner/Pipelines/XAVIER/resources/hg38/genome/Homo_sapiens_assembly38.fasta",
+		"GENOME1": "/fdb/igenomes/Homo_sapiens/UCSC/hg38/Sequence/WholeGenomeFasta/genome.fa",
 		"GENOMEDICT": "/data/CCBR_Pipeliner/Pipelines/XAVIER/resources/hg38/genome/Homo_sapiens_assembly38.dict",
 		"DBSNP": "/data/CCBR_Pipeliner/Pipelines/XAVIER/resources/hg38/GATK_resource_bundle/dbsnp_138.hg38.vcf.gz",
 		"KNOWNANCESTRY": "/data/CCBR_Pipeliner/Pipelines/XAVIER/resources/hg38/1k_genomes/1k_genomes_phase3_autosomes.hg38.vcf.gz",

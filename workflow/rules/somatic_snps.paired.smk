@@ -110,7 +110,7 @@ rule strelka:
     output:
         vcf = os.path.join(output_somatic_snpindels, "strelka_out", "chrom_split", "{samples}.{chroms}.vcf"),
     params:
-        genome = config['references']['BWA2GENOME'],
+        genome = config['references']['GENOME1'],
         pon = config['references']['PON'],
         basedir = BASEDIR,
         ver_strelka = config['tools']['strelka']['version'],
@@ -123,11 +123,6 @@ rule strelka:
     container:
         config['images']['wes_base']
     threads: 16
-    envmodules:
-        config['tools']['strelka']['modname'],
-        config['tools']['gatk3']['modname']
-    container:
-        config['images']['wes_base']
     shell: """
     # Setups temporary directory for
     # intermediate files with built-in 
