@@ -100,49 +100,49 @@ def _sym_safe_(input_data, target):
 
     return input_fastqs
 
-def read_pairsfile(tn_mode="auto", pairs_filepath="", sample_names=[]):    
+def read_pairsfile(tn_mode="auto", pairs_filepath="", sample_names=[]):
     ## Make sure tn_mode is valid
     if not tn_mode in ["auto","paired","tumor_only"]:
         raise NameError("""\n\tFatal: tn_mode must be one of 'auto', 'paired', or 'tumor_only'
         Argument received: {}
         """.format(tn_mode, sys.argv[0])
         )
-    
+
     ## Initialize some empty variables
     tumor_ids = []
     normal_ids = []
     paired_ids={}
-    
+
     ## If pairs file exists, try to use it
     if os.path.isfile(pairs_filepath):
         ## Read pairs file as data frame
         df = pd.read_csv(pairs_filepath, header=0, sep='\t')
         df.columns = df.columns.str.lower() ## Make column names case-insensitive
-        
+
         ## Make sure it contains a "tumor" column
         if not "tumor" in df:
             raise NameError("""\n\tFatal: Pairs file must contain at least a 'tumor' column
             Columns found: {}
             """.format(df.columns.tolist(), sys.argv[0])
             )
-        
+
         df = df[pd.notna(df["tumor"])] ## Remove rows where tumor id is empty/na
         tumor_ids = df["tumor"]
-        
+
         if "normal" in df:
             normal_ids = df["normal"]
-        
+
         ## Make sure normal ids are not empty/na
         if any(pd.notna(normal_ids)):
             t_pair=tumor_ids[pd.notna(normal_ids)]
             n_pair=normal_ids[pd.notna(normal_ids)]
-            paired_ids=dict(zip(t_pair.tolist(), n_pair.tolist()))    
-    
+            paired_ids=dict(zip(t_pair.tolist(), n_pair.tolist()))
+
     ## If pairs file not found, try to use provided sample names as tumor-only IDs
     else:
         if tn_mode == "paired":
             print("WARNING: Paired mode selected without a valid pairs file!!!")
-            
+
         if not sample_names:
             raise NameError("""\n\tFatal: Either a valid pairs file or sample names must be provided.
             Pairs file path provided: {}
@@ -151,25 +151,25 @@ def read_pairsfile(tn_mode="auto", pairs_filepath="", sample_names=[]):
             )
         else:
             tumor_ids=sample_names
-    
+
     ## Overlap with given sample names
     if sample_names:
         overlapped_pairs = {k: paired_ids[k] for k in sample_names if k in paired_ids}
         overlapped_tumors = list(set(tumor_ids) & set(sample_names))
-        
+
         # print(str(len(overlapped_pairs)) + " of " + str(len(paired_ids)) + " pairs in pairs file matched given sample names")
         # print(str(len(overlapped_tumors)) + " of " + str(len(tumor_ids)) + " tumors in pairs file matched given sample names")
-        
+
         paired_ids=overlapped_pairs
         tumor_ids=overlapped_tumors
-    
+
     out_dict={"paired":paired_ids, "tumor_only": dict.fromkeys(set(tumor_ids))}
-    
+
     if tn_mode=="paired":
         out_dict["tumor_only"]=[]
     elif tn_mode=="tumor_only":
         out_dict["paired"]=[]
-    
+
     return(out_dict)
 
 configfile:"config.json"
@@ -182,7 +182,7 @@ def get_nidap_folder_input_files(wildcards):
     rightf=os.path.join(BASEDIR,"nidap_right")
     left=open(leftf,'w')
     right=open(rightf,'w')
-    
+
     for f in list(expand(os.path.join(SOBDetector_out,"{vc_outdir}","pass2","{samples}.artifact_filtered.vcf.gz"), samples=ffpe_sample_list, vc_outdir=ffpe_caller_list)):
         nidap_files.append(f)
         left.write("%s\n"%(f))
@@ -194,13 +194,13 @@ def get_nidap_folder_input_files(wildcards):
         left.write("%s\n"%(f))
     for f in list(expand(os.path.join(NIDAP_OUTDIR,"{vc_outdir}_all_somatic_variants.maf"), vc_outdir=ffpe_caller_list)):
         right.write("%s\n"%(f))
-    
+
     for f in list(expand(os.path.join(SOBDetector_out,"{vc_outdir}","metrics","all_metrics.txt"), vc_outdir=ffpe_caller_list)):
         nidap_files.append(f)
         left.write("%s\n"%(f))
     for f in list(expand(os.path.join(NIDAP_OUTDIR,"{vc_outdir}_all_metrics.txt"), vc_outdir=ffpe_caller_list)):
         right.write("%s\n"%(f))
-    
+
     for f in list(expand(os.path.join(output_somatic_cnv,"freec_out","pass2","{samples}.recal.bam_CNVs.p.value.txt"), samples=cnv_sample_list)):
         nidap_files.append(f)
         left.write("%s\n"%(f))
@@ -212,22 +212,22 @@ def get_nidap_folder_input_files(wildcards):
         left.write("%s\n"%(f))
     for f in list(expand(os.path.join(NIDAP_OUTDIR,"{samples}.contamination.table"), samples=samples_for_caller_merge)):
         right.write("%s\n"%(f))
-    
+
     f=os.path.join(output_qcdir,"finalQC","MultiQC_Report.html")
     nidap_files.append(f)
     left.write("%s\n"%(f))
-    f=os.path.join(NIDAP_OUTDIR,"MultiQC_Report.html")          
+    f=os.path.join(NIDAP_OUTDIR,"MultiQC_Report.html")
     right.write("%s\n"%(f))
-    
+
     left.close()
     right.close()
 
     outfile = os.path.join(BASEDIR,"NIDAP_files.tsv")
     cmd = "paste " + leftf + " " + rightf + " > " + outfile + " && rm -f " + leftf + " && rm -f " + rightf
     os.system(cmd)
-    
+
     nidap_files.append(outfile)
-    
+
     return nidap_files
 
 def get_nidap_folder_output_files(wildcards):
@@ -239,7 +239,7 @@ def get_nidap_folder_output_files(wildcards):
         for f in list(expand(os.path.join(NIDAP_OUTDIR,"{vc_outdir}_all_somatic_variants.maf"), vc_outdir=ffpe_caller_list)):
             nidap_files.append(f)
         for f in list(expand(os.path.join(NIDAP_OUTDIR,"{vc_outdir}_all_metrics.txt"), vc_outdir=ffpe_caller_list)):
-            nidap_files.append(f)        
+            nidap_files.append(f)
         for f in list(expand(os.path.join(NIDAP_OUTDIR,"{samples}.recal.bam_CNVs.p.value.txt"), samples=cnv_sample_list)):
             nidap_files.append(f)
         for f in list(expand(os.path.join(NIDAP_OUTDIR,"{samples}.contamination.table"), samples=samples_for_caller_merge)):
@@ -274,14 +274,14 @@ if fqs_found:
     name_suffix=".R[1,2].fastq.gz"
     if not os.path.exists(input_fqdir):
         # print("making"+output_fqdir)
-        os.makedirs(input_fqdir) 
+        os.makedirs(input_fqdir)
         name_symlinks=_sym_safe_(fqs_found, input_fqdir)
     else:
         name_symlinks=glob.glob(os.path.join(input_fqdir,'*.fastq.gz'))
 elif bams_found:
     name_suffix=".input.bam"
     if not os.path.exists(input_bamdir):
-        os.makedirs(input_bamdir) 
+        os.makedirs(input_bamdir)
     if (len(os.listdir(input_bamdir))==0):
         bam_symlinks=_sym_safe_(bams_found, input_bamdir)
     name_symlinks=glob.glob(os.path.join(input_bamdir,'*.input.bam'))
@@ -327,7 +327,7 @@ output_somatic_base=os.path.join(BASEDIR,"somatic_"+tn_mode)
 output_somatic_snpindels=os.path.join(output_somatic_base,"SNP_Indels")
 output_somatic_cnv=os.path.join(output_somatic_base,"CNV")
 
-#Convert chroms into the config.json file 
+#Convert chroms into the config.json file
 chroms=config['references']['chroms']
 
 intervals_file=os.path.join(BASEDIR,"intervals.list")
@@ -428,22 +428,22 @@ rule all:
         expand(os.path.join(input_bamdir,"{samples}.input.bam"), samples=samples),
         expand(os.path.join(output_bamdir,"final_bams","{samples}.bam"), samples=samples),
         expand(os.path.join(output_germline_base,"VCF","{samples}.germline.vcf.gz"), samples=samples),
-        
-        
+
+
         expand(os.path.join(output_somatic_snpindels,merge_outdir,"maf","{samples}.maf"),samples=samples_for_caller_merge),
         # expand(os.path.join("{vc_outdir}","maf","{samples}.maf"), samples=pairs_ids, vc_outdir=somatic_callers),
-        
+
         expand(os.path.join(output_somatic_snpindels,"{vc_outdir}","cohort_summary","all_somatic_variants.maf"), vc_outdir=somatic_callers_dirs),
         # expand(os.path.join(SOBDetector_out,"{vc_outdir}","cohort_summary","all_somatic_variants.maf"), samplespairs_ids, vc_outdir=somatic_callers),
-        
+
         expand(os.path.join(SOBDetector_out,"{vc_outdir}","pass2","{samples}.artifact_filtered.vcf.gz"), samples=ffpe_sample_list, vc_outdir=ffpe_caller_list),
         expand(os.path.join(SOBDetector_out,"{vc_outdir}","cohort_summary","all_somatic_variants.maf"), vc_outdir=ffpe_caller_list),
         # expand(os.path.join(SOBDetector_out,"{vc_outdir}","pass2","{samples}.sobdetect.vcf"), samplespairs_ids, vc_outdir=somatic_callers_dirs),
         expand(os.path.join(SOBDetector_out,"{vc_outdir}","metrics","all_metrics.txt"), vc_outdir=ffpe_caller_list),
-        
-        
+
+
         expand(os.path.join(output_somatic_cnv,"freec_out","pass2","{samples}.recal.bam_CNVs.p.value.txt"), samples=cnv_sample_list),
-        
+
         expand(os.path.join(output_somatic_base,"qc","gatk_contamination","{samples}.contamination.table"), samples=samples_for_caller_merge),
 
         # expand(os.path.join(output_fqdir,"{samples}.fastq.info.txt"), samples=samples),
@@ -452,10 +452,10 @@ rule all:
         # # expand(os.path.join(output_qcdir,"{samples}_fastqc.zip"), samples=samples),
         # expand(os.path.join(output_qcdir,"{samples}","genome_results.txt"), samples=samples),
         # expand(os.path.join(output_qcdir,"{samples}.samtools_flagstat.txt"), samples=samples),
-        # os.path.join(output_qcdir,"raw_variants.het"), 
+        # os.path.join(output_qcdir,"raw_variants.het"),
         # os.path.join(output_qcdir,"raw_variants.variant_calling_detail_metrics"),
         os.path.join(output_qcdir,"finalQC","MultiQC_Report.html"),
-        
+
         # expand(os.path.join(output_qcdir,"{samples}.germline.bcftools_stats.txt"), samples=samples),
         # expand(os.path.join(output_qcdir,"{samples}.germline.eval.grp"), samples=samples),
         # expand(os.path.join(output_qcdir,"{samples}.germline.snpeff.ann.html"), samples=samples),
@@ -504,4 +504,3 @@ onerror:
     shell(jobby_cmd)
     print(spook_cmd)
     shell(spook_cmd)
-    

@@ -25,10 +25,10 @@ EOF
 # Set Genome aliases, vaild choices = hg19/hg38/mm10
 ncbi_build=""
 species=""
-if [ $GENOMEBUILD == "hg38" ]; then 
-    ncbi_build="GRCh38" 
+if [ $GENOMEBUILD == "hg38" ]; then
+    ncbi_build="GRCh38"
     species="homo_sapiens"
-elif [ $GENOMEBUILD == "hg19" ]; then 
+elif [ $GENOMEBUILD == "hg19" ]; then
     ncbi_build="GRCh37"
     species="homo_sapiens"
 elif [ $GENOMEBUILD == "mm10" ] || [ $GENOMEBUILD == "GRCm38" ]; then
@@ -40,11 +40,11 @@ else
     exit 1
 fi
 
-# Set paths to VEP resources based on paths 
+# Set paths to VEP resources based on paths
 dotvep="${VEPRESOURCEBUNDLEPATH}"
 
 # to species and ncbi build name
-#if [ $GENOME == "hg38" ]; then 
+#if [ $GENOME == "hg38" ]; then
 #fa="${VEPRESOURCEBUNDLEPATH}/${ncbi_build}.fa"
 #elif [ $GENOME == "mm10" ]; then
 #    fa="${VEPRESOURCEBUNDLEPATH}/mouse.fa"
@@ -65,7 +65,7 @@ INPUT_DIR=$(dirname $VCF)
 
 # Add chr prefix if requested and missing
 chr_text=""
-if [ $GENOMEBUILD == "hg38" ] || [ $GENOMEBUILD == "mm10" ] || [ $GENOMEBUILD == "GRCm38" ]; then 
+if [ $GENOMEBUILD == "hg38" ] || [ $GENOMEBUILD == "mm10" ] || [ $GENOMEBUILD == "GRCm38" ]; then
     chr_text="chr"
 fi
 echo "Adding text '$chr_text' to chrom names..."
@@ -84,15 +84,15 @@ VCF_NID=""
 NORM_VCF_ID_ARG=""
 NSAMPLES=${#VCF_SAMPLE_IDS[@]}
 if [ $NSAMPLES -gt 1 ]; then
-    # Assign tumor, normal IDs 
-    # Look through column names and 
+    # Assign tumor, normal IDs
+    # Look through column names and
     # see if they match provided IDs
     for (( i = 0; i < $NSAMPLES; i++ )); do
         echo "${VCF_SAMPLE_IDS[$i]}"
         if [ "${VCF_SAMPLE_IDS[$i]}" == "$TID" ]; then
             TID_IDX=$i
         fi
-        
+
         if [ "${VCF_SAMPLE_IDS[$i]}" == "$NID" ]; then
             NID_IDX=$i
         fi
@@ -126,7 +126,7 @@ if [ ! "$MAF_NID" == "" ]; then
     NORM_MAF_ID_ARG="--normal-id $MAF_NID"
 fi
 
-# Set option for multiple threads 
+# Set option for multiple threads
 if [ $THREADS==0 ]; then
     THREADS=1
     if [ ! -z $SLURM_CPUS_PER_TASK ]; then
@@ -150,5 +150,3 @@ vcf2maf.pl \
     --ref-fasta "$GENOMEFASTA" \
     --vep-overwrite
     #--filter-vcf "$filtervcf" \
-
-

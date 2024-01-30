@@ -3,32 +3,32 @@
 # VEP release 102 matches GENCODE v36 for GRCh38
 # This GENCODE release matches the upcoming major
 # relase to GDC GENCODE gene reference model.
-# The GDC will be replacing the files in the 
-# GDC data portal that were generated using 
-# GENCODE v22 with files that were generated 
+# The GDC will be replacing the files in the
+# GDC data portal that were generated using
+# GENCODE v22 with files that were generated
 # using GENCODE v36. GDC will release the
 # reprocessed data on 11/30/2021.
 # @ubuntu/18.04
-# @Dockerfile: 
+# @Dockerfile:
 # github.com/Ensembl/ensembl-vep/blob/release/102/docker/Dockerfile
 FROM ensemblorg/ensembl-vep:release_102.0
 
 LABEL maintainer=kuhnsa@nih.gov
 
-# Create Container filesystem specific 
+# Create Container filesystem specific
 # working directory and opt directories
 USER root
 RUN mkdir -p /opt2 && mkdir -p /data2
-WORKDIR /opt2 
+WORKDIR /opt2
 
-# Set time zone to US east coast 
+# Set time zone to US east coast
 ENV TZ=America/New_York
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone
 
-# This section installs system 
-# packages required for your 
-# project. If you need extra 
+# This section installs system
+# packages required for your
+# project. If you need extra
 # system packages add them here.
 # argparse.bash requires argparse
 # python package.

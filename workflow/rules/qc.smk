@@ -23,10 +23,10 @@ rule fc_lane:
     envmodules: config['tools']['python']['modname']
     container: config['images']['python']
     shell: """
-    if [ ! -d "$(dirname {output.txt})" ]; then 
+    if [ ! -d "$(dirname {output.txt})" ]; then
         mkdir -p "$(dirname {output.txt})"
     fi
-    
+
     python {params.get_flowcell_lanes} \\
         {input.r1} \\
         {wildcards.samples} > {output.txt}
@@ -55,7 +55,7 @@ rule fastq_screen:
     params:
         rname  = "fqscreen",
         outdir = os.path.join(output_qcdir,"FQscreen"),
-        # Exposed Parameters: modify resources/fastq_screen.conf to change 
+        # Exposed Parameters: modify resources/fastq_screen.conf to change
         # default locations to bowtie2 indices
         fastq_screen_config = config['references']['FASTQ_SCREEN_CONFIG'],
     envmodules: config['tools']['fastq_screen']['modname']
@@ -102,7 +102,7 @@ rule kraken:
     threads: 24
     shell: """
     # Setups temporary directory for
-    # intermediate files with built-in 
+    # intermediate files with built-in
     # mechanism for deletion on exit
     {params.set_tmp}
 
@@ -146,7 +146,7 @@ rule fastqc_bam:
     fastqc -t {threads} \\
         -f bam \\
         -o {params.outdir} \\
-        {input.bam} 
+        {input.bam}
     """
 
 localrules: reformat_targets_bed
@@ -163,7 +163,7 @@ rule reformat_targets_bed:
     """
     input:
         targets=exome_targets_bed,
-    output: 
+    output:
         bed=os.path.join(output_qcdir, "exome_targets.bed"),
     params:
         script_path_reformat_bed=config['scripts']['reformat_bed'],
@@ -179,11 +179,11 @@ rule reformat_targets_bed:
     python3 {params.script_path_correct_target_bed} {output.bed}.temp {output.bed}
     rm -f {output.bed}.temp
     """
-    
-    
+
+
 rule qualimap_bamqc:
     """
-    Quality-control step to assess various post-alignment metrics 
+    Quality-control step to assess various post-alignment metrics
     and a secondary method to calculate insert size. Please see
     QualiMap's website for more information about BAM QC:
     http://qualimap.conesalab.org/
@@ -195,7 +195,7 @@ rule qualimap_bamqc:
     input:
         bam  = os.path.join(output_bamdir,"final_bams","{samples}.bam"),
         bed=os.path.join(output_qcdir, "exome_targets.bed"),
-    output: 
+    output:
         txt  = os.path.join(output_qcdir,"{samples}","genome_results.txt"),
         html = os.path.join(output_qcdir,"{samples}","qualimapReport.html")
     params:
@@ -222,9 +222,9 @@ rule qualimap_bamqc:
 
 rule samtools_flagstats:
     """
-    Quality-control step to assess alignment quality. Flagstat provides 
-    counts for each of 13 categories based primarily on bit flags in the 
-    FLAG field. Information on the meaning of the flags is given in the 
+    Quality-control step to assess alignment quality. Flagstat provides
+    counts for each of 13 categories based primarily on bit flags in the
+    FLAG field. Information on the meaning of the flags is given in the
     SAM specification: https://samtools.github.io/hts-specs/SAMv1.pdf
     @Input:
         Recalibrated BAM file (scatter)
@@ -235,7 +235,7 @@ rule samtools_flagstats:
         bam  = os.path.join(output_bamdir,"final_bams","{samples}.bam"),
     output:
         txt  = os.path.join(output_qcdir,"{samples}.samtools_flagstat.txt")
-    params: 
+    params:
         rname = "samtools_flagstats"
     message: "Running SAMtools flagstat on '{input}' input file"
     envmodules: config['tools']['samtools']['modname']
@@ -247,21 +247,21 @@ rule samtools_flagstats:
 
 rule vcftools:
     """
-    Quality-control step to calculates a measure of heterozygosity on 
+    Quality-control step to calculates a measure of heterozygosity on
     a per-individual basis. The inbreeding coefficient, F, is estimated
     for each individual using a method of moments. Please see VCFtools
-    documentation for more information: 
+    documentation for more information:
     https://vcftools.github.io/man_latest.html
     @Input:
         Multi-sample gVCF file (indirect-gather-due-to-aggregation)
     @Output:
         Text file containing a measure of heterozygosity
     """
-    input: 
+    input:
         vcf = os.path.join(output_germline_base,"VCF","raw_variants.vcf.gz"),
-    output: 
+    output:
         het = os.path.join(output_qcdir,"raw_variants.het"),
-    params: 
+    params:
         prefix = os.path.join(output_qcdir,"raw_variants"),
         rname  = "vcftools",
     message: "Running VCFtools on '{input.vcf}' input file"
@@ -281,13 +281,13 @@ rule collectvariantcallmetrics:
     @Input:
         Multi-sample gVCF file (indirect-gather-due-to-aggregation)
     @Output:
-        Text file containing a collection of metrics relating to snps and indels 
+        Text file containing a collection of metrics relating to snps and indels
     """
-    input: 
+    input:
         vcf = os.path.join(output_germline_base,"VCF","raw_variants.vcf.gz"),
-    output: 
+    output:
         metrics = os.path.join(output_qcdir,"raw_variants.variant_calling_detail_metrics"),
-    params: 
+    params:
         dbsnp=config['references']['DBSNP'],
         prefix = os.path.join(output_qcdir,"raw_variants"),
         rname="varcallmetrics",
@@ -307,20 +307,20 @@ rule bcftools_stats:
     """
     Quality-control step to collect summary statistics from bcftools stats.
     When bcftools stats is run with one VCF file then stats by non-reference
-    allele frequency, depth distribution, stats by quality and per-sample 
-    counts, singleton statsistics are calculated. Please see bcftools' 
-    documentation for more information: 
+    allele frequency, depth distribution, stats by quality and per-sample
+    counts, singleton statsistics are calculated. Please see bcftools'
+    documentation for more information:
     http://samtools.github.io/bcftools/bcftools.html#stats
     @Input:
         Per sample gVCF file (scatter)
     @Output:
         Text file containing a collection of summary statistics
     """
-    input: 
+    input:
         vcf = os.path.join(output_germline_base,"VCF","{samples}.germline.vcf.gz"),
-    output: 
+    output:
         txt = os.path.join(output_qcdir,"{samples}.germline.bcftools_stats.txt"),
-    params: 
+    params:
         rname="bcfstats",
     message: "Running BCFtools on '{input.vcf}' input file"
     envmodules: config['tools']['bcftools']['modname']
@@ -332,20 +332,20 @@ rule bcftools_stats:
 
 rule gatk_varianteval:
     """
-    Quality-control step to calculate various quality control metrics from a 
-    variant callset. These metrics include the number of raw or filtered SNP 
+    Quality-control step to calculate various quality control metrics from a
+    variant callset. These metrics include the number of raw or filtered SNP
     counts; ratio of transition mutations to transversions; concordance of a
     particular sample's calls to a genotyping chip; number of s per sample.
-    Please see GATK's documentation for more information: 
+    Please see GATK's documentation for more information:
     https://gatk.broadinstitute.org/hc/en-us/articles/360040507171-VariantEval
     @Input:
         Per sample gVCF file (scatter)
     @Output:
         Evaluation table containing a collection of summary statistics
     """
-    input: 
-        vcf = os.path.join(output_germline_base,"VCF","{samples}.germline.vcf.gz"), 
-    output: 
+    input:
+        vcf = os.path.join(output_germline_base,"VCF","{samples}.germline.vcf.gz"),
+    output:
         grp = os.path.join(output_qcdir,"{samples}.germline.eval.grp"),
     params:
         rname    = "vareval",
@@ -361,7 +361,7 @@ rule gatk_varianteval:
         -R {params.genome} \\
         -O {output.grp} \\
         --dbsnp {params.dbsnp} \\
-        --eval {input.vcf} 
+        --eval {input.vcf}
     """
 
 
@@ -369,20 +369,20 @@ rule snpeff:
     """
     Data processing and quality-control step to annotate variants, predict its
     functional effects, and collect various summary statistics about variants and
-    their annotations. Please see SnpEff's documentation for more information: 
+    their annotations. Please see SnpEff's documentation for more information:
     https://pcingola.github.io/SnpEff/
     @Input:
         Per sample gVCF file (scatter)
     @Output:
         Evaluation table containing a collection of summary statistics
     """
-    input:  
+    input:
         vcf = os.path.join(output_germline_base,"VCF","{samples}.germline.vcf.gz")
-    output: 
+    output:
         vcf  = os.path.join(output_qcdir,"{samples}.germline.snpeff.ann.vcf"),
         csv  = os.path.join(output_qcdir,"{samples}.germline.snpeff.ann.csv"),
         html = os.path.join(output_qcdir,"{samples}.germline.snpeff.ann.html"),
-    params: 
+    params:
         rname  = "snpeff",
         genome = config['references']['SNPEFF_GENOME'],
         config = config['references']['SNPEFF_CONFIG'],
@@ -412,14 +412,14 @@ if config['project']['annotation']=='hg38':
         input:
             bam = os.path.join(output_bamdir,"final_bams","{samples}.bam"),
             bai = os.path.join(output_bamdir,"final_bams","{samples}.bai"),
-        output: 
+        output:
             somalierOut = os.path.join(output_germline_base,"somalier","{samples}.somalier")
         params:
             sites_vcf = config['references']['SOMALIER']['SITES_VCF'],
             genomeFasta = config['references']['GENOME'],
             rname = 'somalier_extract'
         container: config['images']['wes_base']
-        shell: """ 
+        shell: """
         echo "Extracting sites to estimate ancestry"
         somalier extract \\
             -d "$(dirname {output.somalierOut})" \\
@@ -458,12 +458,12 @@ if config['project']['annotation']=='hg38':
             script_path_pca = config['scripts']['ancestry'],
             rname = 'somalier_analysis'
         container: config['images']['wes_base']
-        shell: """ 
+        shell: """
         echo "Estimating relatedness"
         somalier relate \\
             -o "$(dirname {output.relatedness})/relatedness" \\
             {input.somalier}
-        
+
         echo "Estimating ancestry"
         somalier ancestry \\
             -o "$(dirname {output.relatedness})/ancestry" \\
@@ -472,12 +472,12 @@ if config['project']['annotation']=='hg38':
             {input.somalier}
         Rscript {params.script_path_gender} \\
             {output.relatednessSamples} \\
-            {output.finalFileGender}    
-        
+            {output.finalFileGender}
+
         Rscript {params.script_path_samples} \\
             {output.relatedness} \\
             {output.finalFilePairs}
-        
+
         Rscript {params.script_path_pca} \\
             {output.ancestry} \\
             {output.finalFilePairs} \\
@@ -490,8 +490,8 @@ if config['project']['annotation']=='hg38':
     rule multiqc:
         """
         Reporting step to aggregate sample summary statistics and quality-control
-        information across all samples. This will be one of the last steps of the 
-        pipeline. The inputs listed here are to ensure that this step runs last. 
+        information across all samples. This will be one of the last steps of the
+        pipeline. The inputs listed here are to ensure that this step runs last.
         During runtime, MultiQC will recurively crawl through the working directory
         and parse files that it supports.
         @Input:
@@ -499,7 +499,7 @@ if config['project']['annotation']=='hg38':
         @Output:
             Interactive MulitQC report and a QC metadata table
         """
-        input:  
+        input:
             expand(os.path.join(output_fqdir,"{samples}.fastq.info.txt"), samples=samples),
             expand(os.path.join(output_qcdir,"FQscreen","{samples}.R2.trimmed_screen.txt"), samples=samples),
             expand(os.path.join(output_qcdir,"kraken","{samples}.trimmed.kraken_bacteria.krona.html"), samples=samples),
@@ -509,12 +509,12 @@ if config['project']['annotation']=='hg38':
             expand(os.path.join(output_qcdir,"{samples}.germline.bcftools_stats.txt"), samples=samples),
             expand(os.path.join(output_qcdir,"{samples}.germline.eval.grp"), samples=samples),
             expand(os.path.join(output_qcdir,"{samples}.germline.snpeff.ann.html"), samples=samples),
-            os.path.join(output_qcdir,"raw_variants.het"), 
+            os.path.join(output_qcdir,"raw_variants.het"),
             os.path.join(output_qcdir,"raw_variants.variant_calling_detail_metrics"),
             os.path.join(output_germline_base,"somalier","ancestry.somalier-ancestry.tsv"),
-        output: 
+        output:
             report  = os.path.join(output_qcdir,"finalQC","MultiQC_Report.html"),
-        params: 
+        params:
             rname  = "multiqc",
             workdir = os.path.join(BASEDIR)
         envmodules: config['tools']['multiqc']['modname']
@@ -542,14 +542,14 @@ if config['project']['annotation']=='mm10':
         input:
             bam = os.path.join(output_bamdir,"final_bams","{samples}.bam"),
             bai = os.path.join(output_bamdir,"final_bams","{samples}.bai"),
-        output: 
+        output:
             somalierOut = os.path.join(output_germline_base,"somalier","{samples}.somalier")
         params:
             sites_vcf = config['references']['SOMALIER']['SITES_VCF'],
             genomeFasta = config['references']['GENOME'],
             rname = 'somalier_extract'
         container: config['images']['wes_base']
-        shell: """ 
+        shell: """
         echo "Extracting sites to estimate ancestry"
         somalier extract \\
             -d "$(dirname {output.somalierOut})" \\
@@ -587,7 +587,7 @@ if config['project']['annotation']=='mm10':
             script_path_pca = config['scripts']['ancestry'],
             rname = 'somalier_analysis'
         container: config['images']['wes_base']
-        shell: """ 
+        shell: """
         echo "Estimating relatedness"
         somalier relate \\
             -o "$(dirname {output.relatedness})/relatedness" \\
@@ -595,19 +595,19 @@ if config['project']['annotation']=='mm10':
 
         Rscript {params.script_path_gender} \\
             {output.relatednessSamples} \\
-            {output.finalFileGender}    
-        
+            {output.finalFileGender}
+
         Rscript {params.script_path_samples} \\
             {output.relatedness} \\
             {output.finalFilePairs}
-        
+
         """
 
     rule multiqc:
         """
         Reporting step to aggregate sample summary statistics and quality-control
-        information across all samples. This will be one of the last steps of the 
-        pipeline. The inputs listed here are to ensure that this step runs last. 
+        information across all samples. This will be one of the last steps of the
+        pipeline. The inputs listed here are to ensure that this step runs last.
         During runtime, MultiQC will recurively crawl through the working directory
         and parse files that it supports.
         @Input:
@@ -615,7 +615,7 @@ if config['project']['annotation']=='mm10':
         @Output:
             Interactive MulitQC report and a QC metadata table
         """
-        input:  
+        input:
             expand(os.path.join(output_fqdir,"{samples}.fastq.info.txt"), samples=samples),
             expand(os.path.join(output_qcdir,"FQscreen","{samples}.R2.trimmed_screen.txt"), samples=samples),
             expand(os.path.join(output_qcdir,"kraken","{samples}.trimmed.kraken_bacteria.krona.html"), samples=samples),
@@ -625,11 +625,11 @@ if config['project']['annotation']=='mm10':
             expand(os.path.join(output_qcdir,"{samples}.germline.bcftools_stats.txt"), samples=samples),
             expand(os.path.join(output_qcdir,"{samples}.germline.eval.grp"), samples=samples),
             expand(os.path.join(output_qcdir,"{samples}.germline.snpeff.ann.html"), samples=samples),
-            os.path.join(output_qcdir,"raw_variants.het"), 
+            os.path.join(output_qcdir,"raw_variants.het"),
             os.path.join(output_qcdir,"raw_variants.variant_calling_detail_metrics"),
-        output: 
+        output:
             report  = os.path.join(output_qcdir,"finalQC","MultiQC_Report.html"),
-        params: 
+        params:
             rname  = "multiqc",
             workdir = os.path.join(BASEDIR)
         envmodules: config['tools']['multiqc']['modname']

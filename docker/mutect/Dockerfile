@@ -4,12 +4,12 @@ FROM ubuntu:14.04
 
 LABEL maintainer=kuhnsa@nih.gov
 
-# Create Container filesystem specific 
-# working directory and opt directories 
+# Create Container filesystem specific
+# working directory and opt directories
 RUN mkdir -p /opt2 && mkdir -p /data2
-WORKDIR /opt2 
+WORKDIR /opt2
 
-# Set time zone to US east coast 
+# Set time zone to US east coast
 ENV TZ=America/New_York
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone
@@ -17,7 +17,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
 # This section installs system packages required for your project
 # If you need extra system packages add them here.
 # Strelka strictly requires python/2.7,
-# it is not compatiable with any other 
+# it is not compatiable with any other
 # version of python.
 # Installs python/2.7.16
 RUN apt-get update \
@@ -36,9 +36,9 @@ RUN apt-get update \
 
 # Install MuTect/1.1.7, from my mirror with a pre-compiled JAR file
 # Requires java7 or jdk 1.7 for the pre-compiled JAR file (already satified)
-# openjdk-7-jdk not a part of ubuntu >= 18.04, so installation using 
+# openjdk-7-jdk not a part of ubuntu >= 18.04, so installation using
 # an older LTS version of Ubunutu is required
-# Setting environment variables: MUTECT_JAR and MUTECT_JARPATH to 
+# Setting environment variables: MUTECT_JAR and MUTECT_JARPATH to
 # mirror HPC module on Biowulf
 RUN git clone https://github.com/skchronicles/mirror-muTect-1.1.7.git
 ENV PATH="/opt2/mirror-muTect-1.1.7:$PATH"

@@ -1,5 +1,5 @@
 {
-   "tools": {
+    "tools": {
         "trimmomatic": {
             "version": "0.39",
             "modname": "trimmomatic/0.39"

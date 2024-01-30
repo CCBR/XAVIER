@@ -5,6 +5,7 @@
 The output files and their locations are broken down here for the XAVIER pipeline. Pre-processing and germline variant calling steps are common but somatic variant calling is dependent on whether the pipeline was run in either (A) tumor-normal pair or (B) tumor-only analysis mode. All file locations are relative to the output directory specified during the job submission.
 
 The output directory after a complete XAVIER run should look like:
+
 ```bash
 xavier_output/
 ├── bams
@@ -33,11 +34,12 @@ xavier_output/
 └── workflow
 
 ```
-Below we describe the different folders that contain specific outputs obtained for all samples from the XAVIER pipeline 
+
+Below we describe the different folders that contain specific outputs obtained for all samples from the XAVIER pipeline
 
 ### 1. `QC`
 
-The `QC` folder contains all the  Quality-Control analyses performed at different steps of the pipeline for each sample to assess sequencing quality before and after adapter trimming, microbial taxonomic composition, contamination, variant calling, etc. The final summary report and data is available `finalQC` folder. \
+The `QC` folder contains all the Quality-Control analyses performed at different steps of the pipeline for each sample to assess sequencing quality before and after adapter trimming, microbial taxonomic composition, contamination, variant calling, etc. The final summary report and data is available `finalQC` folder. \
 The MultiQC report also contains results from other analysis like mapping statistics, ancestry and relatdness, etc. It is recommended to study the MultiQC report first to get a birds eye view of the sequence data quality.
 
 ```bash
@@ -62,7 +64,6 @@ QC/
 ├── raw_variants.variant_calling_detail_metrics
 └── raw_variants.variant_calling_summary_metrics
 ```
-
 
 ### 2. `bams`
 
@@ -89,13 +90,14 @@ bams/
 ### 3. `germline`
 
 This folder contains the output from the GATK Best Practices pipeline to obtain germline variants with a few alterations detailed below. Briefly, joint SNP and INDEL variant detection is conducted across all samples included in a pipeline run using the GATK Haplotypcaller under default settings. Raw variants are then subsequently filtered based on several GATK annotations: \
-A strict set of criteria (QD < 2.0, FS > 60.0, MQ < 40.0, MQRankSum < -12.5, ReadPosRankSum < -8.0 for SNPs; QD < 2.0, FS > 200.0, ReadPosRankSum < -20.0 for INDELs) generates the 'combined.strictFilter.vcf'. 
+A strict set of criteria (QD < 2.0, FS > 60.0, MQ < 40.0, MQRankSum < -12.5, ReadPosRankSum < -8.0 for SNPs; QD < 2.0, FS > 200.0, ReadPosRankSum < -20.0 for INDELs) generates the 'combined.strictFilter.vcf'.
 
 This call set is highly stringent, maximizing the true positive rate at the expense of an elevated false negative rate. This call set is really only intended for more general population genetic scale analyses (e.g., burden tests, admixture, linkage/pedigree based analysis, etc.) where false positives can be significantly confounding.
 
 In case of human sequence data, a basic analyses of sample relatedness and ancestry (e.g., % European, African, etc.) is also performed using somalier.
 
 The output folder looks like:
+
 ```bash
 germline/
 ├── gVCFs
@@ -105,7 +107,8 @@ germline/
 ├── somalier # only for hg38 genome
 └── VCF
 ```
-The `VCF` folder contains the final filtered germline variants (SNPs and INDELs) for all samples combined. The folder also contains raw variants for each sample, all samples combined, and also combined raw variants split by chromosome. 
+
+The `VCF` folder contains the final filtered germline variants (SNPs and INDELs) for all samples combined. The folder also contains raw variants for each sample, all samples combined, and also combined raw variants split by chromosome.
 
 ```bash
 VCF/
@@ -128,7 +131,6 @@ VCF/
 ├── snp.filtered.vcf.gz[.tbi]
 └── snp_indel.filtered.vcf.gz[.tbi]
 ```
-
 
 ### 4. `logfiles`
 
@@ -157,9 +159,8 @@ For Mutect2, we use a panel of normals (PON) developed from the ExAC (excluding 
 
 For Copy Number Variants (CNVs), two tools are employed in tandem. First, Control-FREEC is run with default parameters. This generates pileup files that can be used by Sequenza, primarily for jointly estimating contamination and ploidy. These value are used to run Freec a second time for improved performance.
 
-
-
 The output directory should look like:
+
 ```bash
 somatic_paired/
 ├── CNV # only if CNVs analyzed
@@ -168,7 +169,7 @@ somatic_paired/
 ├── ffpe_filter # only if FFPE filter applied
 ├── qc
 └── SNP_Indels
-    ├── merged_somatic_variants 
+    ├── merged_somatic_variants
     │   ├── cohort_summary
     │   ├── maf # Final merged MAFs for each sample
     │   └── vcf

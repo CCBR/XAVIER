@@ -25,7 +25,7 @@ docker image ls
 docker push skchronicles/ccbr_example:v0.1.0
 docker push skchronicles/ccbr_example:latest
 docker push nciccbr/ccbr_example:v0.1.0
-docker push nciccbr/ccbr_example:latest 
+docker push nciccbr/ccbr_example:latest
 ```
 
 ### Other Recommended Steps

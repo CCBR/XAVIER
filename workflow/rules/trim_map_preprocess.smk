@@ -29,7 +29,7 @@ rule bam2fastq:
         config['images']['wes_base']
     shell: """
     # Setups temporary directory for
-    # intermediate files with built-in 
+    # intermediate files with built-in
     # mechanism for deletion on exit
     {params.set_tmp}
 
@@ -66,7 +66,7 @@ rule trimmomatic:
         adapterfile = config['references']['trimmomatic.adapters'],
         ver = config['tools']['trimmomatic']['version'],
         rname = 'trimmomatic'
-    envmodules: 
+    envmodules:
         config['tools']['trimmomatic']['modname']
     container:
         config['images']['wes_base']
@@ -84,7 +84,7 @@ rule trimmomatic:
         LEADING:10 \\
         TRAILING:10 \\
         SLIDINGWINDOW:4:20 \\
-        MINLEN:20      
+        MINLEN:20
     """
 
 
@@ -107,12 +107,12 @@ rule bwa_mem:
         ver_samtools = config['tools']['samtools']['version'],
         ver_bwa = config['tools']['bwa']['version'],
         rname = 'bwamem'
-    envmodules: 
+    envmodules:
        config['tools']['samtools']['modname'],
        config['tools']['bwa']['modname'],
        config['tools']['samblaster']['modname']
     container:
-        config['images']['wes_base'] 
+        config['images']['wes_base']
     threads: 24
     shell: """
     myoutdir="$(dirname {output})"
@@ -145,9 +145,9 @@ rule raw_index:
     params:
         ver_samtools = config['tools']['samtools']['version'],
         rname = 'raw_index'
-    envmodules: 
+    envmodules:
         config['tools']['samtools']['modname']
-    container: 
+    container:
         config['images']['wes_base']
     shell: """
     samtools index -@ 2 {input.bam} {output.bai}
@@ -173,7 +173,7 @@ rule gatk_recal:
     output:
         bam = os.path.join(input_bamdir, "{samples}.input.bam"),
         re = temp(os.path.join(output_bamdir, "preprocessing", "{samples}_recal_data.grp"))
-    params: 
+    params:
         genome = config['references']['GENOME'],
         knowns = config['references']['KNOWNRECAL'],
         ver_gatk = config['tools']['gatk4']['version'],
@@ -192,7 +192,7 @@ rule gatk_recal:
         {params.knowns} \\
         --output {output.re} \\
         --intervals {params.intervals}
-    
+
     gatk --java-options '-Xmx48g' ApplyBQSR \\
         --reference {params.genome} \\
         --input {input.bam} \\
@@ -207,7 +207,7 @@ rule bam_check:
     """
     This is a checkpoint to make sure BAMs are ready for variant calling.
     The read group (RG) tags are checked to make sure they match the sample ID
-    inferred from the file name, and the bam is indexed. This rule needs to be 
+    inferred from the file name, and the bam is indexed. This rule needs to be
     refactored at some point. It is not making great use of snake-thonic.
     @Input:
         Aligned reads in BAM format (scatter)
@@ -233,8 +233,8 @@ rule bam_check:
     sample={wildcards.samples}
     ID=$sample
     PL="ILLUMINA"  # exposed as a config param
-    LB="na"        # exposed as a config param 
-    
+    LB="na"        # exposed as a config param
+
     # Check if there is no header or any of the info
     HEADER=`samtools view -H {input.bam} | grep ^@RG`
     if [[ "$HEADER" != "" ]]; then
@@ -258,7 +258,7 @@ rule bam_check:
         --RGPL ${{PL}} \\
         --RGSM ${{ID}} \\
         --RGPU na
-    
+
     samtools index -@ 2 {output.bam} {output.bai}
     cp {output.bai} {output.bai2}
     """
