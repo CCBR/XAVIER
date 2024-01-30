@@ -17,7 +17,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
 # This section installs system packages required for your project
 # If you need extra system packages add them here.
 # Strelka strictly requires python/2.7,
-# it is not compatiable with any other
+# it is not compatible with any other
 # version of python.
 # Installs python/2.7.16
 RUN apt-get update \
@@ -35,7 +35,7 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install MuTect/1.1.7, from my mirror with a pre-compiled JAR file
-# Requires java7 or jdk 1.7 for the pre-compiled JAR file (already satified)
+# Requires java7 or jdk 1.7 for the pre-compiled JAR file (already satisfied)
 # openjdk-7-jdk not a part of ubuntu >= 18.04, so installation using
 # an older LTS version of Ubunutu is required
 # Setting environment variables: MUTECT_JAR and MUTECT_JARPATH to

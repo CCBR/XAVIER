@@ -110,7 +110,7 @@ xavier run \
 
 ## Contribute
 
-This site is a living document, created for and by members like you. XAVIER is maintained by the members of CCBR and is improved by continous feedback! We encourage you to contribute new content and make improvements to existing content via pull request to our [repository](https://github.com/CCBR/XAVIER/pulls).
+This site is a living document, created for and by members like you. XAVIER is maintained by the members of CCBR and is improved by continuous feedback! We encourage you to contribute new content and make improvements to existing content via pull request to our [repository](https://github.com/CCBR/XAVIER/pulls).
 
 ## References
 

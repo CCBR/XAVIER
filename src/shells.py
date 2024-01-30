@@ -69,4 +69,4 @@ def bash(
 if __name__ == "__main__":
     # Tests
     bash("ls -la /home/")
-    bash("ls -la /fake/dne/path")
+    bash("ls -la /fake/path")

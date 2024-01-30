@@ -24,7 +24,7 @@ For more information about issues or trouble-shooting a problem, please checkout
 
 ## Contribute
 
-This site is a living document, created for and by members like you. XAVIER is maintained by the members of CCBR and is improved by continous feedback! We encourage you to contribute new content and make improvements to existing content via pull request to our [GitHub repository :octicons-heart-fill-24:{ .heart }](https://github.com/CCBR/XAVIER/).
+This site is a living document, created for and by members like you. XAVIER is maintained by the members of CCBR and is improved by continuous feedback! We encourage you to contribute new content and make improvements to existing content via pull request to our [GitHub repository :octicons-heart-fill-24:{ .heart }](https://github.com/CCBR/XAVIER/).
 
 ## References
 

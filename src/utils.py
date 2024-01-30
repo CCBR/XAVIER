@@ -25,7 +25,7 @@ def md5sum(filename, first_block_only=False, blocksize=65536):
     with open(filename, "rb") as fh:
         buf = fh.read(blocksize)
         if first_block_only:
-            # Calculate MD5 of first block or chunck of file.
+            # Calculate MD5 of first block or chunk of file.
             # This is a useful heuristic for when potentially
             # calculating an MD5 checksum of thousand or
             # millions of file.
@@ -67,7 +67,7 @@ def check_cache(parser, cache, *args, **kwargs):
     elif os.path.isdir(cache):
         # Provide cache exists as directory
         # Check that the user owns the child cache directory
-        # May revert to os.getuid() if user id is not sufficent
+        # May revert to os.getuid() if user id is not sufficient
         if (
             exists(os.path.join(cache, "cache"))
             and os.stat(os.path.join(cache, "cache")).st_uid != os.getuid()
@@ -99,7 +99,7 @@ def permissions(parser, path, *args, **kwargs):
     """
     if not exists(path):
         parser.error(
-            "Path '{}' does not exists! Failed to provide vaild input.".format(path)
+            "Path '{}' does not exists! Failed to provide valid input.".format(path)
         )
     if not os.access(path, *args, **kwargs):
         parser.error(
@@ -301,7 +301,7 @@ def join_jsons(templates):
 if __name__ == "__main__":
     # Calculate MD5 checksum of entire file
     print("{}  {}".format(md5sum(sys.argv[0]), sys.argv[0]))
-    # Calcualte MD5 cehcksum of 512 byte chunck of file,
+    # Calculate MD5 checksum of 512 byte chunk of file,
     # which is similar to following unix command:
     # dd if=utils.py bs=512 count=1 2>/dev/null | md5sum
     print(

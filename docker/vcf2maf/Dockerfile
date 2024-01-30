@@ -2,7 +2,7 @@
 # hub.docker.com/r/ensemblorg/ensembl-vep/tags
 # VEP release 102 matches GENCODE v36 for GRCh38
 # This GENCODE release matches the upcoming major
-# relase to GDC GENCODE gene reference model.
+# release to GDC GENCODE gene reference model.
 # The GDC will be replacing the files in the
 # GDC data portal that were generated using
 # GENCODE v22 with files that were generated

@@ -14,7 +14,7 @@ import uuid
 def rename(filename):
     """Dynamically renames FastQ file to have one of the following extensions: *.R1.fastq.gz, *.R2.fastq.gz
     To automatically rename the fastq files, a few assumptions are made. If the extension of the
-    FastQ file cannot be infered, an exception is raised telling the user to fix the filename
+    FastQ file cannot be inferred, an exception is raised telling the user to fix the filename
     of the fastq files.
     @param filename <str>:
         Original name of file to be renamed
@@ -338,7 +338,7 @@ if not os.path.isfile(intervals_file):
 
 
 # Check if user provided at least
-# one useable variant caller
+# one usable variant caller
 caller_list=[caller_name.lower() for caller_name in config['input_params']['VARIANT_CALLERS']]
 caller_list=list(set(caller_list) & set(config['available_somatic_callers'][tn_mode]))
 

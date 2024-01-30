@@ -103,11 +103,11 @@ if (length(args) > 5) {
       tt <- which(lBAF$A != 0.5 & lBAF$A >= 0)
       points(lBAF$Position[tt], lBAF$BAF[tt], pch = ".", col = colors()[62])
       tt <- 1
-      pres <- 1
+      present <- 1
 
       if (length(lBAF$A) > 4) {
-        for (j in c(2:(length(lBAF$A) - pres - 1))) {
-          if (lBAF$A[j] == lBAF$A[j + pres]) {
+        for (j in c(2:(length(lBAF$A) - present - 1))) {
+          if (lBAF$A[j] == lBAF$A[j + present]) {
             tt[length(tt) + 1] <- j
           }
         }
@@ -116,10 +116,10 @@ if (length(args) > 5) {
       }
 
       tt <- 1
-      pres <- 1
+      present <- 1
       if (length(lBAF$FittedA) > 4) {
-        for (j in c(2:(length(lBAF$FittedA) - pres - 1))) {
-          if (lBAF$FittedA[j] == lBAF$FittedA[j + pres]) {
+        for (j in c(2:(length(lBAF$FittedA) - present - 1))) {
+          if (lBAF$FittedA[j] == lBAF$FittedA[j + present]) {
             tt[length(tt) + 1] <- j
           }
         }

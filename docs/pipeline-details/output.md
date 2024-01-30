@@ -40,7 +40,7 @@ Below we describe the different folders that contain specific outputs obtained f
 ### 1. `QC`
 
 The `QC` folder contains all the Quality-Control analyses performed at different steps of the pipeline for each sample to assess sequencing quality before and after adapter trimming, microbial taxonomic composition, contamination, variant calling, etc. The final summary report and data is available `finalQC` folder. \
-The MultiQC report also contains results from other analysis like mapping statistics, ancestry and relatdness, etc. It is recommended to study the MultiQC report first to get a birds eye view of the sequence data quality.
+The MultiQC report also contains results from other analysis like mapping statistics, ancestry and relatedness, etc. It is recommended to study the MultiQC report first to get a birds eye view of the sequence data quality.
 
 ```bash
 QC/

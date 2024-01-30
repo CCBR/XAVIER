@@ -22,7 +22,7 @@ parser.add_argument('--vepresourcebundlepath', required=False, default='/data/CC
 parser.add_argument('--genomefasta', required=False, help='Fasta location')
 EOF
 
-# Set Genome aliases, vaild choices = hg19/hg38/mm10
+# Set Genome aliases, valid choices = hg19/hg38/mm10
 ncbi_build=""
 species=""
 if [ $GENOMEBUILD == "hg38" ]; then
@@ -35,7 +35,7 @@ elif [ $GENOMEBUILD == "mm10" ] || [ $GENOMEBUILD == "GRCm38" ]; then
     ncbi_build="GRCm38"
     species="mus_musculus"
 else
-    echo "Unsupport value to option: --genomebuild"
+    echo "Unsupported value to option: --genomebuild"
     echo "Please select from: hg19/hg38/mm10"
     exit 1
 fi

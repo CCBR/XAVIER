@@ -51,7 +51,7 @@ rule sobdetect_pass1:
         # problem so pipeline can continue
         cat "{input.vcf}" > {output.pass1_vcf}
     else
-        # SOB Dectector failed for another reason
+        # SOB Detector failed for another reason
         echo "SOB Detector Failed... exiting now!" 1>&2
         exit 1
     fi
@@ -83,7 +83,7 @@ rule sobdetect_cohort_params:
     # with a set of empty input VCF files
     all_length=$(tail -n+2 {output.all_info_file} | wc -l)
     if [ $all_length -eq 0 ]; then
-        echo 'WARNING: All SOB Dectect pass1 samples contained no variants.' \\
+        echo 'WARNING: All SOB Detect pass1 samples contained no variants.' \\
         | tee {output.params_file}
     else
         # Calculate mean and standard deviation
@@ -139,7 +139,7 @@ rule sobdetect_pass2:
         # problem so pipeline can continue
         cat "{input.vcf}" > {output.pass2_vcf}
     else
-        # SOB Dectector failed for another reason
+        # SOB Detector failed for another reason
         echo "SOB Detector Failed... exiting now!" 1>&2
         exit 1
     fi

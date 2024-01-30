@@ -209,7 +209,6 @@ def cache(sub_args):
         Parsed arguments for unlock sub-command
     """
     print(sub_args)
-    # fatal('NotImplementedError... Comming Soon!')
 
     sif_cache = sub_args.sif_cache
     # Get absolute PATH to templates in XAVIER git repo
@@ -291,7 +290,7 @@ def parsed_arguments():
         description="XAVIER: eXome Analysis and Variant explorER:"
     )
 
-    # Adding Verison information
+    # Adding Version information
     parser.add_argument(
         "--version", action="version", version="%(prog)s {}".format(__version__)
     )
@@ -406,7 +405,7 @@ def parsed_arguments():
         )
     )
 
-    # Supressing help message of required args to overcome no sub-parser named groups
+    # Suppressing help message of required args to overcome no sub-parser named groups
     subparser_run = subparsers.add_parser(
         "run",
         help="Run the XAVIER  pipeline with input files.",
@@ -474,7 +473,7 @@ def parsed_arguments():
         default="slurm",
         choices=["slurm", "local"],
         help="Execution Method [Default: slurm]. Defines the mode or method of execution. \
-        Vaild mode options include: local or slurm. \
+        Valid mode options include: local or slurm. \
         local: uses local method of execution. local executions will run serially on \
         compute instance. This is useful for testing, debugging, or when a users does \
         not have access to a high performance computing environment. If this option is \
@@ -563,7 +562,7 @@ def parsed_arguments():
         required=False,
         default=False,
         help='Create folder called "NIDAP" with file to-be-moved back to NIDAP \
-              This makes it convinient to move only this folder (called NIDAP) and its content back \
+              This makes it convenient to move only this folder (called NIDAP) and its content back \
               to NIDAP, rather than the entire pipeline output folder',
     )
 
@@ -631,7 +630,7 @@ def parsed_arguments():
         required=False,
         default=2,
         help="Max number of threads for local processes. It is recommended \
-        setting this vaule to the maximum number of CPUs available on the host \
+        setting this value to the maximum number of CPUs available on the host \
         machine, default: 2.",
     )
 
@@ -676,7 +675,7 @@ def parsed_arguments():
         )
     )
 
-    # Supressing help message of required args to overcome no sub-parser named groups
+    # Suppressing help message of required args to overcome no sub-parser named groups
     subparser_unlock = subparsers.add_parser(
         "unlock",
         help="Unlocks a previous runs output directory.",
@@ -741,7 +740,7 @@ def parsed_arguments():
         )
     )
 
-    # Supressing help message of required args to overcome no sub-parser named groups
+    # Suppressing help message of required args to overcome no sub-parser named groups
     subparser_cache = subparsers.add_parser(
         "cache",
         help="Cache remote resources locally.",

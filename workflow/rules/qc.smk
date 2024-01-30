@@ -6,7 +6,7 @@ rule fc_lane:
     SRA have a different format than newer FastQ files generated with the
     current version of Casava. It is worth noting that FastQ files downloaded from SRA
     or FastQ files generated with Casava version < 1.8 do not have Flowcell
-    IDs in its sequence indentifer. If a FastQ file does not have Flowcell IDs,
+    IDs in its sequence identifier. If a FastQ file does not have Flowcell IDs,
     the Machine or Instrument ID is grabbed instead.
     @Input:
         Raw FastQ R1 file (scatter)
@@ -81,7 +81,7 @@ rule kraken:
     @Input:
         Trimmed FastQ files (scatter)
     @Output:
-        Kraken logfile and interative krona report
+        Kraken logfile and interactive krona report
     """
     input:
         fq1 = os.path.join(output_fqdir,"{samples}.R1.trimmed.fastq.gz"),
@@ -492,7 +492,7 @@ if config['project']['annotation']=='hg38':
         Reporting step to aggregate sample summary statistics and quality-control
         information across all samples. This will be one of the last steps of the
         pipeline. The inputs listed here are to ensure that this step runs last.
-        During runtime, MultiQC will recurively crawl through the working directory
+        During runtime, MultiQC will recursively crawl through the working directory
         and parse files that it supports.
         @Input:
             List of files to ensure this step runs last (gather)
@@ -608,7 +608,7 @@ if config['project']['annotation']=='mm10':
         Reporting step to aggregate sample summary statistics and quality-control
         information across all samples. This will be one of the last steps of the
         pipeline. The inputs listed here are to ensure that this step runs last.
-        During runtime, MultiQC will recurively crawl through the working directory
+        During runtime, MultiQC will recursively crawl through the working directory
         and parse files that it supports.
         @Input:
             List of files to ensure this step runs last (gather)

@@ -168,7 +168,7 @@ if __name__ == "__main__":
         )
         for line in file:
             line = line.strip()
-            if i % 4 == 0:  # read id or sequence identifer
+            if i % 4 == 0:  # read id or sequence identifier
                 fc, lane = get_flowcell_lane(line)
                 fc = fc.lstrip("@")
                 fc_lane = "{}_{}".format(fc, lane)

@@ -44,7 +44,7 @@ Each of the following arguments are required. Failure to provide a required argu
 > **Input FastQ or BAM file(s) to process.**  
 > _type: file(s)_
 >
-> One or more FastQ files can be provided. The pipeline does NOT support single-end WES data. Please provide either a set of FastQ files or a set of BAM files. The pipeline does NOT support processing a mixture of FastQ files and BAM files. From the command-line, each input file should seperated by a space. Globbing is supported! This makes selecting FastQ files easy. Input FastQ files should be gzipp-ed.
+> One or more FastQ files can be provided. The pipeline does NOT support single-end WES data. Please provide either a set of FastQ files or a set of BAM files. The pipeline does NOT support processing a mixture of FastQ files and BAM files. From the command-line, each input file should separated by a space. Globbing is supported! This makes selecting FastQ files easy. Input FastQ files should be gzipp-ed.
 >
 > **_Example:_** `--input .tests/*.R?.fastq.gz`
 
@@ -132,7 +132,7 @@ Each of the following arguments are optional and do not need to be provided.
 > _type: string_  
 > _default: slurm_
 >
-> Execution Method. Defines the mode or method of execution. Vaild mode options include: local or slurm.
+> Execution Method. Defines the mode or method of execution. Valid mode options include: local or slurm.
 >
 > **_local_**  
 > Local executions will run serially on compute instance. This is useful for testing, debugging, or when a users does not have access to a high performance computing environment. If this option is not provided, it will default to a local execution mode.
@@ -235,7 +235,7 @@ Each of the following arguments are optional and do not need to be provided.
 > _type: int_  
 > _default: 2_
 >
-> Max number of threads for each process. This option is more applicable when running the pipeline with `--mode local`. It is recommended setting this vaule to the maximum number of CPUs available on the host machine.
+> Max number of threads for each process. This option is more applicable when running the pipeline with `--mode local`. It is recommended setting this value to the maximum number of CPUs available on the host machine.
 >
 > **_Example:_** `--threads 12`
 

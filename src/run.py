@@ -102,7 +102,7 @@ def sym_safe(input_data, target):
 def rename(filename):
     """Dynamically renames FastQ file to have one of the following extensions: *.R1.fastq.gz, *.R2.fastq.gz
     To automatically rename the fastq files, a few assumptions are made. If the extension of the
-    FastQ file cannot be infered, an exception is raised telling the user to fix the filename
+    FastQ file cannot be inferred, an exception is raised telling the user to fix the filename
     of the fastq files.
     @param filename <str>:
         Original name of file to be renamed
@@ -343,7 +343,7 @@ def resolve_additional_bind_paths(search_paths):
             indexed_paths[index] = []
         # Create an INDEX to find common PATHS for each root
         # child directory like /scratch or /data. This prevents
-        # issues when trying to find the common path betweeen
+        # issues when trying to find the common path between
         # these two different directories (resolves to /)
         indexed_paths[index].append(str(os.sep).join(path_list))
 
@@ -351,7 +351,7 @@ def resolve_additional_bind_paths(search_paths):
         # Find common paths for each path index
         p = os.path.dirname(os.path.commonprefix(paths))
         if p == os.sep:
-            # Aviods adding / to bind list when
+            # Avoids adding / to bind list when
             # given /tmp or /scratch as input
             p = os.path.commonprefix(paths)
         common_paths.append(p)
@@ -627,7 +627,7 @@ def get_rawdata_bind_paths(input_files):
 def dryrun(
     outdir, config="config.json", snakefile=os.path.join("workflow", "Snakefile")
 ):
-    """Dryruns the pipeline to ensure there are no errors prior to runnning.
+    """Dryruns the pipeline to ensure there are no errors prior to running.
     @param outdir <str>:
         Pipeline output PATH
     @return dryrun_output <str>:
@@ -682,7 +682,7 @@ def runner(
 ):
     """Runs the pipeline via selected executor: local or slurm.
     If 'local' is selected, the pipeline is executed locally on a compute node/instance.
-    If 'slurm' is selected, jobs will be submited to the cluster using SLURM job scheduler.
+    If 'slurm' is selected, jobs will be submitted to the cluster using SLURM job scheduler.
     Support for additional job schedulers (i.e. PBS, SGE, LSF) may be added in the future.
     @param outdir <str>:
         Pipeline output PATH
