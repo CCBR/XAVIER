@@ -15,6 +15,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: docker://snakemake/snakemake:v6.8.2
+    - name: check CLI basics
+      run: |
+        xavier --help
+        xavier --version
     - name: Tumor-normal FastQ Dry Run
       run: |
         docker run -v $PWD:/opt2 snakemake/snakemake:v6.8.2 \
