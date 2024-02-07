@@ -1,4 +1,4 @@
-# Pipeline Overview 
+# Pipeline Overview
 
 ![Pipeline Diagram](assets/XAVIER_workflow.svg)
 

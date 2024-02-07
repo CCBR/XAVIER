@@ -3,12 +3,12 @@ FROM ubuntu:20.04
 
 MAINTAINER <vishal.koparde@nih.gov, kuhnsa@nih.gov>
 
-# Create Container filesystem specific 
-# working directory and opt directories 
+# Create Container filesystem specific
+# working directory and opt directories
 RUN mkdir -p /opt2 && mkdir -p /data2
-WORKDIR /opt2 
+WORKDIR /opt2
 
-# Set time zone to US east coast 
+# Set time zone to US east coast
 ENV TZ=America/New_York
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone
@@ -19,7 +19,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
 RUN apt-get update \
  && apt-get -y upgrade \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-      bc \      
+      bc \
       build-essential \
       bzip2 \
       cmake \
@@ -92,8 +92,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
       zlibc
 
 # Common bioinformatics tools
-# bwa/0.7.17  bowtie/1.2.3  bowtie2/2.3.5.1 
-# bedtools/2.27.1  bedops/2.4.37  samtools/1.10 
+# bwa/0.7.17  bowtie/1.2.3  bowtie2/2.3.5.1
+# bedtools/2.27.1  bedops/2.4.37  samtools/1.10
 # bcftools/1.10.2  vcftools/0.1.16  trimmomatic/0.39
 # tabix/1.10.2
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
@@ -161,7 +161,7 @@ RUN wget https://github.com/BoevaLab/FREEC/archive/refs/tags/v11.6.zip \
     && cd /opt2/FREEC-11.6/src/ \
     && make
 ENV PATH="/opt2/FREEC-11.6/src:$PATH"
-WORKDIR /opt2 
+WORKDIR /opt2
 
 # Install Sequenza-Utils/3.0.0 and Sequenza
 # Requires R, Python, SAMtools, tabix (already satisfied)
@@ -251,10 +251,10 @@ ENV TRIMMOJAR="/usr/share/java/trimmomatic-0.39.jar"
 WORKDIR /data2
 
 # Clean-up step to reduce size
-# and install GNU awk to calculate mean and standard 
-# deviation, ensures backward compatibility with 
+# and install GNU awk to calculate mean and standard
+# deviation, ensures backward compatibility with
 # biowulf installation of awk is a pointer to gawk,
-# and install pandoc (>= 1.12.3 required for Rmarkdown)    
+# and install pandoc (>= 1.12.3 required for Rmarkdown)
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
     gawk \
     pandoc \

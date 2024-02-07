@@ -8,13 +8,13 @@ rule haplotypecaller:
     @Output:
         Single-sample gVCF
     """
-    input: 
+    input:
         bam = os.path.join(output_bamdir,"final_bams","{samples}.bam"),
         bai = os.path.join(output_bamdir,"final_bams","{samples}.bai"),
     output:
         gzvcf = temp(os.path.join(output_germline_base,"gVCFs","{samples}.{chroms}.g.vcf.gz")),
         index = temp(os.path.join(output_germline_base,"gVCFs","{samples}.{chroms}.g.vcf.gz.tbi")),
-    params: 
+    params:
         sample = "{samples}",
         genome = config['references']['GENOME'],
         snpsites=config['references']['DBSNP'],
@@ -28,7 +28,7 @@ rule haplotypecaller:
         """
         myoutdir="$(dirname {output.gzvcf})"
         if [ ! -d "$myoutdir" ]; then mkdir -p "$myoutdir"; fi
-         
+
         gatk --java-options '-Xmx24g' HaplotypeCaller \\
             --reference {params.genome} \\
             --input {input.bam} \\
@@ -58,17 +58,17 @@ rule mergegvcfs:
     output:
         gzvcf = os.path.join(output_germline_base,"gVCFs","merged.{chroms}.g.vcf.gz"),
         index = os.path.join(output_germline_base,"gVCFs","merged.{chroms}.g.vcf.gz.tbi"),
-    params: 
+    params:
         genome = config['references']['GENOME'],
         ver_gatk=config['tools']['gatk4']['version'],
         rname = "mergegvcfs"
     message: "Running GATK4 CombineGVCFs on '{input.gzvcf}' input file"
     envmodules: config['tools']['gatk4']['modname']
-    container: config['images']['wes_base'] 
+    container: config['images']['wes_base']
     shell:
         """
         input_str="--variant $(echo "{input.gzvcf}" | sed -e 's/ / --variant /g')"
-        
+
         gatk --java-options '-Xmx24g' CombineGVCFs \\
             --reference {params.genome} \\
             --annotation-group StandardAnnotation \\
@@ -89,7 +89,7 @@ rule genotype:
     @Output:
         Multi-sample gVCF, scattered across chromosomes (with joint genotyping updates)
     """
-    input: 
+    input:
         gzvcf = os.path.join(output_germline_base,"gVCFs","merged.{chroms}.g.vcf.gz"),
         index = os.path.join(output_germline_base,"gVCFs","merged.{chroms}.g.vcf.gz.tbi"),
     output:
@@ -107,7 +107,7 @@ rule genotype:
         """
         myoutdir="$(dirname {output.vcf})"
         if [ ! -d "$myoutdir" ]; then mkdir -p "$myoutdir"; fi
-        
+
         gatk --java-options '-Xmx96g' GenotypeGVCFs \\
             --reference {params.genome} \\
             --use-jdk-inflater \\
@@ -138,7 +138,7 @@ rule germline_merge_chrom:
         rname = "merge_chrom", genome = config['references']['GENOME']
     message: "Running GATK4 MergeVcfs on all chrom split VCF files"
     envmodules: config['tools']['gatk4']['modname']
-    container: config['images']['wes_base'] 
+    container: config['images']['wes_base']
     shell:
         """
         # Avoids ARG_MAX issue which limits max length of a command
@@ -151,7 +151,7 @@ rule germline_merge_chrom:
         """
 
 
-rule Gatk_Variantfilter: 
+rule Gatk_Variantfilter:
     """
     Hard filters on
     @Input:
@@ -159,15 +159,15 @@ rule Gatk_Variantfilter:
     @Output:
        Variants filtered by QD, QUAL, SOR, FS, MQ, MQRankSum, ReadPosRankSum, Indels: QD, QUAL, FS, ReadPosRankSum
     """
-    input: 
+    input:
         vcf = os.path.join(output_germline_base,"VCF","raw_variants.vcf.gz"),
-    output: 
+    output:
        indelvcf = os.path.join(output_germline_base,"VCF","indel.filterd.vcf.gz"),
        snpvcf = os.path.join(output_germline_base,"VCF","snp.filtered.vcf.gz"),
        vcf = os.path.join(output_germline_base,"VCF","snp_indel.filtered.vcf.gz")
 
-    params: 
-        genome=config['references']['GENOME'], 
+    params:
+        genome=config['references']['GENOME'],
         rname="gatk_hardfilters",
         ver_gatk=config['tools']['gatk4']['version']
     message: "Running GATK4 hard filters on Cohort VCF input file"
@@ -179,7 +179,7 @@ rule Gatk_Variantfilter:
         -V {input.vcf} \\
         -select-type SNP \\
         -O snps.vcf.gz
-        
+
         gatk SelectVariants \\
         -V {input.vcf} \\
         -select-type INDEL \\
@@ -203,7 +203,7 @@ rule Gatk_Variantfilter:
         -filter "FS > 200.0" --filter-name "FS200" \\
         -filter "ReadPosRankSum < -20.0" --filter-name "ReadPosRankSum-20" \\
         -O {output.indelvcf}
-        
+
         gatk MergeVcfs \\
         -R {params.genome} \\
         --INPUT {output.indelvcf} \\
@@ -219,13 +219,13 @@ rule Gatk_SelectVariants:
     @Output:
         Single-sample VCF with unfiltered germline variants
     """
-    input: 
+    input:
         vcf = os.path.join(output_germline_base,"VCF","snp_indel.filtered.vcf.gz"),
-    output: 
+    output:
         vcf = os.path.join(output_germline_base,"VCF","{samples}.germline.vcf.gz")
-    params: 
-        genome=config['references']['GENOME'], 
-        Sname = "{samples}", 
+    params:
+        genome=config['references']['GENOME'],
+        Sname = "{samples}",
         rname="varselect",
         ver_gatk=config['tools']['gatk4']['version'],
         targets=exome_targets_bed

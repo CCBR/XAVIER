@@ -1,13 +1,15 @@
 # <code>xavier <b>run</b></code>
 
-## 1. About 
+## 1. About
+
 The `xavier` executable is composed of several inter-related sub commands. Please see `xavier -h` for all available options.
 
-This part of the documentation describes options and concepts for <code>xavier <b>run</b></code> sub command in more detail. With minimal configuration, the **`run`** sub command enables you to start running xavier pipeline. 
+This part of the documentation describes options and concepts for <code>xavier <b>run</b></code> sub command in more detail. With minimal configuration, the **`run`** sub command enables you to start running xavier pipeline.
 
-Setting up the xavier pipeline is fast and easy! In its most basic form, <code>xavier <b>run</b></code> only has *four required inputs*.
+Setting up the xavier pipeline is fast and easy! In its most basic form, <code>xavier <b>run</b></code> only has _four required inputs_.
 
 ## 2. Synopsis
+
 ```text
 $ xavier run [--help] \
                    [--mode {local, slurm}] \
@@ -24,198 +26,229 @@ $ xavier run [--help] \
                    --input INPUT [INPUT ...] \
                    --output OUTPUT \
                    --genome {hg38, ...} \
-                   --targets TARGETS 
+                   --targets TARGETS
 ```
 
 The synopsis for each command shows its parameters and their usage. Optional parameters are shown in square brackets.
 
-A user **must** provide a list of FastQ or BAM files (globbing is supported) to analyze via `--input` argument, an output directory to store results via `--output` argument, an exome targets BED file for the samples' capture kit, and select reference genome for alignment and annotation via the `--genome` argument. 
+A user **must** provide a list of FastQ or BAM files (globbing is supported) to analyze via `--input` argument, an output directory to store results via `--output` argument, an exome targets BED file for the samples' capture kit, and select reference genome for alignment and annotation via the `--genome` argument.
 
-Use you can always use the `-h` option for information on a specific command. 
+Use you can always use the `-h` option for information on a specific command.
 
 ### 2.1 Required Arguments
 
 Each of the following arguments are required. Failure to provide a required argument will result in a non-zero exit-code.
 
-  `--input INPUT [INPUT ...]`  
+`--input INPUT [INPUT ...]`
+
 > **Input FastQ or BAM file(s) to process.**  
-> *type: file(s)*  
-> 
-> One or more FastQ files can be provided. The pipeline does NOT support single-end WES data. Please provide either a set of FastQ files or a set of BAM files. The pipeline does NOT support processing a mixture of FastQ files and BAM files. From the command-line, each input file should seperated by a space. Globbing is supported! This makes selecting FastQ files easy. Input FastQ files should be gzipp-ed.
-> 
-> ***Example:*** `--input .tests/*.R?.fastq.gz`
+> _type: file(s)_
+>
+> One or more FastQ files can be provided. The pipeline does NOT support single-end WES data. Please provide either a set of FastQ files or a set of BAM files. The pipeline does NOT support processing a mixture of FastQ files and BAM files. From the command-line, each input file should separated by a space. Globbing is supported! This makes selecting FastQ files easy. Input FastQ files should be gzipp-ed.
+>
+> **_Example:_** `--input .tests/*.R?.fastq.gz`
 
----  
-  `--output OUTPUT`
-> **Path to an output directory.**   
-> *type: path*
->   
+---
+
+`--output OUTPUT`
+
+> **Path to an output directory.**  
+> _type: path_
+>
 > This location is where the pipeline will create all of its output files, also known as the pipeline's working directory. If the provided output directory does not exist, it will be initialized automatically.
-> 
-> ***Example:*** `--output /data/$USER/WES_hg38`
+>
+> **_Example:_** `--output /data/$USER/WES_hg38`
 
----  
-  `--runmode  {init,dryrun,run}`  `
+---
+
+`--runmode {init,dryrun,run}` `
+
 > **Execution Process.**  
-> *type: string*
->   
+> _type: string_
+>
 > User should initialize the pipeline folder by first running `--runmode init`  
 > User should then perform a dry-run to list all steps the pipeline will take`--runmode dryrun`  
-> User should then perform the full run `--runmode run`  
-> 
-> ***Example:*** `--runmode init` *THEN* `--runmode dryrun` *THEN* `--runmode run`
+> User should then perform the full run `--runmode run`
+>
+> **_Example:_** `--runmode init` _THEN_ `--runmode dryrun` _THEN_ `--runmode run`
 
----  
-  `--genome {hg38, custom.json}`
-> **Reference genome.**   
-> *type: string/file*
->   
+---
+
+`--genome {hg38, custom.json}`
+
+> **Reference genome.**  
+> _type: string/file_
+>
 > This option defines the reference genome for your set of samples. On Biowulf, xavier does comes bundled with pre built reference files for human samples; however, it is worth noting that the pipeline does accept a pre-built resource bundle pulled with the cache sub command (coming soon). Currently, the pipeline only supports the human reference hg38; however, support for mouse reference mm10 will be added soon.
 >
-> ***Pre built Option***  
+> **_Pre built Option_**  
 > Here is a list of available pre built genomes on Biowulf: hg38.
 >
-> ***Custom Option***   
+> **_Custom Option_**  
 > For users running the pipeline outside of Biowulf, a pre-built resource bundle can be pulled with the cache sub command (coming soon). Please supply the custom reference JSON file that was generated by the cache sub command.
->   
-> ***Example:*** `--genome hg38` *OR* `--genome /data/${USER}/hg38/hg38.json`  
+>
+> **_Example:_** `--genome hg38` _OR_ `--genome /data/${USER}/hg38/hg38.json`
 
----  
-  `--targets TARGETS`
-> **Exome targets BED file.**   
-> *type: file*
->   
+---
+
+`--targets TARGETS`
+
+> **Exome targets BED file.**  
+> _type: file_
+>
 > This file can be obtained from the manufacturer of the target capture kit that was used.
-> 
-> ***Example:*** `--targets /data/$USER/Agilent_SSv7_allExons_hg38.bed`
+>
+> **_Example:_** `--targets /data/$USER/Agilent_SSv7_allExons_hg38.bed`
 
 ### 2.2 Options
 
-Each of the following arguments are optional and do not need to be provided. 
+Each of the following arguments are optional and do not need to be provided.
 
-  `-h, --help`            
+`-h, --help`
+
 > **Display Help.**  
-> *type: boolean flag*
-> 
+> _type: boolean flag_
+>
 > Shows command's synopsis, help message, and an example command
-> 
-> ***Example:*** `--help`
+>
+> **_Example:_** `--help`
 
----  
-  `--silent`            
+---
+
+`--silent`
+
 > **Silence standard output.**  
-> *type: boolean flag*
-> 
+> _type: boolean flag_
+>
 > Reduces the amount of information directed to standard output when submitting master job to the job scheduler. Only the job id of the master job is returned.
 >
-> ***Example:*** `--silent`
+> **_Example:_** `--silent`
 
----  
-  `--mode {local,slurm}`  
+---
+
+`--mode {local,slurm}`
+
 > **Execution Method.**  
-> *type: string*  
-> *default: slurm*
-> 
-> Execution Method. Defines the mode or method of execution. Vaild mode options include: local or slurm. 
-> 
-> ***local***  
-> Local executions will run serially on compute instance. This is useful for testing, debugging, or when a users does not have access to a high performance computing environment. If this option is not provided, it will default to a local execution mode. 
-> 
-> ***slurm***    
+> _type: string_  
+> _default: slurm_
+>
+> Execution Method. Defines the mode or method of execution. Valid mode options include: local or slurm.
+>
+> **_local_**  
+> Local executions will run serially on compute instance. This is useful for testing, debugging, or when a users does not have access to a high performance computing environment. If this option is not provided, it will default to a local execution mode.
+>
+> **_slurm_**  
 > The slurm execution method will submit jobs to a cluster using a singularity backend. It is recommended running xavier in this mode as execution will be significantly faster in a distributed environment.
-> 
-> ***Example:*** `--mode slurm`
+>
+> **_Example:_** `--mode slurm`
 
----  
-  `--job-name JOB_NAME`  
+---
+
+`--job-name JOB_NAME`
+
 > **Set the name of the pipeline's master job.**  
-> *type: string*
-> *default: pl:xavier*
-> 
+> _type: string_ > _default: pl:xavier_
+>
 > When submitting the pipeline to a job scheduler, like SLURM, this option always you to set the name of the pipeline's master job. By default, the name of the pipeline's master job is set to "pl:xavier".
-> 
-> ***Example:*** `--job-name xavier_run1`
+>
+> **_Example:_** `--job-name xavier_run1`
 
----  
-  `--callers CALLERS [CALLERS ...]`  
+---
+
+`--callers CALLERS [CALLERS ...]`
+
 > **Variant Callers.**  
-> *type: string(s)*
-> *default: mutect2, mutect, strelka, vardict, varscan*
-> 
+> _type: string(s)_ > _default: mutect2, mutect, strelka, vardict, varscan_
+>
 > List of variant callers to detect mutations. Please select from one or more of the following options: [mutect2, mutect, strelka, vardict, varscan]. Defaults to using all variant callers.
-> 
-> ***Example:*** `--callers mutect2 strelka varscan`
+>
+> **_Example:_** `--callers mutect2 strelka varscan`
 
----  
-  `--pairs PAIRS`  
+---
+
+`--pairs PAIRS`
+
 > **Tumor normal pairs file.**  
-> *type: file*
-> 
-> This tab delimited file contains two columns with the names of tumor and normal pairs, one per line. The header of the file needs to be `Tumor` for the tumor column and `Normal` for the normal column. The base name of each sample should be listed in the pairs file. The base name of a given sample can be determined by removing the following extension from the sample's R1 FastQ file: `.R1.fastq.gz`.   
+> _type: file_
+>
+> This tab delimited file contains two columns with the names of tumor and normal pairs, one per line. The header of the file needs to be `Tumor` for the tumor column and `Normal` for the normal column. The base name of each sample should be listed in the pairs file. The base name of a given sample can be determined by removing the following extension from the sample's R1 FastQ file: `.R1.fastq.gz`.  
 >  **Contents of example pairs file:**
+>
 > ```
 > Normal	Tumor
 > Sample4_CRL1622_S31	Sample10_ARK1_S37
 > Sample4_CRL1622_S31	Sample11_ACI_158_S38
-> ``` 
-> ***Example:*** `--pairs /data/$USER/pairs.tsv`
-
----  
-  `--ffpe`  
-> **Apply FFPE correction.**  
-> *type: boolean flag*
-> 
-> Runs an additional steps to correct strand orientation bias in Formalin-Fixed Paraffin-Embedded (FFPE) samples. Do NOT use this option with non-FFPE samples.
-> 
-> ***Example:*** `--ffpe`
-
----  
-  `--cnv`  
-> **Call copy number variations (CNVs).**  
-> *type: boolean flag*
-> 
-> CNVs will only be called from tumor-normal pairs. If this option is provided without providing a --pairs file, CNVs will NOT be called.
-> 
-> ***Example:*** `--cnv`
-
----  
-  `--singularity-cache SINGULARITY_CACHE`  
-> **Overrides the $SINGULARITY_CACHEDIR environment variable.**  
-> *type: path*  
-> *default: `--output OUTPUT/.singularity`*
+> ```
 >
-> Singularity will cache image layers pulled from remote registries. This ultimately speeds up the process of pull an image from DockerHub if an image layer already exists in the singularity cache directory. By default, the cache is set to the value provided to the `--output` argument. Please note that this cache cannot be shared across users. Singularity strictly enforces you own the cache directory and will return a non-zero exit code if you do not own the cache directory! See the `--sif-cache` option to create a shareable resource. 
-> 
-> ***Example:*** `--singularity-cache /data/$USER/.singularity`
+> **_Example:_** `--pairs /data/$USER/pairs.tsv`
 
----  
-  `--sif-cache SIF_CACHE`
+---
+
+`--ffpe`
+
+> **Apply FFPE correction.**  
+> _type: boolean flag_
+>
+> Runs an additional steps to correct strand orientation bias in Formalin-Fixed Paraffin-Embedded (FFPE) samples. Do NOT use this option with non-FFPE samples.
+>
+> **_Example:_** `--ffpe`
+
+---
+
+`--cnv`
+
+> **Call copy number variations (CNVs).**  
+> _type: boolean flag_
+>
+> CNVs will only be called from tumor-normal pairs. If this option is provided without providing a --pairs file, CNVs will NOT be called.
+>
+> **_Example:_** `--cnv`
+
+---
+
+`--singularity-cache SINGULARITY_CACHE`
+
+> **Overrides the $SINGULARITY_CACHEDIR environment variable.**  
+> _type: path_  
+> _default: `--output OUTPUT/.singularity`_
+>
+> Singularity will cache image layers pulled from remote registries. This ultimately speeds up the process of pull an image from DockerHub if an image layer already exists in the singularity cache directory. By default, the cache is set to the value provided to the `--output` argument. Please note that this cache cannot be shared across users. Singularity strictly enforces you own the cache directory and will return a non-zero exit code if you do not own the cache directory! See the `--sif-cache` option to create a shareable resource.
+>
+> **_Example:_** `--singularity-cache /data/$USER/.singularity`
+
+---
+
+`--sif-cache SIF_CACHE`
+
 > **Path where a local cache of SIFs are stored.**  
-> *type: path*  
+> _type: path_
 >
 > Uses a local cache of SIFs on the filesystem. This SIF cache can be shared across users if permissions are set correctly. If a SIF does not exist in the SIF cache, the image will be pulled from Dockerhub and a warning message will be displayed. The `xavier cache` subcommand can be used to create a local SIF cache. Please see `xavier cache` for more information. This command is extremely useful for avoiding DockerHub pull rate limits. It also remove any potential errors that could occur due to network issues or DockerHub being temporarily unavailable. We recommend running xavier with this option when ever possible.
-> 
-> ***Example:*** `--singularity-cache /data/$USER/SIFs`
+>
+> **_Example:_** `--singularity-cache /data/$USER/SIFs`
 
----  
-  `--threads THREADS`   
+---
+
+`--threads THREADS`
+
 > **Max number of threads for each process.**  
-> *type: int*  
-> *default: 2*
-> 
-> Max number of threads for each process. This option is more applicable when running the pipeline with `--mode local`.  It is recommended setting this vaule to the maximum number of CPUs available on the host machine.
-> 
-> ***Example:*** `--threads 12`
+> _type: int_  
+> _default: 2_
+>
+> Max number of threads for each process. This option is more applicable when running the pipeline with `--mode local`. It is recommended setting this value to the maximum number of CPUs available on the host machine.
+>
+> **_Example:_** `--threads 12`
 
 ## 3. Example
-```bash 
+
+```bash
 # Step 1.) Grab an interactive node
 # Do not run on head node!
 sinteractive --mem=8g --cpus-per-task=4
 module purge
 module load ccbrpipeliner
 
-# Step 2A.) Initialize the all resources to the output folder 
+# Step 2A.) Initialize the all resources to the output folder
 xavier run --input .tests/*.R?.fastq.gz \
                  --output /data/$USER/xavier_hg38 \
                  --genome hg38 \

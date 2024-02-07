@@ -1,37 +1,49 @@
 {
     "input_params": {
-      "FASTQ_SOURCE": "",
-      "BAM_SOURCE": "",
-      "TN_MODE": "auto",
-      "PAIRS_FILE": "",
-      "VARIANT_CALLERS": ["mutect2","vardict","mutect","strelka","varscan"],
-      "BASE_OUTDIR": "pipeline_output",
-      "OTHER_SOMATIC_VCFS": {},
-      "EXOME_TARGETS": "/data/CCBR_Pipeliner/db/PipeDB/lib/Agilent_SSv7_allExons_hg38.bed",
-      "GERMLINE": "false",
-      "FFPE_FILTER": "false",
-      "CNV_CALLING": "false",
-      "tmpdisk": "",
-      "genome": ""
+        "FASTQ_SOURCE": "",
+        "BAM_SOURCE": "",
+        "TN_MODE": "auto",
+        "PAIRS_FILE": "",
+        "VARIANT_CALLERS": [
+            "mutect2",
+            "vardict",
+            "mutect",
+            "strelka",
+            "varscan"
+        ],
+        "BASE_OUTDIR": "pipeline_output",
+        "OTHER_SOMATIC_VCFS": {},
+        "EXOME_TARGETS": "/data/CCBR_Pipeliner/db/PipeDB/lib/Agilent_SSv7_allExons_hg38.bed",
+        "GERMLINE": "false",
+        "FFPE_FILTER": "false",
+        "CNV_CALLING": "false",
+        "tmpdisk": "",
+        "genome": ""
     },
     "input_params_test": {
-      "FASTQ_SOURCE": "/data/tandonm/pl_test_data/human/fastq",
-      "BAM_SOURCE": "/data/tandonm/pl_test_data/human/bams",
-      "PAIRS_FILE": "pairs.tsv",
-      "VARIANT_CALLERS": ["mutect2","mutect","strelka","vardict","varscan"],
-      "BASE_OUTDIR": "pipe_out_1",
-      "OTHER_SOMATIC_VCFS": {},
-      "EXOME_TARGETS": "/data/CCBR_Pipeliner/db/PipeDB/lib/Agilent_SSv7_allExons_hg38.bed",
-      "FFPE_FILTER": "false",
-      "CNV_CALLING": "false"
+        "FASTQ_SOURCE": "/data/tandonm/pl_test_data/human/fastq",
+        "BAM_SOURCE": "/data/tandonm/pl_test_data/human/bams",
+        "PAIRS_FILE": "pairs.tsv",
+        "VARIANT_CALLERS": [
+            "mutect2",
+            "mutect",
+            "strelka",
+            "vardict",
+            "varscan"
+        ],
+        "BASE_OUTDIR": "pipe_out_1",
+        "OTHER_SOMATIC_VCFS": {},
+        "EXOME_TARGETS": "/data/CCBR_Pipeliner/db/PipeDB/lib/Agilent_SSv7_allExons_hg38.bed",
+        "FFPE_FILTER": "false",
+        "CNV_CALLING": "false"
     },
     "output_params": {
-      "FASTQ": "fastqs",
-      "BAM": "bams",
-      "MERGED_SOMATIC_OUTDIR": "merged_somatic_variants",
-      "GERMLINE_VCF": {
-        "GATK": "germline_joint_genotyping"
-      }
+        "FASTQ": "fastqs",
+        "BAM": "bams",
+        "MERGED_SOMATIC_OUTDIR": "merged_somatic_variants",
+        "GERMLINE_VCF": {
+            "GATK": "germline_joint_genotyping"
+        }
     },
     "scripts": {
         "vcf2maf_wrapper": "workflow/scripts/vcf2maf_wrapper.bash",
@@ -44,11 +56,11 @@
         "correct_target_bed": "workflow/scripts/correct_target_bed.py",
         "genderPrediction": "workflow/scripts/RScripts/predictGender.R",
         "combineSamples": "workflow/scripts/RScripts/combineAllSampleCompareResults.R",
-        "ancestry": "workflow/scripts/RScripts/sampleCompareAncestoryPlots.R"
+        "ancestry": "workflow/scripts/RScripts/sampleCompareAncestryPlots.R"
     },
     "available_somatic_callers": {
-        "paired": ["mutect2","strelka","mutect","vardict","varscan"],
-        "tumor_only": ["mutect2","mutect","vardict","varscan"]
+        "paired": ["mutect2", "strelka", "mutect", "vardict", "varscan"],
+        "tumor_only": ["mutect2", "mutect", "vardict", "varscan"]
     },
     "not_used": {
         "1000G": "/data/GRIS_NCBR/resources/ALL.GRCh38_sites.nuclear.20170504.vcf.gz",
@@ -57,6 +69,5 @@
         "PATTERNS": "/data/GRIS_NCBR/resources/multiqc_config_file.yaml",
         "REGIONS": "/data/GRIS_NCBR/resources/HG19_vcrome2.1_with_PKv1_and_PKv2_with_SNPtrace.bed",
         "SMOOVEEXCLUSIONS": "/data/GRIS_NCBR/resources/hg38_smoove_exclusion.bed"
-
     }
 }

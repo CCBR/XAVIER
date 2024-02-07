@@ -1,19 +1,23 @@
 # Getting started
 
 ## 1. Synopsis
+
 XAVIER pipeline can be executed from either using the graphical user interface (GUI) or the command line interface (CLI). GUI offers a more interactive way for the user to provide input and adjust parameter settings.
 This part of the documentation describes how to run xavier using the GUI (with screenshots). See [Command Line](run.md) tab to read more about the `xavier` executable and running XAVIER pipeline using the CLI.
 
 ## 2. Setting up XAVIER
 
 ### 2.1 Login to cluster
+
 ```bash
 # Setup Step 1.) ssh into cluster's head node
 # example below for Biowulf cluster
 ssh -Y $USER@biowulf.nih.gov
 ```
+
 ### 2.2 Grab an interactive node
-```bash 
+
+```bash
 # Setup Step 2.) Please do not run XAVIER on the head node!
 # Grab an interactive node first
 sinteractive --time=12:00:00 --mem=8gb  --cpus-per-task=4
@@ -23,7 +27,7 @@ sinteractive --time=12:00:00 --mem=8gb  --cpus-per-task=4
 
 _NOTE: `ccbrpipeliner` is a custom module created on biowulf which contains various NGS data analysis pipelines developed, tested, and benchmarked by experts at CCBR._
 
-```bash 
+```bash
 # Setup Step 3.) Add ccbrpipeliner module
 module purge # to reset the module environment
 module load ccbrpipeliner
@@ -32,7 +36,7 @@ module load ccbrpipeliner
 If the module was loaded correctly, the greetings message should be displayed.
 
 ```bash
-[+] Loading ccbrpipeliner  5  ... 
+[+] Loading ccbrpipeliner  5  ...
 ###########################################################################
                                 CCBR Pipeliner
 ###########################################################################
@@ -56,7 +60,8 @@ Thank you for using CCBR Pipeliner
 ###########################################################################
 ```
 
-To check the current version of XAVIER, enter: 
+To check the current version of XAVIER, enter:
+
 ```bash
 xavier --version
 ```
@@ -66,15 +71,19 @@ xavier --version
 ### 3.1 Launching XAVIER GUI
 
 To run the XAVIER pipeline from the GUI, simply enter:
+
 ```bash
 xavier_gui
 ```
+
 and it will launch the XAVIER window.
+
 > Note: Please wait until `window created!` message appears on the terminal.
 
 ![xavier_launchscreen](images/gui_launch.png)
 
 ### 3.2 Folder paths and reference genomes
+
 To enter the location of the input folder containing FASTQ files and the location where the output folders should be created, either simply type the absolute paths
 
 ![xavier_enterPath](images/gui_path.png)
@@ -100,6 +109,7 @@ XAVIER pipeline can be run in two different modes:\
 #### 3.3a Tumor-normal pair analysis
 
 In case of tumor-normal pairs, a tab-delimited text file is neeed that contains the list of normal and tumor samples. For example,
+
 ```bash
 Normal  Tumor
 sample1-normal     sample1-tumor
@@ -124,7 +134,7 @@ In case the paired normal samples are unavailable, XAVIER pipeline can be run in
 
 After all the information is filled out, press **Submit**.
 
-If the pipeline detects no errors and the run was submitted, a new window appears that has the output of a "dry-run" which summarizes each step of the pipeline. 
+If the pipeline detects no errors and the run was submitted, a new window appears that has the output of a "dry-run" which summarizes each step of the pipeline.
 
 ![xavier_dryrun](images/gui_dryrun.png)
 
@@ -145,7 +155,6 @@ The XAVIER gui will ask to submit another job.
 
 Click **Yes** to start again or **No** to close the XAVIER gui.
 
-
 ### 3.5 Additional settings
 
 Users can input certain additional settings for the pipeline run including running an additional step to correct strand orientation bias in Formalin-Fixed Paraffin-Embedded (FFPE) samples and to provide a custom exome targets BED file. This file can be obtained from the manufacturer of the target capture kit that was used.
@@ -153,7 +162,6 @@ Users can input certain additional settings for the pipeline run including runni
 ![gui_additionalSettings1](images/gui_additionalSettings1.png)
 
 ![gui_additionalSettings2](images/gui_additionalSettings2.png)
-
 
 ## 4. Special instructions for Biowulf
 

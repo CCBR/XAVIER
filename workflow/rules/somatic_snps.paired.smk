@@ -1,6 +1,6 @@
 # Somatic SNP calling rules for tumor/normal pairs
 rule gatk_mutect2:
-    input: 
+    input:
         normal = lambda w: [os.path.join(output_bamdir, "chrom_split", pairs_dict[w.samples] + ".{chroms}.split.bam")],
         tumor = os.path.join(output_bamdir, "chrom_split", "{samples}.{chroms}.split.bam")
     output:
@@ -22,7 +22,7 @@ rule gatk_mutect2:
     container:
         config['images']['wes_base']
     shell: """
-    if [ ! -d "$(dirname {output.vcf})" ]; 
+    if [ ! -d "$(dirname {output.vcf})" ];
         then mkdir -p "$(dirname {output.vcf})";
     fi
     gatk Mutect2 \\
@@ -59,7 +59,7 @@ rule pileup_paired:
     container:
         config['images']['wes_base']
     shell: """
-    # Run GetPileupSummaries in bg concurrently for a tumor/normal pair 
+    # Run GetPileupSummaries in bg concurrently for a tumor/normal pair
     gatk --java-options '-Xmx48g' GetPileupSummaries \\
         -I {input.tumor} \\
         -V {params.germsource} \\
@@ -102,7 +102,7 @@ rule contamination_paired:
     """
 
 
-        
+
 rule strelka:
     input:
         normal = lambda w: [os.path.join(output_bamdir, "chrom_split", pairs_dict[w.samples] + ".{chroms}.split.bam")],
@@ -130,7 +130,7 @@ rule strelka:
         config['images']['wes_base']
     shell: """
     # Setups temporary directory for
-    # intermediate files with built-in 
+    # intermediate files with built-in
     # mechanism for deletion on exit
     {params.set_tmp}
 
@@ -138,7 +138,7 @@ rule strelka:
     myoutdir="$(dirname {output.vcf})/{wildcards.samples}/{wildcards.chroms}"
     if [ -d "$myoutdir" ]; then rm -r "$myoutdir"; fi
     mkdir -p "$myoutdir"
-    
+
     configureStrelkaSomaticWorkflow.py \\
         --ref={params.genome} \\
         --tumor={input.tumor} \\
@@ -187,7 +187,7 @@ rule strelka_filter:
         config['images']['wes_base']
     shell: """
     # Setups temporary directory for
-    # intermediate files with built-in 
+    # intermediate files with built-in
     # mechanism for deletion on exit
     {params.set_tmp}
 
@@ -199,12 +199,12 @@ rule strelka_filter:
         --output {output.filtered}
 
     echo -e "TUMOR\t{params.tumorsample}\nNORMAL\t{params.normalsample}" > "{output.samplesfile}"
-    
+
     echo "Reheading VCFs with sample names..."
     bcftools reheader \\
         -o "{output.final}" \\
         -s "{output.samplesfile}" "{output.filtered}"
-    
+
     # VarScan can output ambiguous IUPAC bases/codes
     # the awk one-liner resets them to N, from:
     # https://github.com/fpbarthel/GLASS/issues/23
@@ -238,12 +238,12 @@ rule mutect_paired:
         config['images']['mutect']
     shell: """
     # Setups temporary directory for
-    # intermediate files with built-in 
+    # intermediate files with built-in
     # mechanism for deletion on exit
     {params.set_tmp}
 
     if [ ! -d "$(dirname {output.vcf})" ]; then mkdir -p "$(dirname {output.vcf})"; fi
-    
+
     java -Xmx8g -Djava.io.tmpdir=${{tmp}} -jar ${{MUTECT_JAR}} \\
         --analysis_type MuTect \\
         --reference_sequence {params.genome} \\
@@ -264,7 +264,7 @@ rule mutect_filter:
     output:
         final = os.path.join(output_somatic_snpindels, "mutect_out", "vcf", "{samples}.FINAL.vcf"),
         norm = os.path.join(output_somatic_snpindels, "mutect_out", "vcf", "{samples}.FINAL.norm.vcf"),
-    params: 
+    params:
         normalsample = lambda w: [pairs_dict[w.samples]],
         tumorsample = '{samples}',
         genome = config['references']['GENOME'],
@@ -281,7 +281,7 @@ rule mutect_filter:
         config['images']['wes_base']
     shell: """
     # Setups temporary directory for
-    # intermediate files with built-in 
+    # intermediate files with built-in
     # mechanism for deletion on exit
     {params.set_tmp}
 
@@ -307,7 +307,7 @@ rule vardict_paired:
         tumor = os.path.join(output_bamdir, "chrom_split", "{samples}.{chroms}.split.bam"),
     output:
         vcf = os.path.join(output_somatic_snpindels, "vardict_out", "chrom_split", "{samples}.{chroms}.vcf"),
-    params: 
+    params:
         normalsample = lambda w: [pairs_dict[w.samples]],
         tumorsample = "{samples}",
         genome = config['references']['GENOME'],
@@ -368,7 +368,7 @@ rule vardict_filter:
         config['images']['wes_base']
     shell: """
     # Setups temporary directory for
-    # intermediate files with built-in 
+    # intermediate files with built-in
     # mechanism for deletion on exit
     {params.set_tmp}
 
@@ -382,7 +382,7 @@ rule vardict_filter:
         --discordance {params.pon} \\
         --exclude-filtered \\
         --output {output.final}
-    
+
     # VarScan can output ambiguous IUPAC bases/codes
     # the awk one-liner resets them to N, from:
     # https://github.com/fpbarthel/GLASS/issues/23
@@ -394,7 +394,7 @@ rule vardict_filter:
 
 
 rule varscan_paired:
-    """Note: Refactor formatting of shell command for readability to 
+    """Note: Refactor formatting of shell command for readability to
     be more snake-thonic."""
     input:
         normal = lambda w: [os.path.join(output_bamdir, "chrom_split", pairs_dict[w.samples] + ".{chroms}.split.bam")],
@@ -418,17 +418,17 @@ rule varscan_paired:
         config['images']['wes_base']
     shell: """
     # Setups temporary directory for
-    # intermediate files with built-in 
+    # intermediate files with built-in
     # mechanism for deletion on exit
     {params.set_tmp}
 
     if [ ! -d "$(dirname {output.vcf})" ]; then mkdir -p "$(dirname {output.vcf})"; fi
-    
+
     tumor_purity=$( echo "1-$(printf '%.6f' $(tail -n -1 {input.tumor_summary} | cut -f2 ))" | bc -l)
     normal_purity=$( echo "1-$(printf '%.6f' $(tail -n -1 {input.normal_summary} | cut -f2 ))" | bc -l)
     varscan_opts="--strand-filter 1 --min-var-freq 0.01 --min-avg-qual 30 --somatic-p-value 0.05 --output-vcf 1 --normal-purity $normal_purity --tumor-purity $tumor_purity"
     dual_pileup="samtools mpileup -d 10000 -q 15 -Q 15 -f {params.genome} {input.normal} {input.tumor}"
-    varscan_cmd="varscan somatic <($dual_pileup) {output.vcf} $varscan_opts --mpileup 1"    
+    varscan_cmd="varscan somatic <($dual_pileup) {output.vcf} $varscan_opts --mpileup 1"
     eval "$varscan_cmd"
 
     # VarScan can output ambiguous IUPAC bases/codes
@@ -446,7 +446,7 @@ rule varscan_paired:
         --variant {output.vcf}.indel_temp \\
         --assumeIdenticalSamples \\
         --filteredrecordsmergetype KEEP_UNCONDITIONAL \\
-        -o {output.vcf}     
+        -o {output.vcf}
     """
 
 
@@ -480,14 +480,14 @@ rule varscan_filter:
         config['images']['wes_base']
     shell: """
     # Setups temporary directory for
-    # intermediate files with built-in 
+    # intermediate files with built-in
     # mechanism for deletion on exit
     {params.set_tmp}
 
     varscan filter \\
         {input.vcf} \\
         {params.filter_settings} > {output.filtered1}
-    
+
     gatk SelectVariants \\
         -R {params.genome} \\
         --variant {output.filtered1} \\
