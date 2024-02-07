@@ -3,18 +3,39 @@
 import argparse
 import os
 
-parser = argparse.ArgumentParser(description='Make a config file for running CONTROL-Freec.')
-parser.add_argument("-t","--tumor", help="Tumor BAM file")
-parser.add_argument("-n","--normal", help="Normal BAM file")
-parser.add_argument("-g","--genome-fasta", help="Full genome fasta")
-parser.add_argument("-l","--chrom-lengths", help="File with chromosome lengths (an .fai file)")
-parser.add_argument("-s","--chrom-seqs", help="Folder with chromosome fastqs")
-parser.add_argument("-r","--capture-regions", help="BED file with exome capture regions",default=None)
-parser.add_argument("-o","--output-config", help="Filename of the config file to be generated", default="freec_config.txt")
-parser.add_argument("--snps-file", help="Passed to 'minCNAlength' argument", default="3")
-parser.add_argument("--degree", help="Polynomial degree used for GC normalization used for 'degree' argument", default="3")
-parser.add_argument("--min-length", help="Passed to 'minCNAlength' argument", default="3")
-parser.add_argument("--min-read-count", help="Passed to 'readCountThreshold' argument", default="50")
+parser = argparse.ArgumentParser(
+    description="Make a config file for running CONTROL-Freec."
+)
+parser.add_argument("-t", "--tumor", help="Tumor BAM file")
+parser.add_argument("-n", "--normal", help="Normal BAM file")
+parser.add_argument("-g", "--genome-fasta", help="Full genome fasta")
+parser.add_argument(
+    "-l", "--chrom-lengths", help="File with chromosome lengths (an .fai file)"
+)
+parser.add_argument("-s", "--chrom-seqs", help="Folder with chromosome fastqs")
+parser.add_argument(
+    "-r", "--capture-regions", help="BED file with exome capture regions", default=None
+)
+parser.add_argument(
+    "-o",
+    "--output-config",
+    help="Filename of the config file to be generated",
+    default="freec_config.txt",
+)
+parser.add_argument(
+    "--snps-file", help="Passed to 'minCNAlength' argument", default="3"
+)
+parser.add_argument(
+    "--degree",
+    help="Polynomial degree used for GC normalization used for 'degree' argument",
+    default="3",
+)
+parser.add_argument(
+    "--min-length", help="Passed to 'minCNAlength' argument", default="3"
+)
+parser.add_argument(
+    "--min-read-count", help="Passed to 'readCountThreshold' argument", default="50"
+)
 parser.add_argument("--pileup-vcf", help="Passed to 'makePileup' argument", default="")
 parser.add_argument("--ploidy", help="Estimated ploidy", default="")
 parser.add_argument("--contamination", help="Estimated contamination", default="")
@@ -83,9 +104,8 @@ if args.capture_regions is not None:
         config_contents.append("")
 
 
-with open(args.output_config, 'w') as config_out:
+with open(args.output_config, "w") as config_out:
     config_out.write("\n".join(config_contents))
-    
 
 
 ########################################################################################################
@@ -93,12 +113,12 @@ with open(args.output_config, 'w') as config_out:
 # #!/usr/bin/perl -w
 # use strict;
 # use List::Util 'shuffle';
-# 
+#
 # #INPUT
-# 
+#
 # #my $mergedmaf = $ARGV[1] . '_out/oncotator_out/' . $ARGV[1] . '_merged.maf'; #to fix...
 # #open C, ">$mergedmaf";
-# 
+#
 # my $outfile = $ARGV[0] . '/freec_exome_config.txt';
 # my $chrLenFile = $ARGV[1];
 # my $chrFiles = $ARGV[2];
@@ -112,7 +132,7 @@ with open(args.output_config, 'w') as config_out:
 # my $contamination='';
 # my $ploidy='';
 # my $rep=0;
-# 
+#
 # my $infile=$ARGV[9];
 # open G, "<$infile";
 # while (<G>){
@@ -126,34 +146,34 @@ with open(args.output_config, 'w') as config_out:
 # 		$rep++;
 # 	}
 # }
-# 
+#
 # open C, ">$outfile";
-# 
+#
 # print C '[general]' . "\n\n";
-# 
+#
 # print C "BedGraphOutput = TRUE\ndegree = 1\nforceGCcontentNormalization = 1\nminCNAlength = 3\nnoisyData = TRUE\nreadCountThreshold = 50\n";
 # print C "chrLenFile = $chrLenFile\n";
 # print C "ploidy = $ploidy\ncontamination=$contamination\nbreakPointThreshold = 0.8\nwindow = 0\n";
 # print C "chrFiles = $chrFiles\n";
 # print C "minimalSubclonePresence = 30\nprintNA = FALSE\ncontaminationAdjustment = TRUE\nmaxThreads = 24\nnumberOfProcesses = 24\n";
 # print C "outputDir = $ARGV[0]\n\n";
-#  
+#
 # print C '[sample]' . "\n\n";
-#  
+#
 # print C "mateFile = $tumormateFile\n";
 # print C "inputFormat = BAM\nmateOrientation = FR\n\n";
-#  
+#
 # print C '[control]' . "\n\n";
-#  
+#
 # print C "mateFile = $controlmateFile\n";
 # print C "inputFormat = BAM\nmateOrientation = FR\n\n";
-#  
+#
 # print C '[target]' . "\n\n";
-# 
+#
 # print C "captureRegions = $targets\n\n";
-# 
+#
 # print C '[BAF]' . "\n\n";
-# 
+#
 # print C "makePileup = $makePileup\n";
 # print C "fastaFile = $fastaFile\n";
 # print C "minimalCoveragePerPosition = 20\nminimalQualityPerPosition = 20\n";

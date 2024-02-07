@@ -13,13 +13,13 @@ rule nidap:
         outdir=os.path.join(NIDAP_OUTDIR)
     shell:"""
 set -exo pipefail
-if [ -d {params.outdir} ];then rm -rf {params.outdir};fi 
+if [ -d {params.outdir} ];then rm -rf {params.outdir};fi
 mkdir -p {params.outdir}
 cd {params.outdir}
 # last file in inputs is NIDAP_files.tsv ... col1 is file ... col2 is the same file hardlinked in the NIDAP folder
 # this file is created in get_nidap_folder_input_files function
 linking_file=$(echo {input}|awk '{{print $NF}}')
-while read a b;do 
+while read a b;do
     ln $a $b
 done < $linking_file
 """

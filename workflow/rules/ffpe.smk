@@ -1,7 +1,7 @@
 # Rules for correcting stand orientation bias in FFPE samples
 rule sobdetect_get:
-    input: 
-    output: 
+    input:
+    output:
         SOBDetector_jar = SOBDetector_JARFILE
     params:
         rname = 'get_sobdetector'
@@ -26,22 +26,22 @@ rule sobdetect_pass1:
         config['tools']['samtools']['modname'],
         config['tools']['bcftools']['modname']
     container:
-       config['images']['wes_base'] 
+       config['images']['wes_base']
     shell: """
-    if [ ! -d "$(dirname {output.pass1_vcf})" ]; then 
+    if [ ! -d "$(dirname {output.pass1_vcf})" ]; then
         mkdir -p "$(dirname {output.pass1_vcf})"
     fi
 
     echo "Running SOBDetector..."
     # Try/catch for running SOB Dectetor
-    # with an empty input VCF file 
+    # with an empty input VCF file
     java -jar {input.SOBDetector_jar} \\
         --input-type VCF \\
         --input-variants "{input.vcf}" \\
         --input-bam {input.bam} \\
         --output-variants {output.pass1_vcf} \\
         --only-passed false || {{
-    # Compare length of VCF header to 
+    # Compare length of VCF header to
     # the total length of the file
     header_length=$(grep '^#' "{input.vcf}" | wc -l)
     file_length=$(cat "{input.vcf}" | wc -l)
@@ -51,7 +51,7 @@ rule sobdetect_pass1:
         # problem so pipeline can continue
         cat "{input.vcf}" > {output.pass1_vcf}
     else
-        # SOB Dectector failed for another reason
+        # SOB Detector failed for another reason
         echo "SOB Detector Failed... exiting now!" 1>&2
         exit 1
     fi
@@ -60,7 +60,7 @@ rule sobdetect_pass1:
     bcftools query \\
         -f '%INFO/numF1R2Alt\\t%INFO/numF2R1Alt\\t%INFO/numF1R2Ref\\t%INFO/numF2R1Ref\\t%INFO/numF1R2Other\\t%INFO/numF2R1Other\\t%INFO/SOB\\n' \\
         {output.pass1_vcf} \\
-        | awk '{{if ($1 != "."){{tum_alt=$1+$2; tum_depth=$1+$2+$3+$4+$5+$6; if (tum_depth==0){{tum_af=1}} else {{tum_af=tum_alt/tum_depth }}; print tum_alt,tum_depth,tum_af,$7}}}}' > {output.pass1_info} 
+        | awk '{{if ($1 != "."){{tum_alt=$1+$2; tum_depth=$1+$2+$3+$4+$5+$6; if (tum_depth==0){{tum_af=1}} else {{tum_af=tum_alt/tum_depth }}; print tum_alt,tum_depth,tum_af,$7}}}}' > {output.pass1_info}
     """
 
 
@@ -73,17 +73,17 @@ rule sobdetect_cohort_params:
     params:
         rname = 'sobdetect_params'
     container:
-       config['images']['wes_base'] 
+       config['images']['wes_base']
     shell: """
     echo -e "#TUMOR.alt\\tTUMOR.depth\\tTUMOR.AF\\tSOB\\tFS\\tSOR\\tTLOD\\tReadPosRankSum" > {output.all_info_file}
     cat {input.info_files} >> {output.all_info_file}
-    
+
     # Try/catch for running calculating
-    # mean and standard deviation with 
+    # mean and standard deviation with
     # with a set of empty input VCF files
     all_length=$(tail -n+2 {output.all_info_file} | wc -l)
-    if [ $all_length -eq 0 ]; then 
-        echo 'WARNING: All SOB Dectect pass1 samples contained no variants.' \\
+    if [ $all_length -eq 0 ]; then
+        echo 'WARNING: All SOB Detect pass1 samples contained no variants.' \\
         | tee {output.params_file}
     else
         # Calculate mean and standard deviation
@@ -92,7 +92,7 @@ rule sobdetect_cohort_params:
     fi
     """
 
-  
+
 rule sobdetect_pass2:
     input:
         vcf = os.path.join(output_somatic_snpindels, "{vc_outdir}", "vcf", "{samples}.FINAL.norm.vcf"),
@@ -112,9 +112,9 @@ rule sobdetect_pass2:
         config['tools']['samtools']['modname'],
         config['tools']['bcftools']['modname']
     container:
-       config['images']['wes_base'] 
+       config['images']['wes_base']
     shell: """
-    if [ ! -d "$(dirname {output.pass2_vcf})" ]; then 
+    if [ ! -d "$(dirname {output.pass2_vcf})" ]; then
         mkdir -p "$(dirname {output.pass2_vcf})"
     fi
 
@@ -129,7 +129,7 @@ rule sobdetect_pass2:
         --output-variants "{output.pass2_vcf}" \\
         --only-passed true \\
         --standardization-parameters "{input.params_file}" || {{
-    # Compare length of VCF header to 
+    # Compare length of VCF header to
     # the total length of the file
     header_length=$(grep '^#' "{input.vcf}" | wc -l)
     file_length=$(cat "{input.vcf}" | wc -l)
@@ -139,12 +139,12 @@ rule sobdetect_pass2:
         # problem so pipeline can continue
         cat "{input.vcf}" > {output.pass2_vcf}
     else
-        # SOB Dectector failed for another reason
+        # SOB Detector failed for another reason
         echo "SOB Detector Failed... exiting now!" 1>&2
         exit 1
     fi
     }}
-    
+
     echo "Making info table..."
     bcftools query \\
         -f '%INFO/numF1R2Alt\\t%INFO/numF2R1Alt\\t%INFO/numF1R2Ref\\t%INFO/numF2R1Ref\\t%INFO/numF1R2Other\\t%INFO/numF2R1Other\\t%INFO/SOB\\n' \\
@@ -187,24 +187,24 @@ rule sobdetect_metrics:
     envmodules:
         config['tools']['bcftools']['modname']
     container:
-        config['images']['wes_base'] 
+        config['images']['wes_base']
     shell: """
     echo -e "#ID\\tDefaultParam\\tCohortParam\\tTotalVariants" > {output.count_table}
     echo -e "#SAMPLE_ID\\tParam\\tCHROM\\tPOS\\tnumF1R2Alt\\tnumF2R1Alt\\tnumF1R2Ref\\tnumF2R1Ref\\tnumF1R2Other\\tnumF2R1Other\\tSOB\\tpArtifact\\tFS\\tSOR\\tTLOD\\tReadPosRankSum" > {output.full_metric_table}
-    
+
     P1FILES=({input.pass1_vcf})
     P2FILES=({input.pass2_vcf})
     for (( i=0; i<${{#P1FILES[@]}}; i++ )); do
         MYID=$(basename -s ".sobdetect.vcf" ${{P1FILES[$i]}})
         echo "Collecting metrics from $MYID..."
 
-        # grep may fail if input files do not contain any variants 
+        # grep may fail if input files do not contain any variants
         total_count=$(grep -v ^# ${{P1FILES[$i]}} | wc -l) || total_count=0
         count_1p=$(bcftools query -f '%INFO/pArtifact\n' ${{P1FILES[$i]}} | awk '{{if ($1 != "." && $1 < 0.05){{print}}}}' | wc -l)
         count_2p=$(bcftools query -f '%INFO/pArtifact\n' ${{P2FILES[$i]}} | awk '{{if ($1 != "." && $1 < 0.05){{print}}}}' | wc -l)
-     
+
         echo -e "$MYID\\t$count_1p\\t$count_2p\\t$total_count" >> {output.count_table}
-      
+
         bcftools query -f '%CHROM\\t%POS\\t%INFO/numF1R2Alt\\t%INFO/numF2R1Alt\\t%INFO/numF1R2Ref\\t%INFO/numF2R1Ref\\t%INFO/numF1R2Other\\t%INFO/numF2R1Other\\t%INFO/SOB\\t%INFO/pArtifact\n' ${{P1FILES[$i]}} | awk -v id=$MYID 'BEGIN{{OFS="\t"}}{{print id,"PASS_1",$0}}' >> {output.full_metric_table}
         bcftools query -f '%CHROM\\t%POS\\t%INFO/numF1R2Alt\\t%INFO/numF2R1Alt\\t%INFO/numF1R2Ref\\t%INFO/numF2R1Ref\\t%INFO/numF1R2Other\\t%INFO/numF2R1Other\\t%INFO/SOB\\t%INFO/pArtifact\n' ${{P2FILES[$i]}} | awk -v id=$MYID 'BEGIN{{OFS="\t"}}{{print id,"PASS_2",$0}}' >> {output.full_metric_table}
     done
@@ -228,12 +228,12 @@ rule ffpefilter_mafs:
         vcf2maf_script = VCF2MAF_WRAPPER
     threads: 4
     container:
-        config['images']['vcf2maf'] 
+        config['images']['vcf2maf']
     shell: """
     filetype=$(file -b --mime-type {input.filtered_vcf})
     if [ $filetype == "application/gzip" ] ; then
         zcat {input.filtered_vcf} > {output.filtered_vcf}
-    else 
+    else
         {input.filtered_vcf} > {output.filtered_vcf}
     fi
 
@@ -260,8 +260,8 @@ rule collect_ffpefilter_mafs:
     params:
         rname = "combine_maf"
     container:
-        config['images']['wes_base'] 
-    shell: """    
+        config['images']['wes_base']
+    shell: """
     echo "Combining MAFs..."
     head -2 {input.mafs[0]} > {output.maf}
     awk 'FNR>2 {{print}}' {input.mafs} >> {output.maf}

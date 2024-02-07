@@ -20,7 +20,7 @@ function get_sacct_info {
 	attribute=$2
 	x=$(sacct -j $jobid --noheader --format="${attribute}%500"|head -n1|awk '{print $1}')
 	echo $x
-} 
+}
 
 function displaytime {
   local T=$1
@@ -86,7 +86,7 @@ END {
         print str
     }
 }' > /dev/shm/${jobid}.sacct.batchline
-#batch line variables	
+#batch line variables
 
 	jobdataarray["elapsed"]=$(get_batchline_variable "Elapsed")
 	jobdataarray["reqcpus"]=$(get_batchline_variable "ReqCPUS")
@@ -119,7 +119,7 @@ END {
 	jobdataarray["runtime"]=$(displaytime $rt)
 	jobdataarray["job_name"]=$(get_secondline_variable "JobName")
 	jobdataarray["time_limit"]=$(get_secondline_variable "Timelimit")
-	jobdataarray["node_list"]=$(get_secondline_variable "NodeList")	
+	jobdataarray["node_list"]=$(get_secondline_variable "NodeList")
 	jobdataarray["run_node_partition"]=$(get_secondline_variable "Partition")
 	jobdataarray["qos"]=$(get_secondline_variable "QOS")
 	jobdataarray["username"]=$(get_secondline_variable "User")

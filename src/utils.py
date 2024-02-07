@@ -8,9 +8,9 @@ import os, sys, hashlib
 import subprocess, json
 
 
-def md5sum(filename, first_block_only = False, blocksize = 65536):
+def md5sum(filename, first_block_only=False, blocksize=65536):
     """Gets md5checksum of a file in memory-safe manner.
-    The file is read in blocks/chunks defined by the blocksize parameter. This is 
+    The file is read in blocks/chunks defined by the blocksize parameter. This is
     a safer option to reading the entire file into memory if the file is very large.
     @param filename <str>:
         Input file on local filesystem to find md5 checksum
@@ -22,12 +22,12 @@ def md5sum(filename, first_block_only = False, blocksize = 65536):
         MD5 checksum of the file's contents
     """
     hasher = hashlib.md5()
-    with open(filename, 'rb') as fh:
+    with open(filename, "rb") as fh:
         buf = fh.read(blocksize)
         if first_block_only:
-            # Calculate MD5 of first block or chunck of file.
-            # This is a useful heuristic for when potentially 
-            # calculating an MD5 checksum of thousand or 
+            # Calculate MD5 of first block or chunk of file.
+            # This is a useful heuristic for when potentially
+            # calculating an MD5 checksum of thousand or
             # millions of file.
             hasher.update(buf)
             return hasher.hexdigest()
@@ -37,6 +37,7 @@ def md5sum(filename, first_block_only = False, blocksize = 65536):
             buf = fh.read(blocksize)
 
     return hasher.hexdigest()
+
 
 ## copied directly from rna-seek
 def check_cache(parser, cache, *args, **kwargs):
@@ -55,23 +56,35 @@ def check_cache(parser, cache, *args, **kwargs):
         os.makedirs(cache)
     elif os.path.isfile(cache):
         # Cache directory exists as file, raise error
-        parser.error("""\n\t\x1b[6;37;41mFatal: Failed to provided a valid singularity cache!\x1b[0m
+        parser.error(
+            """\n\t\x1b[6;37;41mFatal: Failed to provided a valid singularity cache!\x1b[0m
         The provided --singularity-cache already exists on the filesystem as a file.
         Please run {} again with a different --singularity-cache location.
-        """.format(sys.argv[0]))
+        """.format(
+                sys.argv[0]
+            )
+        )
     elif os.path.isdir(cache):
         # Provide cache exists as directory
         # Check that the user owns the child cache directory
-        # May revert to os.getuid() if user id is not sufficent
-        if exists(os.path.join(cache, 'cache')) and os.stat(os.path.join(cache, 'cache')).st_uid != os.getuid():
-                # User does NOT own the cache directory, raise error
-                parser.error("""\n\t\x1b[6;37;41mFatal: Failed to provided a valid singularity cache!\x1b[0m
+        # May revert to os.getuid() if user id is not sufficient
+        if (
+            exists(os.path.join(cache, "cache"))
+            and os.stat(os.path.join(cache, "cache")).st_uid != os.getuid()
+        ):
+            # User does NOT own the cache directory, raise error
+            parser.error(
+                """\n\t\x1b[6;37;41mFatal: Failed to provided a valid singularity cache!\x1b[0m
                 The provided --singularity-cache already exists on the filesystem with a different owner.
                 Singularity strictly enforces that the cache directory is not shared across users.
                 Please run {} again with a different --singularity-cache location.
-                """.format(sys.argv[0]))
+                """.format(
+                    sys.argv[0]
+                )
+            )
 
     return cache
+
 
 def permissions(parser, path, *args, **kwargs):
     """Checks permissions using os.access() to see the user is authorized to access
@@ -85,9 +98,13 @@ def permissions(parser, path, *args, **kwargs):
         Returns abs path if it exists and permissions are correct
     """
     if not exists(path):
-        parser.error("Path '{}' does not exists! Failed to provide vaild input.".format(path))
+        parser.error(
+            "Path '{}' does not exists! Failed to provide valid input.".format(path)
+        )
     if not os.access(path, *args, **kwargs):
-        parser.error("Path '{}' exists, but cannot read path due to permissions!".format(path))
+        parser.error(
+            "Path '{}' exists, but cannot read path due to permissions!".format(path)
+        )
 
     return os.path.abspath(path)
 
@@ -105,7 +122,7 @@ def standard_input(parser, path, *args, **kwargs):
     if not sys.stdin.isatty():
         # Standard input provided, set path as an
         # empty string to prevent searching of '-'
-        path = ''
+        path = ""
         return path
 
     # Checks for positional arguments as paths
@@ -125,7 +142,7 @@ def exists(testpath):
     """
     does_exist = True
     if not os.path.exists(testpath):
-        does_exist = False # File or directory does not exist on the filesystem
+        does_exist = False  # File or directory does not exist on the filesystem
 
     return does_exist
 
@@ -141,7 +158,7 @@ def ln(files, outdir):
     for file in files:
         ln = os.path.join(outdir, os.path.basename(file))
         if not exists(ln):
-                os.symlink(os.path.abspath(os.path.realpath(file)), ln)
+            os.symlink(os.path.abspath(os.path.realpath(file)), ln)
 
 
 def which(cmd, path=None):
@@ -167,7 +184,7 @@ def which(cmd, path=None):
 
 def err(*message, **kwargs):
     """Prints any provided args to standard error.
-    kwargs can be provided to modify print functions 
+    kwargs can be provided to modify print functions
     behavior.
     @param message <any>:
         Values printed to standard error
@@ -175,7 +192,6 @@ def err(*message, **kwargs):
         Key words to modify print function behavior
     """
     print(*message, file=sys.stderr, **kwargs)
-
 
 
 def fatal(*message, **kwargs):
@@ -205,16 +221,20 @@ def require(cmds, suggestions, path=None):
         available = which(cmds[i])
         if not available:
             error = True
-            err("""\x1b[6;37;41m\n\tFatal: {} is not in $PATH and is required during runtime!
-            └── Solution: please 'module load {}' and run again!\x1b[0m""".format(cmds[i], suggestions[i])
+            err(
+                """\x1b[6;37;41m\n\tFatal: {} is not in $PATH and is required during runtime!
+            └── Solution: please 'module load {}' and run again!\x1b[0m""".format(
+                    cmds[i], suggestions[i]
+                )
             )
 
-    if error: fatal()
+    if error:
+        fatal()
 
-    return 
+    return
 
 
-def safe_copy(source, target, resources = []):
+def safe_copy(source, target, resources=[]):
     """Private function: Given a list paths it will recursively copy each to the
     target location. If a target path already exists, it will NOT over-write the
     existing paths data.
@@ -241,15 +261,21 @@ def git_commit_hash(repo_path):
         Latest git commit hash
     """
     try:
-        githash = subprocess.check_output(['git', 'rev-parse', 'HEAD'], stderr=subprocess.STDOUT, cwd = repo_path).strip().decode('utf-8')
+        githash = (
+            subprocess.check_output(
+                ["git", "rev-parse", "HEAD"], stderr=subprocess.STDOUT, cwd=repo_path
+            )
+            .strip()
+            .decode("utf-8")
+        )
         # Typecast to fix python3 TypeError (Object of type bytes is not JSON serializable)
         # subprocess.check_output() returns a byte string
         githash = str(githash)
     except Exception as e:
         # Github releases are missing the .git directory,
-        # meaning you cannot get a commit hash, set the 
+        # meaning you cannot get a commit hash, set the
         # commit hash to indicate its from a GH release
-        githash = 'github_release'
+        githash = "github_release"
     return githash
 
 
@@ -266,16 +292,20 @@ def join_jsons(templates):
     aggregated = {}
 
     for file in templates:
-        with open(os.path.join(repo_path, file), 'r') as fh:
+        with open(os.path.join(repo_path, file), "r") as fh:
             aggregated.update(json.load(fh))
 
     return aggregated
 
 
-if __name__ == '__main__':
-    # Calculate MD5 checksum of entire file 
-    print('{}  {}'.format(md5sum(sys.argv[0]), sys.argv[0]))
-    # Calcualte MD5 cehcksum of 512 byte chunck of file,
-    # which is similar to following unix command: 
-    # dd if=utils.py bs=512 count=1 2>/dev/null | md5sum 
-    print('{}  {}'.format(md5sum(sys.argv[0], first_block_only = True, blocksize = 512), sys.argv[0]))
+if __name__ == "__main__":
+    # Calculate MD5 checksum of entire file
+    print("{}  {}".format(md5sum(sys.argv[0]), sys.argv[0]))
+    # Calculate MD5 checksum of 512 byte chunk of file,
+    # which is similar to following unix command:
+    # dd if=utils.py bs=512 count=1 2>/dev/null | md5sum
+    print(
+        "{}  {}".format(
+            md5sum(sys.argv[0], first_block_only=True, blocksize=512), sys.argv[0]
+        )
+    )
