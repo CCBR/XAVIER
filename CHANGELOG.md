@@ -1,6 +1,7 @@
 ## development version
 
 - Create `CITATION.cff` to describe how to cite XAVIER. (#68, @kelly-sovacool)
+- Provide a more helpful error message when `xavier` is called with no arguments. (#75, @kelly-sovacool)
 - Minor documentation improvements. (#78, @kelly-sovacool)
 
 ## v3.0.2

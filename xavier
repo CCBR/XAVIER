@@ -780,6 +780,11 @@ def parsed_arguments():
 
 
 def main():
+    # show helpful error message when no arguments given
+    if len(sys.argv) == 1:
+        # Nothing was provided
+        fatal("Invalid usage: xavier [-h] [--version] ...")
+
     # Collect args for sub-command
     args = parsed_arguments()
 
