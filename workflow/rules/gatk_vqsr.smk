@@ -1,20 +1,20 @@
-rule gatk_vqsr: 
+rule gatk_vqsr:
     """
     ##Hold off on implementing due to mouse genomes not having all the same resources for VQSR and the sample sizes required.
-    ##Implement Deepvariant instead 
+    ##Implement Deepvariant instead
     Run GATK VQSR on the SNP and INDEls
     @Input:
         Multi-sample gVCF with all chromosomes combined
     @Output:
         Variants scored by VQSLOD
     """
-    input: 
+    input:
         vcf = os.path.join(output_germline_base,"VCF","raw_variants.vcf.gz"),
-    output: 
+    output:
        indelvcf = os.path.join(output_germline_base,"VCF","indel.recalibrated.vcf.gz"),
        snpindelvcf = os.path.join(output_germline_base,"VCF","snp_indel.recalibrated.vcf.gz")
-    params: 
-        genome=config['references']['GENOME'], 
+    params:
+        genome=config['references']['GENOME'],
         mills=config['references']['MILLS'],
         axiom=config['references']['AXIOM'],
         dbsnp=config['references']['DBSNP'],
@@ -40,7 +40,7 @@ rule gatk_vqsr:
         -resource:axiomPoly,known=false,training=true,truth=false,prior=10 {params.axiom} \\
         -resource:dbsnp,known=true,training=false,truth=false,prior=2 {params.dbsnp} \\
         --tranches-file cohort_indels.tranches \\
-        -O cohort_indels.recal 
+        -O cohort_indels.recal
 
         gatk --java-options VariantRecalibrator \\
         -R {params.genome} \\
@@ -66,7 +66,7 @@ rule gatk_vqsr:
         --create-output-variant-index true \\
         -mode INDEL \\
         -O {output.indelvcf}
-        
+
         gatk --java-options ApplyVQSR \\
         -V indel.recalibrated.vcf.gz \\
         --recal-file cohort_snps.recal \\

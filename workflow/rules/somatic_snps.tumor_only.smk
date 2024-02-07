@@ -55,7 +55,7 @@ rule pileup_single:
         config['images']['wes_base']
     shell: """
     # Setups temporary directory for
-    # intermediate files with built-in 
+    # intermediate files with built-in
     # mechanism for deletion on exit
     {params.set_tmp}
 
@@ -69,7 +69,7 @@ rule pileup_single:
 
 localrules: contamination_single
 rule contamination_single:
-    input: 
+    input:
         pileup = os.path.join(output_somatic_snpindels, "mutect2_out", "pileup_summaries", "{samples}.pileup.table")
     output:
         tumor_summary = os.path.join(output_somatic_base, "qc", "gatk_contamination", "{samples}.contamination.table")
@@ -77,7 +77,7 @@ rule contamination_single:
         genome = config['references']['GENOME'],
         germsource = config['references']['KNOWNSNPS'],
         ver_gatk = config['tools']['gatk4']['version'],
-        chroms = chroms, 
+        chroms = chroms,
         rname = 'contamination'
     envmodules:
         config['tools']['gatk4']['modname']
@@ -109,11 +109,11 @@ rule mutect_single:
         config['images']['mutect']
     shell: """
     # Setups temporary directory for
-    # intermediate files with built-in 
+    # intermediate files with built-in
     # mechanism for deletion on exit
     {params.set_tmp}
 
-    if [ ! -d "$(dirname {output.vcf})" ]; then 
+    if [ ! -d "$(dirname {output.vcf})" ]; then
         mkdir -p "$(dirname {output.vcf})"
     fi
 
@@ -129,7 +129,7 @@ rule mutect_single:
         --out {output.stats} \\
         -rf BadCigar
     """
-            
+
 
 rule mutect_filter_single:
     input:
@@ -152,7 +152,7 @@ rule mutect_filter_single:
         config['images']['wes_base']
     shell: """
     # Setups temporary directory for
-    # intermediate files with built-in 
+    # intermediate files with built-in
     # mechanism for deletion on exit
     {params.set_tmp}
 
@@ -173,11 +173,11 @@ rule mutect_filter_single:
 
 
 rule vardict_single:
-    input: 
+    input:
         tumor = os.path.join(output_bamdir, "chrom_split", "{samples}.{chroms}.split.bam"),
     output:
         vcf = os.path.join(output_somatic_snpindels, "vardict_out", "chrom_split", "{samples}.{chroms}.vcf"),
-    params: 
+    params:
         genome = config['references']['GENOME'],
         targets = exome_targets_bed,
         pon = config['references']['PON'],
@@ -189,7 +189,7 @@ rule vardict_single:
     container:
         config['images']['wes_base']
     shell: """
-    if [ ! -d "$(dirname {output.vcf})" ]; then 
+    if [ ! -d "$(dirname {output.vcf})" ]; then
         mkdir -p "$(dirname {output.vcf})"
     fi
 
@@ -217,7 +217,7 @@ rule vardict_single:
 
 
 rule vardict_filter_single:
-    input: 
+    input:
         vcf = os.path.join(output_somatic_snpindels, "vardict_out", "vcf", "{samples}.collected.vcf"),
     output:
         final = os.path.join(output_somatic_snpindels, "vardict_out", "vcf", "{samples}.FINAL.vcf"),
@@ -229,7 +229,7 @@ rule vardict_filter_single:
         pon = config['references']['PON'],
         ver_gatk = config['tools']['gatk4']['version'],
         ver_bcftools = config['tools']['bcftools']['version'],
-        rname = 'vardict_filter', 
+        rname = 'vardict_filter',
         set_tmp = set_tmp(),
     threads: 4
     envmodules:
@@ -239,7 +239,7 @@ rule vardict_filter_single:
         config['images']['wes_base']
     shell: """
     # Setups temporary directory for
-    # intermediate files with built-in 
+    # intermediate files with built-in
     # mechanism for deletion on exit
     {params.set_tmp}
 
@@ -249,7 +249,7 @@ rule vardict_filter_single:
         --discordance {params.pon} \\
         --exclude-filtered \\
         --output {output.final}
-    
+
     # VarScan can output ambiguous IUPAC bases/codes
     # the awk one-liner resets them to N, from:
     # https://github.com/fpbarthel/GLASS/issues/23
@@ -326,7 +326,7 @@ rule varscan_filter_single:
         config['images']['wes_base']
     shell: """
     # Setups temporary directory for
-    # intermediate files with built-in 
+    # intermediate files with built-in
     # mechanism for deletion on exit
     {params.set_tmp}
 

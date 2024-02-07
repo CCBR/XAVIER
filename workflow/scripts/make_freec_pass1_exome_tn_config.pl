@@ -27,17 +27,17 @@ print C "ploidy = 2\nbreakPointThreshold = 0.8\nwindow = 0\n";
 print C "chrFiles = $chrFiles\n";
 print C "minimalSubclonePresence = 30\nprintNA = FALSE\ncontaminationAdjustment = TRUE\nmaxThreads = 24\nnumberOfProcesses = 24\n";
 print C "outputDir = $ARGV[0]\n\n";
- 
+
 print C '[sample]' . "\n\n";
- 
+
 print C "mateFile = $tumormateFile\n";
 print C "inputFormat = BAM\nmateOrientation = FR\n\n";
- 
+
 print C '[control]' . "\n\n";
- 
+
 print C "mateFile = $controlmateFile\n";
 print C "inputFormat = BAM\nmateOrientation = FR\n\n";
- 
+
 print C '[target]' . "\n\n";
 
 print C "captureRegions = $targets\n\n";

@@ -17,7 +17,7 @@ TOOLDIR=$(dirname "$SCRIPTDIRNAME")
 TOOLNAME=$(basename "$SCRIPTNAME")
 echo $TOOLNAME
 
-# find out if you are running on biowulf or frce and load conda 
+# find out if you are running on biowulf or frce and load conda
 nbiowulf=$(scontrol show config | grep -i -c biowulf)
 if [[ "$nbiowulf" > 0 ]];then ISBIOWULF=true; else ISBIOWULF=false;fi
 nfrce=$(scontrol show config | grep -i -c fsitgl)
@@ -53,4 +53,3 @@ fi
 
 
 ${TOOLDIR}/${TOOLNAME} "$@" || true
-

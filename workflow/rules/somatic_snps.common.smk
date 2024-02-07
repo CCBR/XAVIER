@@ -14,7 +14,7 @@ rule split_bam_by_chrom:
     envmodules:
         config['tools']['samtools']['modname']
     container:
-       config['images']['wes_base'] 
+       config['images']['wes_base']
     shell: """
     if [ ! -d "$(dirname {output.split_bam})" ]; then
       mkdir -p "$(dirname {output.split_bam})"
@@ -25,11 +25,11 @@ rule split_bam_by_chrom:
         -o {output.split_bam} \\
         -@ {threads} \\
         {input.bam} {wildcards.chroms}
-    
+
     samtools index \\
         -@ {threads} \\
         {output.split_bam} {output.split_bam_idx}
-    
+
     cp {output.split_bam_idx} {output.split_bam}.bai
     """
 
@@ -50,7 +50,7 @@ rule LearnReadOrientationModel:
         config['images']['wes_base']
     shell: """
     input_str="--input $(echo "{input.read_orientation_file}" | sed -e 's/ / --input /g')"
-     
+
     gatk LearnReadOrientationModel \\
         --output {output.model} \\
         $input_str
@@ -83,12 +83,12 @@ rule mutect2_filter:
         config['images']['wes_base']
     shell: """
     # Setups temporary directory for
-    # intermediate files with built-in 
+    # intermediate files with built-in
     # mechanism for deletion on exit
     {params.set_tmp}
 
     statfiles="--stats $(echo "{input.statsfiles}" | sed -e 's/ / --stats /g')"
-    
+
     gatk MergeMutectStats \\
         $statfiles \\
         -O {output.final}.stats
@@ -106,7 +106,7 @@ rule mutect2_filter:
         --variant {output.marked_vcf} \\
         --exclude-filtered \\
         --output {output.final}
-    
+
     # VarScan can output ambiguous IUPAC bases/codes
     # the awk one-liner resets them to N, from:
     # https://github.com/fpbarthel/GLASS/issues/23
@@ -115,7 +115,7 @@ rule mutect2_filter:
         | awk '{{gsub(/\y[W|K|Y|R|S|M|B|D|H|V]\y/,"N",$4); OFS = "\t"; print}}' \\
         | sed '/^$/d' > {output.norm}
     """
-           
+
 rule somatic_merge_chrom:
     input:
         vcf = expand(os.path.join(output_somatic_snpindels, "{{vc_out}}", "chrom_split", "{{samples}}.{chroms}.vcf"), chroms=chroms),
@@ -144,7 +144,7 @@ rule somatic_merge_chrom:
 rule somatic_merge_callers:
     input:
         vcf = expand(os.path.join(output_somatic_snpindels, "{vc_outdir}_out", "vcf", "{{samples}}.FINAL.norm.vcf"), vc_outdir=caller_list)
-    output: 
+    output:
         mergedvcf = os.path.join(output_somatic_snpindels, "merged_somatic_variants", "vcf", "{samples}.FINAL.norm.vcf"),
     params:
         genome = config['references']['GENOME'],
@@ -160,7 +160,7 @@ rule somatic_merge_callers:
         config['images']['wes_base']
     shell: """
     # Setups temporary directory for
-    # intermediate files with built-in 
+    # intermediate files with built-in
     # mechanism for deletion on exit
     {params.set_tmp}
 
@@ -185,7 +185,7 @@ rule somatic_mafs:
         filtered_vcf = os.path.join(output_somatic_snpindels, "{vc_outdir}", "vcf", "{samples}.FINAL.norm.vcf")
     output:
         maf = os.path.join(output_somatic_snpindels, "{vc_outdir}", "maf", "{samples}.maf")
-    params: 
+    params:
         tumorsample = '{samples}',
         genome = config['references']['GENOME'],
         build= config['references']['VCF2MAF']['GENOME_BUILD'],
@@ -194,10 +194,10 @@ rule somatic_mafs:
         rname = 'vcf2maf',
         normalsample =  lambda w: "--normal-id {0}".format(
             pairs_dict[w.samples]
-        ) if pairs_dict[w.samples] else "",  
+        ) if pairs_dict[w.samples] else "",
     threads: 4
     container:
-        config['images']['vcf2maf'] 
+        config['images']['vcf2maf']
     shell: """
 
     vcf2maf.pl \\
@@ -212,15 +212,15 @@ rule somatic_mafs:
         --ref-fasta {params.genome} \\
         --retain-info "set" \\
         --vep-overwrite
-        
+
     """
 
 
 localrules: collect_cohort_mafs
 rule collect_cohort_mafs:
-    input: 
+    input:
         mafs = expand(os.path.join(output_somatic_snpindels, "{{vc_outdir}}", "maf", "{samples}"+".maf"), samples=samples_for_caller_merge)
-    output: 
+    output:
         maf = os.path.join(output_somatic_snpindels, "{vc_outdir}", "cohort_summary", "all_somatic_variants.maf")
     params:
         rname = 'combine_maf'

@@ -3,7 +3,7 @@ site_name: XAVIER Documentation
 site_author: CCBR
 site_description: >-
   XAVIER is an open-source, reproducible, and scalable best
-  practices pipeline for analyzing Whole Exome DNA-sequencing data. 
+  practices pipeline for analyzing Whole Exome DNA-sequencing data.
 
 # Repository
 repo_name: CCBR/XAVIER
@@ -23,7 +23,7 @@ theme:
   features:
     - navigation.tabs
     - navigation.top
-    - toc.integrate 
+    - toc.integrate
   palette:
     - scheme: default
       primary: indigo
@@ -47,7 +47,6 @@ plugins:
   - minify:
       minify_html: true
 
-
 # Customization
 extra:
   social:
@@ -59,7 +58,6 @@ extra:
       link: https://hub.docker.com/orgs/nciccbr/repositories
   version:
     provider: mike
-
 
 # Extensions
 markdown_extensions:
@@ -102,15 +100,15 @@ nav:
   - About: index.md
   - Getting Started: usage/gui.md
   - Command Line:
-    - xavier run: usage/run.md
-    - xavier unlock: usage/unlock.md
-    - xavier cache: usage/cache.md
-  - Pipeline Details: 
-    - Overview: pipeline-details/overview.md
-    - Methods: pipeline-details/methods.md
-    - Tools: pipeline-details/tools.md
-    - Settings: pipeline-details/settings.md
-    - Output Files: pipeline-details/output.md
+      - xavier run: usage/run.md
+      - xavier unlock: usage/unlock.md
+      - xavier cache: usage/cache.md
+  - Pipeline Details:
+      - Overview: pipeline-details/overview.md
+      - Methods: pipeline-details/methods.md
+      - Tools: pipeline-details/tools.md
+      - Settings: pipeline-details/settings.md
+      - Output Files: pipeline-details/output.md
   - FAQ:
-    - General Questions: faq/questions.md
+      - General Questions: faq/questions.md
   - License: license.md
