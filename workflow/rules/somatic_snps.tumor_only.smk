@@ -342,7 +342,7 @@ rule varscan_filter_single:
         --output {output.filtered}
 
     samplesFile="{output.samplesfile}"
-    echo -e "TUMOR\t{params.tumorsample}\n" > "{output.samplesfile}"
+    echo -e "Sample1\t{params.tumorsample}\n" > "{output.samplesfile}"
 
     bcftools reheader \\
         -o "{output.final}" \\
