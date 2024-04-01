@@ -294,7 +294,8 @@ rule mutect_filter:
     # VarScan can output ambiguous IUPAC bases/codes
     # the awk one-liner resets them to N, from:
     # https://github.com/fpbarthel/GLASS/issues/23
-    bcftools sort -T ${{tmp}} "{output.final}" \\
+    bcftools view -s "{params.tumorsample}","{params.normalsample}" {output.final} \\
+        | bcftools sort -T ${{tmp}} - \\
         | bcftools norm --threads {threads} --check-ref s -f {params.genome} -O v \\
         | awk '{{gsub(/\y[W|K|Y|R|S|M|B|D|H|V]\y/,"N",$4); OFS = "\t"; print}}' \\
         | sed '/^$/d' > {output.norm}
