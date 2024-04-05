@@ -118,7 +118,7 @@ rule bwa_mem2:
     myoutdir="$(dirname {output})"
     if [ ! -d "$myoutdir" ]; then mkdir -p "$myoutdir"; fi
     bwa-mem2 mem -M \\
-        -R \'@RG\\tID:{params.sample}\\tSM:{params.sample}\\tPL:illumina\\tLB:{params.sample}\\tPU:{params.sample}\\tCN:hgsc\\tDS:wes\' \\
+        -C -R \'@RG\\tID:{params.sample}\\tSM:{params.sample}\\tPL:illumina\\tLB:{params.sample}\\tPU:{params.sample}\\tCN:hgsc\\tDS:wes\' \\
         -t {threads} \\
         {params.genome} \\
         {input} | \\
