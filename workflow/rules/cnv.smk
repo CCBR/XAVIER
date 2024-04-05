@@ -161,3 +161,26 @@ rule freec_exome_somatic_pass2:
         $myoutdir/{params.tumorsample}.bam_ratio.txt \\
         $myoutdir/{params.tumorsample}.bam_BAF.txt
     """
+
+rule cnvkit_amplicon:
+    input:
+        normal = lambda w: [os.path.join(output_bamdir,"final_bams", pairs_dict[w.samples] + ".bam")],
+        tumor = os.path.join(output_bamdir,"final_bams","{samples}.bam")
+    output:
+        cnvs = os.path.join(output_somatic_cnv, "freec_out", "pass2", "{samples}.recal.bam_CNVs.p.value.txt"),
+    params:
+        normalsample = lambda w: [pairs_dict[w.samples]],
+        tumorsample = "{samples}",
+        fasta = config['references']['GENOME'],
+        chroms = config['references']['FREECCHROMS'],
+        rname = 'cnvkit',
+    envmodules:
+        config['tools']['cnvkit']['modname']
+    container: config['images']['wes_base']
+    shell: """
+    cnvkit.py batch {input.tumor} -n {input.normal} \\
+        --targets my_baits.bed --fasta {params.fasta} \\
+        --annotate refFlat.txt \\
+        --output-dir {output.dir}
+    """
+
