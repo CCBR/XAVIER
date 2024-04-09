@@ -112,6 +112,10 @@
         "samblaster": {
             "version": "0.1.26",
             "modname": "samblaster/0.1.26"
+        },
+        "cnvkit": {
+            "version": "0.9.9",
+            "modname": "cnvkit/0.9.9"
         }
     }
 }
