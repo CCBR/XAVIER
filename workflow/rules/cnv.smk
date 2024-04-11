@@ -10,7 +10,7 @@ rule cnvkit_amplicon:
         cns = os.path.join(output_somatic_cnv, "cnvkit", "{samples}.cns")
     params:
         targets=exome_targets_bed,
-        outdir = os.path.join('cnvkit', "{samples}"),
+        outdir = os.path.join("{samples}"),
         genome=config['references']['GENOME'], 
         refFlat=config['references']['REFFLAT'],
         rname = 'cnvkit_amplicon'
