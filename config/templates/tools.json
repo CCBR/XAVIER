@@ -116,6 +116,10 @@
         "cnvkit": {
             "version": "0.9.9",
             "modname": "cnvkit/0.9.9"
+        },
+        "umitools": {
+            "version": "1.1.5",
+            "modname": "umitools/1.1.5"
         }
     }
 }

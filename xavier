@@ -291,6 +291,7 @@ def parsed_arguments():
                               [--pairs PAIRS] \\
                               [--ffpe] \\
                               [--cnv] \\
+                              [--dedup] \\
                               [--silent] \\
                               [--singularity-cache SINGULARITY_CACHE] \\
                               [--sif-cache SIF_CACHE] \\
@@ -500,6 +501,13 @@ def parsed_arguments():
         default = False,
         help = 'Call copy number variations or CNVs. CNVs will only be called from tumor-normal pairs. \
         If this option is provided without providing a --pairs file, CNVs will NOT be called.'
+    )
+
+    subparser_run.add_argument('--dedup',
+        action = 'store_true',
+        required = False,
+        default = False,
+        help = 'Run UMI Deduplication on Barcoded style data'
     )
 
     # wait until master job finishes ... required for HPC API execution 

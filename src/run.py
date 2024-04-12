@@ -227,6 +227,7 @@ def setup(sub_args, repo_path, output_path, create_nidap_folder_YN = 'no',links=
 
     # Add optional cli workflow steps
     config['input_params']['CNV_CALLING'] = str(sub_args.cnv).lower()
+    config['input_params']['DEDUP'] = str(sub_args.dedup).lower()
     config['input_params']['FFPE_FILTER'] = str(sub_args.ffpe).lower()
     config['input_params']['EXOME_TARGETS'] = str(sub_args.targets)
     config['input_params']['VARIANT_CALLERS'] = sub_args.callers

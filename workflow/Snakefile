@@ -326,6 +326,8 @@ output_germline_base=os.path.join(BASEDIR,"germline")
 output_somatic_base=os.path.join(BASEDIR,"somatic_"+tn_mode)
 output_somatic_snpindels=os.path.join(output_somatic_base,"SNP_Indels")
 output_somatic_cnv=os.path.join(output_somatic_base,"CNV")
+output_dedup_fq=os.path.join(BASEDIR,"fastq_dedup")
+
 
 #Convert chroms into the config.json file 
 chroms=config['references']['chroms']
@@ -444,9 +446,7 @@ rule all:
         
         #expand(os.path.join(output_somatic_cnv,"freec_out","pass2","{samples}.recal.bam_CNVs.p.value.txt"), samples=cnv_sample_list),
         expand(os.path.join(output_somatic_cnv,"cnvkit","{samples}.call.cns"), samples=cnv_sample_list),
-        expand(os.path.join(output_somatic_cnv,"cnvkit","{samples}.bintest.cns"), samples=cnv_sample_list),
-        expand(os.path.join(output_somatic_cnv,"cnvkit","{samples}.cns"), samples=cnv_sample_list),
-        expand(os.path.join(output_somatic_cnv,"cnvkit","{samples}.cnr"), samples=cnv_sample_list),
+
 
         expand(os.path.join(output_somatic_base,"qc","gatk_contamination","{samples}.contamination.table"), samples=samples_for_caller_merge),
 
@@ -468,8 +468,11 @@ rule all:
         #get_nidap_folder_output_files
 
 
+if config['input_params']['DEDUP'].lower() in ['true','t','yes']:
+    include: 'rules/trim_map_dedup.smk'
+else:
+    include: 'rules/trim_map_preprocess.smk'
 
-include: "rules/trim_map_preprocess.smk"
 include: "rules/germline.smk"
 include: "rules/qc.smk"
 include: "rules/somatic_snps.common.smk"
@@ -486,6 +489,8 @@ if tn_mode=="paired":
     include: "rules/somatic_snps.paired.smk"
 elif tn_mode=="tumor_only":
     include: "rules/somatic_snps.tumor_only.smk"
+
+
 
 if config['input_params']['create_nidap_folder'] == 'yes':
     NIDAP_OUTDIR = os.path.join(BASEDIR,"NIDAP")

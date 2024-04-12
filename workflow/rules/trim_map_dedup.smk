@@ -101,6 +101,75 @@ rule bwa_mem2:
         r1 = os.path.join(input_fqdir, "{samples}.R1.fastq.gz"),
         r2 = os.path.join(input_fqdir, "{samples}.R2.fastq.gz")
     output:
+        temp(os.path.join(output_bamdir, "preprocessing_1", "{samples}.raw_map.bam"))
+    params:
+        genome = config['references']['BWA2GENOME'],
+        sample = "{samples}",
+        ver_samtools = config['tools']['samtools']['version'],
+        ver_bwa = config['tools']['bwa_mem2']['version'],
+        rname = 'bwa_mem2'
+    envmodules: 
+       config['tools']['samtools']['modname'],
+       config['tools']['bwa_mem2']['modname'],
+       config['tools']['samblaster']['modname']
+    #container: No container options
+    #    config['images']['wes_base'] 
+    threads: 24
+    shell: """
+    myoutdir="$(dirname {output})"
+    if [ ! -d "$myoutdir" ]; then mkdir -p "$myoutdir"; fi
+    bwa-mem2 mem -M \\
+        -C -R \'@RG\\tID:{params.sample}\\tSM:{params.sample}\\tPL:illumina\\tLB:{params.sample}\\tPU:{params.sample}\\tCN:hgsc\\tDS:wes\' \\
+        -t {threads} \\
+        {params.genome} \\
+        {input} | \\
+    samblaster -M | \\
+    samtools sort -@12 -m 4G - -o {output}
+    """
+
+rule dedup:
+    """
+    Dedup from BAM
+    """
+    input:
+        bam = os.path.join(output_bamdir, "preprocessing_1","{samples}.raw_map.bam"),
+        bai = os.path.join(output_bamdir, "preprocessing_1","{samples}.raw_map.bam"), 
+    output:
+        bam = temp(os.path.join(output_bamdir, "preprocessing_de", "{samples}_de.bam")),
+        r1 = os.path.join(output_dedup_fq, "dedup", "{samples}_dedup_R1.fastq.gz"),
+        r2 = os.path.join(output_dedup_fq, "dedup", "{samples}_dedup_R2.fastq.gz"),
+        statsumi = os.path.join(output_dedup_fq, "dedup", "{samples}_per_umi.tsv"),
+        statsumiper = os.path.join(output_dedup_fq, "dedup", "{samples}_per_umi_per_position.tsv"),
+        statsedit = os.path.join(output_dedup_fq, "dedup", "{samples}_edit_distance.tsv")
+    params:
+        sample = "{samples}",
+        outdir = os.path.join(output_dedup_fq,"dedup","{samples}"),
+    envmodules:
+        config['tools']['umitools']['modname'],
+        config['tools']['samtools']['modname']
+    shell:"""
+    myoutdir="$(dirname {output.bam})"
+    if [ ! -d "$myoutdir" ]; then mkdir -p "$myoutdir"; fi
+
+    samtools index -@ 2 {input.bam}
+    umi_tools dedup -I {input.bam} --extract-umi-method=tag --umi-tag=RX --paired --output-stats={params.outdir} -S {output.bam}
+    samtools collate -u -O {output.bam} | samtools fastq -1 {output.r1} -2  {output.r2} -T \\"BC,ZA,ZB,RX,QX\\" -n -0 /dev/null -s /dev/null
+
+    """
+
+rule bwa_mem2_2:
+    """
+    Map trimmed paired reads to the reference genome using the 'bwa' aligner.
+    @Input:
+        One pair of FASTQ files (scatter)
+    @Output:
+        Aligned reads in BAM format
+    """
+    input:
+        r1 = os.path.join(output_dedup_fq, "dedup", "{samples}_dedup_R1.fastq.gz"),
+        r2 = os.path.join(output_dedup_fq, "dedup", "{samples}_dedup_R2.fastq.gz"),
+
+    output:
         temp(os.path.join(output_bamdir, "preprocessing", "{samples}.raw_map.bam"))
     params:
         genome = config['references']['BWA2GENOME'],
@@ -126,6 +195,7 @@ rule bwa_mem2:
     samblaster -M | \\
     samtools sort -@12 -m 4G - -o {output}
     """
+
 
 localrules: raw_index
 rule raw_index:

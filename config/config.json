@@ -11,6 +11,7 @@
       "GERMLINE": "false",
       "FFPE_FILTER": "false",
       "CNV_CALLING": "false",
+      "DEDUP": "false",
       "tmpdisk": "",
       "genome": ""
     },
@@ -23,7 +24,9 @@
       "OTHER_SOMATIC_VCFS": {},
       "EXOME_TARGETS": "/data/CCBR_Pipeliner/db/PipeDB/lib/Agilent_SSv7_allExons_hg38.bed",
       "FFPE_FILTER": "false",
-      "CNV_CALLING": "false"
+      "CNV_CALLING": "false",
+      "DEDUP": "false"
+
     },
     "output_params": {
       "FASTQ": "fastqs",
