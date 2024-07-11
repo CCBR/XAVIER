@@ -7,5 +7,5 @@ import os, sys
 # across python2 and python3.
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
-# Ground source of truth for version information
-version = "v3.0.2-dev"
+# Single source for version information
+version = "3.0.3"
