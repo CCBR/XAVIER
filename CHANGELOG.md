@@ -4,7 +4,7 @@
   - Use `--rerun--incomplete` Snakemake argument and fix bed. (#66, @dnousome)
   - Fix final somatic merge (#70, @dnousome)
   - Fix Varscan/Mutect2 output to keep Tumor Normal ordering. (#84, @dnousome)
-  - Fix issue #85 (#86, @samarth8392)
+  - Reduce memory allocation (#86, @samarth8392)
   - Provide a more helpful error message when `xavier` is called with no arguments. (#75, @kelly-sovacool)
 - Documentation improvements: (#78, @kelly-sovacool)
   - Document the release process for developers. (#63, @kelly-sovacool)
