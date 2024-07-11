@@ -4,12 +4,12 @@
   - Use `--rerun--incomplete` Snakemake argument and fix bed. (#66, @dnousome)
   - Fix final somatic merge (#70, @dnousome)
   - Fix Varscan/Mutect2 output to keep Tumor Normal ordering. (#84, @dnousome)
-  - Reduce memory allocation (#86, @samarth8392)
+  - Reduce memory allocation. (#86, @samarth8392)
   - Provide a more helpful error message when `xavier` is called with no arguments. (#75, @kelly-sovacool)
 - Documentation improvements: (#78, @kelly-sovacool)
   - Document the release process for developers. (#63, @kelly-sovacool)
   - Create `CITATION.cff` to describe how to cite XAVIER. (#68, @kelly-sovacool)
-- Sync GitHub Actions with with other CCBR pipelines. (#65, #67, @kelly-sovacool; #73, @kopardev)
+- Sync GitHub Actions with other CCBR pipelines. (#65, #67, @kelly-sovacool; #73, @kopardev)
 
 ## XAVIER 3.0.2
 
