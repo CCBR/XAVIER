@@ -1,15 +1,22 @@
-## development version
+## XAVIER 3.0.3
 
-- Create `CITATION.cff` to describe how to cite XAVIER. (#68, @kelly-sovacool)
-- Provide a more helpful error message when `xavier` is called with no arguments. (#75, @kelly-sovacool)
-- Minor documentation improvements. (#78, @kelly-sovacool)
+- Bug fixes:
+  - Use `--rerun--incomplete` Snakemake argument and fix bed. (#66, @dnousome)
+  - Fix final somatic merge (#70, @dnousome)
+  - Fix Varscan/Mutect2 output to keep Tumor Normal ordering. (#84, @dnousome)
+  - Fix issue #85 (#86, @samarth8392)
+  - Provide a more helpful error message when `xavier` is called with no arguments. (#75, @kelly-sovacool)
+- Documentation improvements: (#78, @kelly-sovacool)
+  - Document the release process for developers. (#63, @kelly-sovacool)
+  - Create `CITATION.cff` to describe how to cite XAVIER. (#68, @kelly-sovacool)
+- Sync GitHub Actions with with other CCBR pipelines. (#65, #67, @kelly-sovacool; #73, @kopardev)
 
-## v3.0.2
+## XAVIER 3.0.2
 
 - Documentation updates for GUI and other genome references
 - Additional IUPAC changes to play nice with GATK tools (non ACGTN codes convert to N)
 
-## v3.0.1
+## XAVIER 3.0.1
 
 Hotfixes for all!
 
@@ -17,7 +24,7 @@ Hotfixes for all!
 - Fixed spooker/runner calls for run info
 - Fixed vcf2maf which missed the Intersection of calls
 
-## v3.0.0
+## XAVIER 3.0.0
 
 - added [FRCE](https://ncifrederick.cancer.gov/staff/frce/welcome) support.
 - adding `$triggeroptions` to _snakemake_ cli.
