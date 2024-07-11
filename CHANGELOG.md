@@ -1,3 +1,7 @@
+## development version
+
+- You can now cite XAVIER with the DOI [10.5281/zenodo.12727316](https://doi.org/10.5281/zenodo.12727316).
+
 ## XAVIER 3.0.3
 
 - Bug fixes:
