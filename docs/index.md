@@ -5,7 +5,7 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/nciccbr/ccbr_wes_base)](https://hub.docker.com/r/nciccbr/ccbr_wes_base)
 [![GitHub Issues](https://img.shields.io/github/issues/CCBR/XAVIER?color=brightgreen)](https://github.com/CCBR/XAVIER/issues)
 [![MIT license](https://img.shields.io/github/license/CCBR/XAVIER)](https://github.com/CCBR/XAVIER/blob/main/LICENSE)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.12727316.svg)](https://doi.org/10.5281/zenodo.12727316)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.12727315.svg)](https://doi.org/10.5281/zenodo.12727315)
 
 > **_XAVIER - eXome Analysis and Variant explorER_**. **XAVIER** is an open-source, reproducible, and scalable solution for analyzing Whole Exome sequencing data. Its long-term goals: to accurately call germline and somatic variants, to infer CNVs, and to boldly annotate variants like no pipeline before!
 
