@@ -1,4 +1,11 @@
-# XAVIER - e**X**ome **A**nalysis and **V**ariant explor**ER** 🔬 [![tests](https://github.com/CCBR/XAVIER/workflows/tests/badge.svg)](https://github.com/CCBR/XAVIER/actions/workflows/main.yaml) [![docs](https://github.com/CCBR/XAVIER/workflows/docs/badge.svg)](https://github.com/CCBR/XAVIER/actions/workflows/docs.yml) [![Docker Pulls](https://img.shields.io/docker/pulls/nciccbr/ccbr_wes_base)](https://hub.docker.com/r/nciccbr/ccbr_wes_base) [![GitHub issues](https://img.shields.io/github/issues/CCBR/XAVIER?color=brightgreen)](https://github.com/CCBR/XAVIER/issues) [![GitHub license](https://img.shields.io/github/license/CCBR/XAVIER)](https://github.com/CCBR/XAVIER/blob/main/LICENSE)
+# XAVIER - e**X**ome **A**nalysis and **V**ariant explor**ER** 🔬
+
+[![tests](https://github.com/CCBR/XAVIER/workflows/tests/badge.svg)](https://github.com/CCBR/XAVIER/actions/workflows/main.yaml)
+[![docs](https://github.com/CCBR/XAVIER/workflows/docs/badge.svg)](https://github.com/CCBR/XAVIER/actions/workflows/docs.yml)
+[![Docker Pulls](https://img.shields.io/docker/pulls/nciccbr/ccbr_wes_base)](https://hub.docker.com/r/nciccbr/ccbr_wes_base)
+[![GitHub Issues](https://img.shields.io/github/issues/CCBR/XAVIER?color=brightgreen)](https://github.com/CCBR/XAVIER/issues)
+[![MIT license](https://img.shields.io/github/license/CCBR/XAVIER)](https://github.com/CCBR/XAVIER/blob/main/LICENSE)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.12727315.svg)](https://doi.org/10.5281/zenodo.12727315)
 
 > **_*XAVIER - eXome Analysis and Variant explorER*_**. This is the home of the pipeline, XAVIER. Its long-term goals: to accurately call germline and somatic variants, to infer CNVs, and to boldly annotate variants like no pipeline before!
 

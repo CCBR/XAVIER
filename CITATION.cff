@@ -32,5 +32,9 @@ url: https://ccbr.github.io/XAVIER/
 repository-code: https://github.com/CCBR/XAVIER
 license: MIT
 type: software
+identifiers:
+  - description: Archived snapshots of all versions
+    type: doi
+    value: 10.5281/zenodo.12727315
 version: 3.0.3
 date-released: 2024-07-11
