@@ -98,11 +98,11 @@ markdown_extensions:
 # Page Tree
 nav:
   - About: index.md
-  - Getting Started: usage/gui.md
   - Command Line:
       - xavier run: usage/run.md
       - xavier unlock: usage/unlock.md
       - xavier cache: usage/cache.md
+  - Graphical Interface: usage/gui.md
   - Pipeline Details:
       - Overview: pipeline-details/overview.md
       - Methods: pipeline-details/methods.md
