@@ -4,12 +4,14 @@
 # Python standard library
 from __future__ import print_function
 from shutil import copytree, copyfile
-import os, re, json, sys, subprocess
+import os
+import re
+import json
+import sys
+import subprocess
 
 # Local imports
-from utils import git_commit_hash, join_jsons, fatal, which, exists, err
-
-from . import version as __version__
+from .util import git_commit_hash, join_jsons, fatal, which, exists, err, get_version
 
 
 def init(
@@ -234,7 +236,7 @@ def setup(sub_args, repo_path, output_path, create_nidap_folder_YN="no", links=[
 
     # Add other cli collected info
     config["project"]["annotation"] = sub_args.genome
-    config["project"]["version"] = __version__
+    config["project"]["version"] = get_version()
     config["project"]["workpath"] = os.path.abspath(sub_args.output)
 
     # Add optional cli workflow steps

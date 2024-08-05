@@ -4,8 +4,107 @@
 # Python standard library
 from __future__ import print_function
 from shutil import copytree
-import os, sys, hashlib
-import subprocess, json
+import sys
+import hashlib
+import subprocess
+import json
+import glob
+import os
+import warnings
+
+
+def xavier_base(rel_path=""):
+    """Get the absolute path to a file in the repository
+    @return abs_path <str>
+    """
+    basedir = os.path.dirname(
+        os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+    )
+    return os.path.join(basedir, rel_path)
+
+
+def get_version():
+    """Get the current version
+    @return version <str>
+    """
+    with open(xavier_base("VERSION"), "r") as vfile:
+        version = f"v{vfile.read().strip()}"
+    return version
+
+
+def scontrol_show():
+    """Run scontrol show config and parse the output as a dictionary
+    @return scontrol_dict <dict>:
+    """
+    scontrol_dict = dict()
+    scontrol_out = subprocess.run(
+        "scontrol show config", shell=True, capture_output=True, text=True
+    ).stdout
+    if len(scontrol_out) > 0:
+        for line in scontrol_out.split("\n"):
+            line_split = line.split("=")
+            if len(line_split) > 1:
+                scontrol_dict[line_split[0].strip()] = line_split[1].strip()
+    return scontrol_dict
+
+
+def get_hpcname():
+    """Get the HPC name (biowulf, frce, or an empty string)
+    @return hpcname <str>
+    """
+    scontrol_out = scontrol_show()
+    hpc = scontrol_out["ClusterName"] if "ClusterName" in scontrol_out.keys() else ""
+    if hpc == "fnlcr":
+        hpc = "frce"
+    return hpc
+
+
+def get_tmp_dir(tmp_dir, outdir, hpc=get_hpcname()):
+    """Get default temporary directory for biowulf and frce. Allow user override."""
+    if not tmp_dir:
+        if hpc == "biowulf":
+            tmp_dir = "/lscratch/$SLURM_JOBID"
+        elif hpc == "frce":
+            tmp_dir = outdir
+        else:
+            tmp_dir = None
+    return tmp_dir
+
+
+def get_genomes_list(hpcname=get_hpcname(), error_on_warnings=False):
+    """Get list of genome annotations available for the current platform
+    @return genomes_list <list>
+    """
+    return sorted(
+        list(
+            get_genomes_dict(
+                hpcname=hpcname, error_on_warnings=error_on_warnings
+            ).keys()
+        )
+    )
+
+
+def get_genomes_dict(hpcname=get_hpcname(), error_on_warnings=False):
+    """Get dictionary of genome annotation versions and the paths to the corresponding JSON files
+    @return genomes_dict <dict> { genome_name: json_file_path }
+    """
+    if error_on_warnings:
+        warnings.filterwarnings("error")
+    genomes_dir = xavier_base(os.path.join("config", "genomes", hpcname))
+    if not os.path.exists(genomes_dir):
+        warnings.warn(f"Folder does not exist: {genomes_dir}")
+    search_term = genomes_dir + "/*.json"
+    json_files = glob.glob(search_term)
+    if len(json_files) == 0:
+        warnings.warn(
+            f"No Genome+Annotation JSONs found in {genomes_dir}. Please specify a custom genome json file with `--genome`"
+        )
+    genomes_dict = {
+        os.path.basename(json_file).replace(".json", ""): json_file
+        for json_file in json_files
+    }
+    warnings.resetwarnings()
+    return genomes_dict
 
 
 def md5sum(filename, first_block_only=False, blocksize=65536):

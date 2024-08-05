@@ -44,14 +44,13 @@ import sys, os, subprocess, re, json, textwrap
 import argparse  # potential python3 3rd party package, added in python/3.5
 
 # Local imports
-from src import version
-from src.run import init, setup, bind, dryrun, runner
-from src.shells import bash
-from src.options import genome_options
-from src.utils import err, exists, fatal, permissions, check_cache, require
+from .run import init, setup, bind, dryrun, runner
+from .shells import bash
+from .options import genome_options
+from .util import err, exists, fatal, permissions, check_cache, require, get_version
 
-__version__ = version
-__email__ = "kuhnsa@nih.gov"
+__version__ = get_version()
+__email__ = "ccbr@mail.nih.gov"
 __home__ = os.path.dirname(os.path.abspath(__file__))
 
 
@@ -287,7 +286,7 @@ def parsed_arguments():
 
     # Create a top-level parser
     parser = argparse.ArgumentParser(
-        description="XAVIER: eXome Analysis and Variant explorER:"
+        prog="xavier", description="XAVIER: eXome Analysis and Variant explorER:"
     )
 
     # Adding Version information
