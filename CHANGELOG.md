@@ -3,6 +3,7 @@
 - You can now cite XAVIER with the DOI [10.5281/zenodo.12727315](https://doi.org/10.5281/zenodo.12727315). (#88, @kelly-sovacool)
 - Minor documentation improvements. (#92, @kelly-sovacool)
 - Minor documentation rendering improvements (#93, @samarth8392)
+- The docs website now has a dropdown menu to select which version to view. The latest release is shown by default. (#150, @kelly-sovacool)
 
 ## XAVIER 3.0.3
 
