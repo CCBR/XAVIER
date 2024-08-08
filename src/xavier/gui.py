@@ -1,15 +1,20 @@
 #!/usr/bin/env python3
-global DEBUG
-
-DEBUG = True
-
 import os
 import sys
-import stat
-import subprocess
 import glob
 import uuid
-from pathlib import Path  # core python module
+import PySimpleGUI as sg
+
+from .util import (
+    get_genomes_dict,
+    get_tmp_dir,
+    xavier_base,
+    get_version,
+    get_hpcname,
+    check_python_version,
+)
+from .run import run_in_context
+from .cache import get_sif_cache_dir
 
 
 # getting the name of the directory
@@ -25,95 +30,22 @@ parent = os.path.dirname(current)
 sys.path.append(parent)
 imgdir = os.path.join(parent, "resources", "images")
 
-# Check if python 3.11 or later is available and running
-from src.VersionCheck import version_check
-
-version_check()
-
-from src.Utils import *  # copy_to_clipboard comes from Utils
-
-# import pysimplegui
-import PySimpleGUI as sg
+# TODO remove all global variables, use tmpdir instead
+global FILES2DELETE
+FILES2DELETE = list()
 
 global XAVIERDIR
 global SIFCACHE
 global XAVIER
 global XAVIERVER
-global RANDOMSTR
-global FILES2DELETE
 global HOSTNAME
 
-XAVIERDIR = os.getenv("XAVIERDIR")
-SIFCACHE = os.getenv("SIFCACHE")
-XAVIERVER = os.getenv("XAVIERVER")
-HOSTNAME = os.getenv("HOSTNAME")
-XAVIER = os.path.join(XAVIERDIR, XAVIERVER, "bin", "xavier")
-RANDOMSTR = str(uuid.uuid4())
-FILES2DELETE = list()
 
-# sg.SetOptions(button_color=sg.COLOR_SYSTEM_DEFAULT)
-
-
-def get_combos():
-    config_dir = os.path.join(XAVIERDIR, XAVIERVER, "config")
-    if not os.path.exists(config_dir):
-        sys.exit("ERROR: Folder does not exist : {}".format(config_dir))
-    if HOSTNAME == "biowulf.nih.gov":
-        cluster = "biowulf"
-    elif HOSTNAME == "fsitgl-head01p.ncifcrf.gov":
-        cluster = "frce"
-    else:
-        sys.exit("ERROR: XAVIER GUI only works on Biowulf or FRCE clusters")
-    searchterm = config_dir + "/genomes/*" + cluster + ".json"
-    jsonfiles = glob.glob(searchterm)
-    if len(jsonfiles) == 0:
-        sys.exit("ERROR: No Genome JSONs found in : {}".format(config_dir))
-    jsons = dict()
-    for j in jsonfiles:
-        k = os.path.basename(j)
-        k = k.replace("." + cluster + ".json", "")
-        jsons[k] = j
-    return jsons
-
-
-def fixpath(p):
-    return os.path.abspath(os.path.expanduser(p))
-
-
-def get_fastqs(inputdir):
-    inputdir = fixpath(inputdir)
-    inputfastqs = glob.glob(inputdir + os.sep + "*.fastq.gz")
-    inputfqs = glob.glob(inputdir + os.sep + "*.fq.gz")
-    inputfastqs.extend(inputfqs)
-    return inputfastqs
-
-
-def deletefiles():
-    for f in FILES2DELETE:
-        os.remove(f)
-
-
-def run(cmd, init=False, dry=False, run=False):
-    if init:
-        cmd += " --runmode init"
-    if dry:
-        cmd += " --runmode dryrun"
-    if run:
-        cmd += " --runmode run"
-    runner_file = os.path.join(os.getenv("HOME"), RANDOMSTR + ".xavier.runner")
-    with open(runner_file, "w") as runner:
-        runner.write(cmd)
-    st = os.stat(runner_file)
-    os.chmod(runner_file, st.st_mode | stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
-    x = subprocess.run(runner_file, capture_output=True, shell=True, text=True)
-    run_stdout = x.stdout.encode().decode("utf-8")
-    run_stderr = x.stderr.encode().decode("utf-8")
-    return run_stdout, run_stderr
-
-
-def main():
+def launch_gui(DEBUG=True):
+    check_python_version()
+    RANDOMSTR = str(uuid.uuid4())
     # get drop down genome options
-    jsons = get_combos()
+    jsons = get_genomes_dict()
     genome_annotation_combinations = list(jsons.keys())
     genome_annotation_combinations.sort()
     if DEBUG:
@@ -464,22 +396,31 @@ def main():
         deletefiles()
 
 
-# $ ./exome-seek run [--help] \
-#                   [--mode {local, slurm}] \
-#                   [--job-name JOB_NAME] \
-#                   [--callers {mutect2,mutect,strelka, ...}] \
-#                   [--pairs PAIRS] \
-#                   [--ffpe] \
-#                   [--cnv] \
-#                   [--silent] \
-#                   [--singularity-cache SINGULARITY_CACHE] \
-#                   [--sif-cache SIF_CACHE] \
-#                   [--threads THREADS] \
-#                   --runmode {init, dryrun, run} \
-#                   --input INPUT [INPUT ...] \
-#                   --output OUTPUT \
-#                   --genome {hg38, ...} \
-#                   --targets TARGETS
+def copy_to_clipboard(string):
+    r = Tk()
+    r.withdraw()
+    r.clipboard_clear()
+    r.clipboard_append(string)
+    r.update()
+    r.destroy()
+
+
+def fixpath(p):
+    return os.path.abspath(os.path.expanduser(p))
+
+
+def get_fastqs(inputdir):
+    inputdir = fixpath(inputdir)
+    inputfastqs = glob.glob(inputdir + os.sep + "*.fastq.gz")
+    inputfqs = glob.glob(inputdir + os.sep + "*.fq.gz")
+    inputfastqs.extend(inputfqs)
+    return inputfastqs
+
+
+def delete_files(files):
+    for f in files:
+        if os.path.exists(f):
+            os.remove(f)
 
 
 if __name__ == "__main__":

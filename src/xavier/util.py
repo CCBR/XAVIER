@@ -397,6 +397,23 @@ def join_jsons(templates):
     return aggregated
 
 
+def check_python_version():
+    # version check
+    # glob.iglob requires 3.11 for using "include_hidden=True"
+    MIN_PYTHON = (3, 11)
+    try:
+        assert sys.version_info >= MIN_PYTHON
+        print(
+            "Python version: {0}.{1}.{2}".format(
+                sys.version_info.major, sys.version_info.minor, sys.version_info.micro
+            )
+        )
+    except AssertionError:
+        exit(
+            f"{sys.argv[0]} requires Python {'.'.join([str(n) for n in MIN_PYTHON])} or newer"
+        )
+
+
 if __name__ == "__main__":
     # Calculate MD5 checksum of entire file
     print("{}  {}".format(md5sum(sys.argv[0]), sys.argv[0]))
