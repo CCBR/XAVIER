@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
+import argparse
 import os
 import sys
 import glob
-import uuid
 import PySimpleGUI as sg
 
 from .util import (
@@ -16,34 +16,8 @@ from .util import (
 from .run import run_in_context
 from .cache import get_sif_cache_dir
 
-
-# getting the name of the directory
-# where the this file is present.
-current = os.path.dirname(os.path.realpath(__file__))
-
-# Getting the parent directory name
-# where the current directory is present.
-parent = os.path.dirname(current)
-
-# adding the parent directory to
-# the sys.path.
-sys.path.append(parent)
-imgdir = os.path.join(parent, "resources", "images")
-
-# TODO remove all global variables, use tmpdir instead
-global FILES2DELETE
-FILES2DELETE = list()
-
-global XAVIERDIR
-global SIFCACHE
-global XAVIER
-global XAVIERVER
-global HOSTNAME
-
-
 def launch_gui(DEBUG=True):
     check_python_version()
-    RANDOMSTR = str(uuid.uuid4())
     # get drop down genome options
     jsons = get_genomes_dict()
     genome_annotation_combinations = list(jsons.keys())
@@ -143,7 +117,7 @@ def launch_gui(DEBUG=True):
         "-ANNOTATION-",
     ]
     # create main layout
-    logo = sg.Image(os.path.join(imgdir, "CCBRlogo.png"))
+    logo = sg.Image(xavier_base(os.path.join("resources", "CCBRlogo.png")))
     layout = [
         [sg.Column([[logo]], justification="center")],
         [
@@ -191,7 +165,7 @@ def launch_gui(DEBUG=True):
     if DEBUG:
         print("layout is ready!")
 
-    window = sg.Window("XAVIER " + XAVIERVER, layout, location=(0, 500), finalize=True)
+    window = sg.Window(f"XAVIER {get_version()}", layout, location=(0, 500), finalize=True)
     if DEBUG:
         print("window created!")
 
@@ -237,7 +211,6 @@ def launch_gui(DEBUG=True):
             window["-BED-"].update(visible=False)
         if event == "-CUSTARG-":
             window["-BED-"].update(visible=True)
-            targets_file = values["-TARGETS-"]
         if event == "-DISCSET-":
             window["-SET-"].update(visible=False)
             window["-BED-"].update(visible=False)
@@ -287,8 +260,6 @@ def launch_gui(DEBUG=True):
                         location=(0, 500),
                     )
                     continue
-                else:
-                    targets_file = values["-TARGETS-"]
             if values["-TUMNORM-"] == "" and values["-TUMONLY-"] == "":
                 sg.PopupError("Select an analysis mode", location=(0, 500))
                 continue
@@ -299,43 +270,34 @@ def launch_gui(DEBUG=True):
                         location=(0, 500),
                     )
                     continue
-                else:
-                    pairs_file = values["-PAIRS-"]
-
             genome = values["-ANNOTATION-"]
-            targets_file = (
-                os.path.join(XAVIERDIR, XAVIERVER, "resources")
-                + "/*"
-                + genome
-                + "*.bed"
+            output_dir = os.path.join(values["-OUTDIR-"], values["-JOBNAME-"])
+            run_args = argparse.Namespace(
+                runmode="init",
+                input=list(glob.glob(os.path.join(values["-INDIR-"], "*.fastq.gz"))),
+                output=output_dir,
+                genome=genome,
+                targets=values["-TARGETS-"] if values["-TARGETS-"] else xavier_base('resources', 'Agilent_SSv7_allExons_hg38.bed'), # TODO should this be part of the genome config file?
+                mode="slurm",
+                job_name="pl:xavier",
+                callers=["mutect2", "mutect", "strelka", "vardict", "varscan"],
+                pairs=values.get("-PAIRS-", None),
+                ffpe=values["-FFPE-"],
+                cnv=values["-CNV-"],
+                wait=False,
+                create_nidap_folder=False,
+                silent=False,
+                singularity_cache=os.environ.get("SINGULARITY_CACHEDIR", None),
+                sif_cache=get_sif_cache_dir(),
+                tmp_dir=get_tmp_dir(None, output_dir),
+                threads=2,
             )
-
-            xavier_cmd = XAVIER + " run "
-            xavier_cmd += " --input " + values["-INDIR-"] + "/*.R?.fastq.gz"
-            xavier_cmd += " --output " + values["-OUTDIR-"] + "/" + values["-JOBNAME-"]
-            xavier_cmd += " --genome " + genome
-            xavier_cmd += " --targets " + targets_file
-            xavier_cmd += " --mode slurm "
-
-            if HOSTNAME == "fsitgl-head01p.ncifcrf.gov":
-                xavier_cmd += " --sif-cache " + SIFCACHE + "/XAVIER"
-                xavier_cmd += " --tmp-dir /scratch/cluster_scratch/$USER/"
-
-            if values["-TUMNORM-"] == True:
-                xavier_cmd += " --pairs " + pairs_file
-                if values["-CNV-"] == True:
-                    xavier_cmd += " --cnv "
-
-            if values["-FFPE-"] == True:
-                xavier_cmd += " --ffpe "
-
-            run_stdout, run_stderr = run(xavier_cmd, init=True, dry=False, run=False)
-            run_stdout, run_stderr = run(xavier_cmd, init=False, dry=True, run=False)
+            allout_init = run_in_context(run_args)
+            run_args.runmode = "dryrun"
+            allout_dryrun = run_in_context(run_args)
+            allout = "\n".join([allout_init, allout_dryrun])
             if DEBUG:
-                print(run_stdout)
-            if DEBUG:
-                print(run_stderr)
-            allout = "{}\n{}".format(run_stdout, run_stderr)
+                print(allout)
             sg.popup_scrolled(
                 allout, title="Dryrun:STDOUT/STDERR", location=(0, 500), size=(80, 30)
             )
@@ -345,24 +307,14 @@ def launch_gui(DEBUG=True):
                 "Submit run to slurm?", title="Submit??", location=(0, 500)
             )
             if ch == "Yes":
-                run_stdout, run_stderr = run(
-                    xavier_cmd, init=False, dry=False, run=True
-                )
-                if DEBUG:
-                    print(run_stdout)
-                if DEBUG:
-                    print(run_stderr)
-                allout = "{}\n{}".format(run_stdout, run_stderr)
+                run_args.runmode = "run"
+                allout = run_in_context(run_args)
                 sg.popup_scrolled(
                     allout,
                     title="Slurmrun:STDOUT/STDERR",
                     location=(0, 500),
                     size=(80, 30),
                 )
-                runner_file = os.path.join(
-                    os.getenv("HOME"), RANDOMSTR + ".xavier.runner"
-                )
-                FILES2DELETE.append(runner_file)
                 rerun = sg.popup_yes_no(
                     "Submit another XAVIER job?", title="", location=(0, 500)
                 )
@@ -390,11 +342,7 @@ def launch_gui(DEBUG=True):
                 window["-TUMNORM-"].update(value=False)
                 window["-TUMONLY-"].update(value=False)
                 continue
-
     window.close()
-    if len(FILES2DELETE) != 0:
-        deletefiles()
-
 
 def copy_to_clipboard(string):
     r = Tk()
