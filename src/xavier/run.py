@@ -3,15 +3,149 @@
 
 # Python standard library
 from __future__ import print_function
-from shutil import copytree, copyfile
+import contextlib
+import io
 import os
 import re
 import json
+import shutil
 import sys
 import subprocess
 
 # Local imports
-from .util import git_commit_hash, join_jsons, fatal, which, exists, err, get_version
+from .util import (
+    git_commit_hash,
+    join_jsons,
+    fatal,
+    which,
+    exists,
+    err,
+    get_version,
+    xavier_base,
+    require,
+    get_hpcname,
+)
+
+
+def run(sub_args):
+    """Initialize, setup, and run the XAVIER pipeline.
+    Calls initialize() to create output directory and copy over pipeline resources,
+    setup() to create the pipeline config file, dryrun() to ensure their are no issues
+    before running the pipeline, and finally run() to execute the Snakemake workflow.
+    @param sub_args <parser.parse_args() object>:
+        Parsed arguments for run sub-command
+    """
+    # Step 0. Check for required dependencies
+    # The pipelines has only two requirements:
+    # snakemake and singularity
+    require(["snakemake", "singularity"], ["snakemake", "singularity"])
+
+    # Optional Step. Initialize working directory,
+    # copy over required resources to run
+    # the pipeline
+    git_repo = xavier_base()
+    if sub_args.runmode == "init":
+        print("--Initializing")
+        input_files = init(
+            repo_path=git_repo, output_path=sub_args.output, links=sub_args.input
+        )
+
+    # Required Step. Setup pipeline for execution,
+    # dynamically create config.json config
+    # file from user inputs and base config
+    # determine "nidap folder"
+    create_nidap_folder_YN = "no"
+    if sub_args.create_nidap_folder:
+        create_nidap_folder_YN = "yes"
+
+    # templates
+    config = setup(
+        sub_args,
+        repo_path=git_repo,
+        output_path=sub_args.output,
+        create_nidap_folder_YN=create_nidap_folder_YN,
+        links=sub_args.input,
+    )
+
+    # Required Step. Resolve docker/singularity bind
+    # paths from the config file.
+    bindpaths = bind(sub_args, config=config)
+
+    # Optional Step: Dry-run pipeline
+    # if sub_args.dry_run:
+    if sub_args.runmode == "dryrun" or sub_args.runmode == "run":
+        print("--Dry-Run")
+        # Dryrun pipeline
+        dryrun_output = dryrun(
+            outdir=sub_args.output
+        )  # python3 returns byte-string representation
+        print(
+            "\nDry-running XAVIER pipeline:\n{}".format(dryrun_output.decode("utf-8"))
+        )
+
+    # Optional Step. Orchestrate pipeline execution,
+    # run pipeline in locally on a compute node
+    # for debugging purposes or submit the master
+    # job to the job scheduler, SLURM, and create
+    # logging file
+    if sub_args.runmode == "run":
+        print("--Run full pipeline")
+        if not exists(os.path.join(sub_args.output, "logfiles")):
+            # Create directory for logfiles
+            os.makedirs(os.path.join(sub_args.output, "logfiles"))
+        if sub_args.mode == "local":
+            log = os.path.join(sub_args.output, "logfiles", "snakemake.log")
+        else:
+            log = os.path.join(sub_args.output, "logfiles", "master.log")
+        logfh = open(log, "w")
+        wait = ""
+        if sub_args.wait:
+            wait = "--wait"
+        mjob = runner(
+            mode=sub_args.mode,
+            outdir=sub_args.output,
+            # additional_bind_paths = all_bind_paths,
+            alt_cache=sub_args.singularity_cache,
+            threads=int(sub_args.threads),
+            jobname=sub_args.job_name,
+            submission_script="runner",
+            logger=logfh,
+            additional_bind_paths=",".join(bindpaths),
+            tmp_dir=sub_args.tmp_dir,
+            wait=wait,
+        )
+
+        # Step 5. Wait for subprocess to complete,
+        # this is blocking and not asynchronous
+        if not sub_args.silent:
+            print("\nRunning XAVIER pipeline in '{}' mode...".format(sub_args.mode))
+        mjob.wait()
+        logfh.close()
+
+        # Step 6. Relay information about submission
+        # of the master job or the exit code of the
+        # pipeline that ran in local mode
+        if sub_args.mode == "local":
+            if int(mjob.returncode) == 0:
+                print("XAVIER has successfully completed")
+            else:
+                fatal(
+                    "XAVIER failed. Please see {} for more information.".format(
+                        os.path.join(sub_args.output, "logfiles", "snakemake.log")
+                    )
+                )
+        elif sub_args.mode == "slurm":
+            jobid = (
+                open(os.path.join(sub_args.output, "logfiles", "mjobid.log"))
+                .read()
+                .strip()
+            )
+            if not sub_args.silent:
+                if int(mjob.returncode) == 0:
+                    print("Successfully submitted master job: ", end="")
+                else:
+                    fatal("Error occurred when submitting the master job.")
+            print(jobid)
 
 
 def init(
@@ -73,7 +207,7 @@ def copy_safe(source, target, resources=[]):
         destination = os.path.join(target, resource)
         if not exists(destination):
             # Required resources do not exist
-            copytree(os.path.join(source, resource), destination)
+            shutil.copytree(os.path.join(source, resource), destination)
 
 
 def sym_safe(input_data, target):
@@ -181,31 +315,25 @@ def setup(sub_args, repo_path, output_path, create_nidap_folder_YN="no", links=[
     ifiles = sym_safe(input_data=links, target=output_path)
     mixed_inputs(ifiles)
 
-    hpcget = subprocess.run(
-        "scontrol show config", shell=True, capture_output=True, text=True
-    )
-    hpcname = ""
-
-    if "biowulf" in hpcget.stdout:
-        shorthostname = "biowulf"
-        print("Thank you for running XAVIER on Biowulf")
-    elif "fsitgl" in hpcget.stdout:
-        shorthostname = "frce"
-        print("Thank you for running XAVIER on FRCE")
-    else:
+    shorthostname = get_hpcname()
+    if not shorthostname:
         shorthostname = "biowulf"
         print(
-            "%s unknown host. Configuration files for references may not be correct. Defaulting to Biowulf config"
-            % (hpcget)
+            f"{shorthostname} unknown host. Configuration files for references may not be correct. Defaulting to Biowulf config"
         )
+    else:
+        print(f"Thank you for running XAVIER on {shorthostname.upper()}")   
 
     genome_config = os.path.join(
-        repo_path, "config", "genomes", sub_args.genome + "." + shorthostname + ".json"
+        repo_path, "config", "genomes", get_hpcname(), sub_args.genome + ".json"
     )
 
     if sub_args.genome.endswith(".json"):
         # Provided a custom reference genome generated by rna-seek build
         genome_config = os.path.abspath(sub_args.genome)
+
+    if not os.path.exists(genome_config):
+        raise FileNotFoundError(f"Genome config file does not exist: {genome_config}")
 
     required = {
         # Base configuration file
@@ -223,7 +351,7 @@ def setup(sub_args, repo_path, output_path, create_nidap_folder_YN="no", links=[
         repo_path, "config", "cluster" + "." + shorthostname + ".json"
     )
     cluster_output = os.path.join(output_path, "cluster.json")
-    copyfile(cluster_config, cluster_output)
+    shutil.copyfile(cluster_config, cluster_output)
 
     # Global config file for pipeline, config.json
     config = join_jsons(required.values())  # uses templates in the rna-seek repo
@@ -831,3 +959,13 @@ def runner(
             )
 
     return masterjob
+
+
+def run_in_context(args):
+    """Execute the run function in a context manager to capture stdout/stderr"""
+    with contextlib.redirect_stdout(io.StringIO()) as out_f, contextlib.redirect_stderr(
+        io.StringIO()
+    ) as err_f:
+        run(args)
+        allout = out_f.getvalue() + "\n" + err_f.getvalue()
+    return allout
