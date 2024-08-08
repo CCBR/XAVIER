@@ -13,14 +13,14 @@ import os
 import warnings
 
 
-def xavier_base(rel_path=""):
+def xavier_base(*paths):
     """Get the absolute path to a file in the repository
     @return abs_path <str>
     """
     basedir = os.path.dirname(
         os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
     )
-    return os.path.join(basedir, rel_path)
+    return os.path.join(basedir, *paths)
 
 
 def get_version():
