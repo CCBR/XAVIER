@@ -21,7 +21,9 @@
         "threads": "2",
         "time": "4:00:00"
     },
-
+    "kraken": {
+        "mem": "64G"
+    },
     "strelka": {
         "threads": "16",
         "time": "16:00:00",
@@ -115,7 +117,7 @@
     },
     "bwa_mem": {
         "threads": "24",
-        "mem": "32G"
+        "mem": "64G"
     },
     "picard_headers": {
         "threads": "2",
