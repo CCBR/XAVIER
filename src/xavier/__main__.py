@@ -245,6 +245,9 @@ def parsed_arguments():
                                 Path to exome targets BED file. This file can be
                                 obtained from the manufacturer of the target capture
                                 kit that was used.
+                                If not provided, the default targets file is used from the genome config file.
+                                Example: --targets resources/Agilent_SSv7_allExons_hg38.bed
+                                Example: --targets resources/SureSelect_mm10_sorted.bed
 
         """
     )
@@ -264,7 +267,7 @@ def parsed_arguments():
                         --input .tests/*.R?.fastq.gz \\
                         --output /data/$USER/xavier_hg38 \\
                         --genome hg38 \\
-                        --targets .tests/Agilent_SSv7_allExons_hg38.bed
+                        --targets resources/Agilent_SSv7_allExons_hg38.bed
 
           # Step 2B.) Dry-run the pipeline
           xavier run \\
@@ -272,7 +275,7 @@ def parsed_arguments():
                         --input .tests/*.R?.fastq.gz \\
                         --output /data/$USER/xavier_hg38 \\
                         --genome hg38 \\
-                        --targets Agilent_SSv7_allExons_hg38.bed \\
+                        --targets resources/Agilent_SSv7_allExons_hg38.bed \\
                         --mode slurm \\
 
           # Step 2C.) Run the XAVIER pipeline
@@ -283,7 +286,7 @@ def parsed_arguments():
                         --input .tests/*.R?.fastq.gz \\
                         --output /data/$USER/xavier_hg38 \\
                         --genome hg38 \\
-                        --targets .tests/Agilent_SSv7_allExons_hg38.bed \\
+                        --targets resources/Agilent_SSv7_allExons_hg38.bed \\
                         --mode slurm
 
         version:
@@ -354,8 +357,9 @@ def parsed_arguments():
         "--targets",
         # Check if the file exists and if it is readable
         type=lambda file: permissions(parser, file, os.R_OK),
-        required=True,
+        required=False,
         help=argparse.SUPPRESS,
+        default=None,
     )
 
     # Optional Arguments

@@ -1,6 +1,7 @@
 {
     "references": {
         "FASTQ_SCREEN_CONFIG": "resources/fastq_screen.biowulf.conf",
+        "exome_targets": "resources/SureSelect_mm10_sorted.bed",
         "KRAKENBACDB": "/data/CCBR_Pipeliner/Pipelines/XAVIER/resources/hg38/kraken/20180907_standard_kraken2",
         "trimmomatic.adapters": "resources/adapters.fa",
         "SNPEFF_GENOME": "GRCm38.86",

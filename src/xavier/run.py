@@ -322,7 +322,7 @@ def setup(sub_args, repo_path, output_path, create_nidap_folder_YN="no", links=[
             f"{shorthostname} unknown host. Configuration files for references may not be correct. Defaulting to Biowulf config"
         )
     else:
-        print(f"Thank you for running XAVIER on {shorthostname.upper()}")   
+        print(f"Thank you for running XAVIER on {shorthostname.upper()}")
 
     genome_config = os.path.join(
         repo_path, "config", "genomes", get_hpcname(), sub_args.genome + ".json"
@@ -370,7 +370,17 @@ def setup(sub_args, repo_path, output_path, create_nidap_folder_YN="no", links=[
     # Add optional cli workflow steps
     config["input_params"]["CNV_CALLING"] = str(sub_args.cnv).lower()
     config["input_params"]["FFPE_FILTER"] = str(sub_args.ffpe).lower()
-    config["input_params"]["EXOME_TARGETS"] = str(sub_args.targets)
+    config["input_params"]["EXOME_TARGETS"] = (
+        str(sub_args.targets)
+        if sub_args.targets
+        else os.path.join(
+            config["project"]["workpath"], config["references"]["exome_targets"]
+        )
+    )
+    if not os.path.exists(config["input_params"]["EXOME_TARGETS"]):
+        raise FileNotFoundError(
+            f"Exome targets file does not exist: {config['input_params']['EXOME_TARGETS']}"
+        )
     config["input_params"]["VARIANT_CALLERS"] = sub_args.callers
     config["input_params"]["PAIRS_FILE"] = str(sub_args.pairs)
     config["input_params"]["BASE_OUTDIR"] = str(sub_args.output)
