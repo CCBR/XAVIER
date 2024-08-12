@@ -3,6 +3,7 @@ import os
 import subprocess
 import tempfile
 from xavier.src.xavier.__main__ import main
+from xavier.src.xavier.util import get_hpcname
 
 xavier_run = (
     "xavier run "
@@ -40,33 +41,34 @@ def test_help():
 
 
 def test_dryrun_targets():
-    output_human, config_human = run_in_temp(f"{xavier_run} --genome hg38")
-    output_mouse, config_mouse = run_in_temp(f"{xavier_run} --genome mm10")
-    output_custom, config_custom = run_in_temp(
-        f"{xavier_run} --genome mm10 --targets resources/Agilent_SSv7_allExons_hg38.bed"
-    )
-    output_invalid, config_invalid = run_in_temp(
-        f"{xavier_run} --genome hg38 --target not/a/file.txt"
-    )
-    assert all(
-        [
-            "This was a dry-run (flag -n). The order of jobs does not reflect the order of execution."
-            in output_human.stdout,
-            "This was a dry-run (flag -n). The order of jobs does not reflect the order of execution."
-            in output_mouse.stdout,
-            "This was a dry-run (flag -n). The order of jobs does not reflect the order of execution."
-            in output_custom.stdout,
-            "error: Path 'not/a/file.txt' does not exists! Failed to provide valid input."
-            in output_invalid.stderr,
-            config_human["input_params"]["EXOME_TARGETS"].endswith(
-                "resources/Agilent_SSv7_allExons_hg38.bed"
-            ),
-            config_mouse["input_params"]["EXOME_TARGETS"].endswith(
-                "resources/SureSelect_mm10_sorted.bed"
-            ),
-            config_custom["input_params"]["EXOME_TARGETS"].endswith(
-                "resources/Agilent_SSv7_allExons_hg38.bed"
-            ),
-            not config_invalid,
-        ]
-    )
+    if get_hpcname() == "biowulf":
+        output_human, config_human = run_in_temp(f"{xavier_run} --genome hg38")
+        output_mouse, config_mouse = run_in_temp(f"{xavier_run} --genome mm10")
+        output_custom, config_custom = run_in_temp(
+            f"{xavier_run} --genome mm10 --targets resources/Agilent_SSv7_allExons_hg38.bed"
+        )
+        output_invalid, config_invalid = run_in_temp(
+            f"{xavier_run} --genome hg38 --target not/a/file.txt"
+        )
+        assert all(
+            [
+                "This was a dry-run (flag -n). The order of jobs does not reflect the order of execution."
+                in output_human.stdout,
+                "This was a dry-run (flag -n). The order of jobs does not reflect the order of execution."
+                in output_mouse.stdout,
+                "This was a dry-run (flag -n). The order of jobs does not reflect the order of execution."
+                in output_custom.stdout,
+                "error: Path 'not/a/file.txt' does not exists! Failed to provide valid input."
+                in output_invalid.stderr,
+                config_human["input_params"]["EXOME_TARGETS"].endswith(
+                    "resources/Agilent_SSv7_allExons_hg38.bed"
+                ),
+                config_mouse["input_params"]["EXOME_TARGETS"].endswith(
+                    "resources/SureSelect_mm10_sorted.bed"
+                ),
+                config_custom["input_params"]["EXOME_TARGETS"].endswith(
+                    "resources/Agilent_SSv7_allExons_hg38.bed"
+                ),
+                not config_invalid,
+            ]
+        )
