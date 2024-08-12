@@ -13,14 +13,14 @@ import os
 import warnings
 
 
-def xavier_base(rel_path=""):
+def xavier_base(*paths):
     """Get the absolute path to a file in the repository
     @return abs_path <str>
     """
     basedir = os.path.dirname(
         os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
     )
-    return os.path.join(basedir, rel_path)
+    return os.path.join(basedir, *paths)
 
 
 def get_version():
@@ -395,6 +395,23 @@ def join_jsons(templates):
             aggregated.update(json.load(fh))
 
     return aggregated
+
+
+def check_python_version():
+    # version check
+    # glob.iglob requires 3.11 for using "include_hidden=True"
+    MIN_PYTHON = (3, 11)
+    try:
+        assert sys.version_info >= MIN_PYTHON
+        print(
+            "Python version: {0}.{1}.{2}".format(
+                sys.version_info.major, sys.version_info.minor, sys.version_info.micro
+            )
+        )
+    except AssertionError:
+        exit(
+            f"{sys.argv[0]} requires Python {'.'.join([str(n) for n in MIN_PYTHON])} or newer"
+        )
 
 
 if __name__ == "__main__":

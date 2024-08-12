@@ -73,7 +73,7 @@ xavier --version
 To run the XAVIER pipeline from the GUI, simply enter:
 
 ```bash
-xavier_gui
+xavier gui
 ```
 
 and it will launch the XAVIER window.
@@ -177,6 +177,6 @@ and start an interactive session.
 
 ![gui_nx_config2](images/gui_nx_config2.png)
 
-Similar to the instructions above, load `ccbrpipeliner` module and enter `xavier_gui` to launch the XAVIER gui.
+Similar to the instructions above, load `ccbrpipeliner` module and enter `xavier gui` to launch the XAVIER gui.
 
 ![gui_nx_xavier](images/gui_nx_xavier.png)
