@@ -4,10 +4,11 @@
 # Python standard library
 from __future__ import print_function
 from subprocess import CalledProcessError
-import os, subprocess
+import os
+import subprocess
 
 # Local imports
-from utils import fatal, err
+from .util import err
 
 
 def set_options(strict):

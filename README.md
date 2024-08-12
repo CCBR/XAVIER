@@ -1,7 +1,7 @@
 # XAVIER - e**X**ome **A**nalysis and **V**ariant explor**ER** 🔬
 
 [![tests](https://github.com/CCBR/XAVIER/workflows/tests/badge.svg)](https://github.com/CCBR/XAVIER/actions/workflows/main.yaml)
-[![docs](https://github.com/CCBR/XAVIER/workflows/docs/badge.svg)](https://github.com/CCBR/XAVIER/actions/workflows/docs.yml)
+[![docs](https://github.com/CCBR/XAVIER/workflows/docs/badge.svg)](https://github.com/CCBR/XAVIER/actions/workflows/docs-mkdocs.yml)
 [![Docker Pulls](https://img.shields.io/docker/pulls/nciccbr/ccbr_wes_base)](https://hub.docker.com/r/nciccbr/ccbr_wes_base)
 [![GitHub Issues](https://img.shields.io/github/issues/CCBR/XAVIER?color=brightgreen)](https://github.com/CCBR/XAVIER/issues)
 [![MIT license](https://img.shields.io/github/license/CCBR/XAVIER)](https://github.com/CCBR/XAVIER/blob/main/LICENSE)

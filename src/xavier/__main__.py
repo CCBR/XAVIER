@@ -44,136 +44,24 @@ import sys, os, subprocess, re, json, textwrap
 import argparse  # potential python3 3rd party package, added in python/3.5
 
 # Local imports
-from src import version
-from src.run import init, setup, bind, dryrun, runner
-from src.shells import bash
-from src.options import genome_options
-from src.utils import err, exists, fatal, permissions, check_cache, require
+from .run import init, setup, bind, dryrun, runner, run
+from .shells import bash
+from .options import genome_options
+from .util import (
+    err,
+    exists,
+    fatal,
+    permissions,
+    check_cache,
+    require,
+    get_version,
+    get_genomes_list,
+)
+from .gui import launch_gui
 
-__version__ = version
-__email__ = "kuhnsa@nih.gov"
+__version__ = get_version()
+__email__ = "ccbr@mail.nih.gov"
 __home__ = os.path.dirname(os.path.abspath(__file__))
-
-
-def run(sub_args):
-    """Initialize, setup, and run the XAVIER pipeline.
-    Calls initialize() to create output directory and copy over pipeline resources,
-    setup() to create the pipeline config file, dryrun() to ensure their are no issues
-    before running the pipeline, and finally run() to execute the Snakemake workflow.
-    @param sub_args <parser.parse_args() object>:
-        Parsed arguments for run sub-command
-    """
-    # Step 0. Check for required dependencies
-    # The pipelines has only two requirements:
-    # snakemake and singularity
-    require(["snakemake", "singularity"], ["snakemake", "singularity"])
-
-    # Optional Step. Initialize working directory,
-    # copy over required resources to run
-    # the pipeline
-    git_repo = __home__
-    if sub_args.runmode == "init":
-        print("--Initializing")
-        input_files = init(
-            repo_path=git_repo, output_path=sub_args.output, links=sub_args.input
-        )
-
-    # Required Step. Setup pipeline for execution,
-    # dynamically create config.json config
-    # file from user inputs and base config
-    # determine "nidap folder"
-    create_nidap_folder_YN = "no"
-    if sub_args.create_nidap_folder:
-        create_nidap_folder_YN = "yes"
-
-    # templates
-    config = setup(
-        sub_args,
-        repo_path=git_repo,
-        output_path=sub_args.output,
-        create_nidap_folder_YN=create_nidap_folder_YN,
-        links=sub_args.input,
-    )
-
-    # Required Step. Resolve docker/singularity bind
-    # paths from the config file.
-    bindpaths = bind(sub_args, config=config)
-
-    # Optional Step: Dry-run pipeline
-    # if sub_args.dry_run:
-    if sub_args.runmode == "dryrun" or sub_args.runmode == "run":
-        print("--Dry-Run")
-        # Dryrun pipeline
-        dryrun_output = dryrun(
-            outdir=sub_args.output
-        )  # python3 returns byte-string representation
-        print(
-            "\nDry-running XAVIER pipeline:\n{}".format(dryrun_output.decode("utf-8"))
-        )
-
-    # Optional Step. Orchestrate pipeline execution,
-    # run pipeline in locally on a compute node
-    # for debugging purposes or submit the master
-    # job to the job scheduler, SLURM, and create
-    # logging file
-    if sub_args.runmode == "run":
-        print("--Run full pipeline")
-        if not exists(os.path.join(sub_args.output, "logfiles")):
-            # Create directory for logfiles
-            os.makedirs(os.path.join(sub_args.output, "logfiles"))
-        if sub_args.mode == "local":
-            log = os.path.join(sub_args.output, "logfiles", "snakemake.log")
-        else:
-            log = os.path.join(sub_args.output, "logfiles", "master.log")
-        logfh = open(log, "w")
-        wait = ""
-        if sub_args.wait:
-            wait = "--wait"
-        mjob = runner(
-            mode=sub_args.mode,
-            outdir=sub_args.output,
-            # additional_bind_paths = all_bind_paths,
-            alt_cache=sub_args.singularity_cache,
-            threads=int(sub_args.threads),
-            jobname=sub_args.job_name,
-            submission_script="runner",
-            logger=logfh,
-            additional_bind_paths=",".join(bindpaths),
-            tmp_dir=sub_args.tmp_dir,
-            wait=wait,
-        )
-
-        # Step 5. Wait for subprocess to complete,
-        # this is blocking and not asynchronous
-        if not sub_args.silent:
-            print("\nRunning XAVIER pipeline in '{}' mode...".format(sub_args.mode))
-        mjob.wait()
-        logfh.close()
-
-        # Step 6. Relay information about submission
-        # of the master job or the exit code of the
-        # pipeline that ran in local mode
-        if sub_args.mode == "local":
-            if int(mjob.returncode) == 0:
-                print("XAVIER has successfully completed")
-            else:
-                fatal(
-                    "XAVIER failed. Please see {} for more information.".format(
-                        os.path.join(sub_args.output, "logfiles", "snakemake.log")
-                    )
-                )
-        elif sub_args.mode == "slurm":
-            jobid = (
-                open(os.path.join(sub_args.output, "logfiles", "mjobid.log"))
-                .read()
-                .strip()
-            )
-            if not sub_args.silent:
-                if int(mjob.returncode) == 0:
-                    print("Successfully submitted master job: ", end="")
-                else:
-                    fatal("Error occurred when submitting the master job.")
-            print(jobid)
 
 
 def unlock(sub_args):
@@ -287,7 +175,7 @@ def parsed_arguments():
 
     # Create a top-level parser
     parser = argparse.ArgumentParser(
-        description="XAVIER: eXome Analysis and Variant explorER:"
+        prog="xavier", description="XAVIER: eXome Analysis and Variant explorER:"
     )
 
     # Adding Version information
@@ -408,11 +296,17 @@ def parsed_arguments():
     # Suppressing help message of required args to overcome no sub-parser named groups
     subparser_run = subparsers.add_parser(
         "run",
-        help="Run the XAVIER  pipeline with input files.",
+        help="Run the XAVIER pipeline with input files.",
         usage=argparse.SUPPRESS,
         formatter_class=argparse.RawDescriptionHelpFormatter,
         description=required_run_options,
         epilog=run_epilog,
+    )
+
+    subparser_gui = subparsers.add_parser(
+        "gui",
+        help="Launch the pipeline with a Graphical User Interface (GUI)",
+        description="",
     )
 
     # Required Arguments
@@ -773,6 +667,7 @@ def parsed_arguments():
     subparser_run.set_defaults(func=run)
     subparser_unlock.set_defaults(func=unlock)
     subparser_cache.set_defaults(func=cache)
+    subparser_gui.set_defaults(func=launch_gui)
 
     # Parse command-line args
     args = parser.parse_args()
