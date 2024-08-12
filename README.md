@@ -109,7 +109,7 @@ xavier run \
 --sif-cache $SIFCACHE \
 --tmp-dir $TMPDIR \
 --pairs pairs.txt \
---targets Targets_hg38.bed \
+--targets resources/Agilent_SSv7_allExons_hg38.bed \
 --mode slurm \
 --runmode init # run
 
