@@ -61,7 +61,7 @@ xavier run \
 --output /data/$USER/xavier_hg38 \
 --genome hg38 \
 --pairs pairs.txt \
---targets Targets_hg38.bed \
+--targets resources/Agilent_SSv7_allExons_hg38.bed \
 --mode slurm \
 --runmode init
 
@@ -71,7 +71,7 @@ xavier run \
 --output /data/$USER/xavier_hg38 \
 --genome hg38 \
 --pairs pairs.txt \
---targets Targets_hg38.bed \
+--targets resources/Agilent_SSv7_allExons_hg38.bed \
 --mode slurm \
 --runmode dryrun
 
@@ -81,7 +81,7 @@ xavier run \
 --output /data/$USER/xavier_hg38 \
 --genome hg38 \
 --pairs pairs.txt \
---targets Targets_hg38.bed \
+--targets resources/Agilent_SSv7_allExons_hg38.bed \
 --mode slurm \
 --runmode run
 ```
