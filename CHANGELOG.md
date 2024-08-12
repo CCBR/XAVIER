@@ -5,6 +5,8 @@
 - The docs website now has a dropdown menu to select which version to view. The latest release is shown by default. (#150, @kelly-sovacool)
 - Add `xavier gui` subcommand to launch the graphical user interface. (#99, @kelly-sovacool)
   - Previously, `xavier_gui` (with an underscore) was a command in the `ccbrpipeliner` module.
+- Provide default exome targets for hg38 and mm10, which can be overridden by the optional `--targets` argument. (#102, @kelly-sovacool)
+  - Previously, the `--targets` argument was required with no defaults.
 
 ## XAVIER 3.0.3
 

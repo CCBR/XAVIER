@@ -245,6 +245,7 @@ def parsed_arguments():
                                 Path to exome targets BED file. This file can be
                                 obtained from the manufacturer of the target capture
                                 kit that was used.
+                                If not provided, the default targets file is used from the genome config file.
                                 Example: --targets resources/Agilent_SSv7_allExons_hg38.bed
                                 Example: --targets resources/SureSelect_mm10_sorted.bed
 
@@ -358,7 +359,7 @@ def parsed_arguments():
         type=lambda file: permissions(parser, file, os.R_OK),
         required=False,
         help=argparse.SUPPRESS,
-        default=None
+        default=None,
     )
 
     # Optional Arguments
