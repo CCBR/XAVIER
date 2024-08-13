@@ -5,15 +5,17 @@ import sys
 import glob
 import PySimpleGUI as sg
 
-from .util import (
+from ccbr_tools.pipeline.util import (
     get_genomes_dict,
     get_tmp_dir,
     get_hpcname,
     check_python_version,
 )
+from ccbr_tools.pipeline.cache import get_sif_cache_dir
+from ccbr_tools.shell import exec_in_context
+
 from .util import xavier_base, get_version
-from .run import run_in_context
-from .cache import get_sif_cache_dir
+from .run import run
 
 
 def launch_gui(DEBUG=True):
@@ -298,9 +300,9 @@ def launch_gui(DEBUG=True):
                 tmp_dir=get_tmp_dir(None, output_dir),
                 threads=2,
             )
-            allout_init = run_in_context(run_args)
+            allout_init = exec_in_context(run, run_args)
             run_args.runmode = "dryrun"
-            allout_dryrun = run_in_context(run_args)
+            allout_dryrun = exec_in_context(run, run_args)
             allout = "\n".join([allout_init, allout_dryrun])
             if DEBUG:
                 print(allout)
@@ -314,7 +316,7 @@ def launch_gui(DEBUG=True):
             )
             if ch == "Yes":
                 run_args.runmode = "run"
-                allout = run_in_context(run_args)
+                allout = exec_in_context(run, run_args)
                 sg.popup_scrolled(
                     allout,
                     title="Slurmrun:STDOUT/STDERR",

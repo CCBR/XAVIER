@@ -3,7 +3,7 @@ import os
 import subprocess
 import tempfile
 from xavier.src.xavier.__main__ import main
-from xavier.src.xavier.util import get_hpcname
+from ccbr_tools.pipeline.util import get_hpcname
 
 xavier_run = (
     "xavier run "

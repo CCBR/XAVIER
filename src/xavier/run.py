@@ -629,49 +629,6 @@ def add_rawdata_information(sub_args, config, ifiles):
     return config
 
 
-def image_cache(sub_args, config, repo_path):
-    """Adds Docker Image URIs, or SIF paths to config if singularity cache option is provided.
-    If singularity cache option is provided and a local SIF does not exist, a warning is
-    displayed and the image will be pulled from URI in 'config/containers/images.json'.
-    @param sub_args <parser.parse_args() object>:
-        Parsed arguments for run sub-command
-    @params config <file>:
-        Docker Image config file
-    @param repo_path <str>:
-        Path to RNA-seek source code and its templates
-    @return config <dict>:
-         Updated config dictionary containing user information (username and home directory)
-    """
-    images = os.path.join(repo_path, "config", "containers", "images.json")
-
-    # Read in config for docker image uris
-    with open(images, "r") as fh:
-        data = json.load(fh)
-    # Check if local sif exists
-    for image, uri in data["images"].items():
-        if sub_args.sif_cache:
-            sif = os.path.join(
-                sub_args.sif_cache,
-                "{}.sif".format(os.path.basename(uri).replace(":", "_")),
-            )
-            if not exists(sif):
-                # If local sif does not exist on in cache, print warning
-                # and default to pulling from URI in config/containers/images.json
-                print(
-                    'Warning: Local image "{}" does not exist in singularity cache'.format(
-                        sif
-                    ),
-                    file=sys.stderr,
-                )
-            else:
-                # Change pointer to image from Registry URI to local SIF
-                data["images"][image] = sif
-
-    config.update(data)
-
-    return config
-
-
 def get_nends(ifiles):
     """Determines whether the dataset is paired-end or single-end.
     If paired-end data, checks to see if both mates (R1 and R2) are present for each sample.
@@ -968,13 +925,3 @@ def runner(
             )
 
     return masterjob
-
-
-def run_in_context(args):
-    """Execute the run function in a context manager to capture stdout/stderr"""
-    with contextlib.redirect_stdout(io.StringIO()) as out_f, contextlib.redirect_stderr(
-        io.StringIO()
-    ) as err_f:
-        run(args)
-        allout = out_f.getvalue() + "\n" + err_f.getvalue()
-    return allout
