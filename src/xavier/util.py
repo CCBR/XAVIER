@@ -17,10 +17,8 @@ def xavier_base(*paths):
     """Get the absolute path to a file in the repository
     @return abs_path <str>
     """
-    basedir = os.path.dirname(
-        os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-    )
-    return os.path.join(basedir, *paths)
+    basedir = pathlib.Path(__file__).absolute().parent.parent.parent
+    return basedir.joinpath(*paths)
 
 
 def get_version():
