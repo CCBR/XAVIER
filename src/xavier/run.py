@@ -11,20 +11,19 @@ import json
 import shutil
 import sys
 import subprocess
-
-# Local imports
-from .util import (
+from ccbr_tools.pipeline.util import (
     git_commit_hash,
     join_jsons,
     fatal,
     which,
     exists,
     err,
-    get_version,
-    xavier_base,
     require,
     get_hpcname,
 )
+
+# Local imports
+from .util import get_version, xavier_base
 
 
 def run(sub_args):

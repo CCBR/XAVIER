@@ -47,17 +47,9 @@ import argparse  # potential python3 3rd party package, added in python/3.5
 from .run import init, setup, bind, dryrun, runner, run
 from .shells import bash
 from .options import genome_options
-from .util import (
-    err,
-    exists,
-    fatal,
-    permissions,
-    check_cache,
-    require,
-    get_version,
-    get_genomes_list,
-)
+from .util import err, exists, fatal, permissions, check_cache, require
 from .gui import launch_gui
+from .util import xavier_base, get_version
 
 __version__ = get_version()
 __email__ = "ccbr@mail.nih.gov"
