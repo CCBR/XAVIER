@@ -21,6 +21,7 @@ from ccbr_tools.pipeline.util import (
     require,
     get_hpcname,
 )
+from ccbr_tools.pipeline.cache import image_cache
 
 # Local imports
 from .util import get_version, xavier_base
@@ -37,7 +38,7 @@ def run(sub_args):
     # Step 0. Check for required dependencies
     # The pipelines has only two requirements:
     # snakemake and singularity
-    require(["snakemake", "singularity"], ["snakemake", "singularity"])
+    require(["snakemake", "singularity"], ["snakemake/7", "singularity"])
 
     # Optional Step. Initialize working directory,
     # copy over required resources to run
@@ -359,7 +360,7 @@ def setup(sub_args, repo_path, output_path, create_nidap_folder_YN="no", links=[
 
     # Resolves if an image needs to be pulled from an OCI registry or
     # a local SIF generated from the rna-seek cache subcommand exists
-    config = image_cache(sub_args, config, repo_path)
+    config = image_cache(sub_args, config)
 
     # Add other cli collected info
     config["project"]["annotation"] = sub_args.genome
