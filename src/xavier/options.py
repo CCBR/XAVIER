@@ -2,7 +2,6 @@
 # -*- coding: UTF-8 -*-
 
 import os
-from __future__ import print_function
 from ccbr_tools.pipeline.util import permissions
 
 
