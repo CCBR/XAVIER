@@ -15,7 +15,7 @@ def test_dryrun():
         with tempfile.TemporaryDirectory() as tmp_dir:
             run_args = argparse.Namespace(
                 runmode="init",
-                input=list(glob.glob(xavier_base(".tests/*.fastq.gz"))),
+                input=list(glob.glob(f"{xavier_base('.tests')}/*.fastq.gz")),
                 output=tmp_dir,
                 genome="hg38",
                 targets=xavier_base("resources/Agilent_SSv7_allExons_hg38.bed"),
