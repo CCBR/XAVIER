@@ -22,13 +22,17 @@
         "threads": "2",
         "time": "4:00:00"
     },
-
+    "kraken": {
+        "mem": "64G"
+    },
     "strelka": {
         "threads": "16",
         "time": "16:00:00",
         "mem": "32G"
     },
-
+    "qualimap_bamqc": {
+        "mem": "32G"
+    },
     "strelka_filter": {
         "threads": "4",
         "time": "8:00:00",
@@ -57,7 +61,7 @@
         "mem": "32G"
     },
 
-    "merge_somatic_callers": {
+    "somatic_merge_callers": {
         "threads": "16",
         "time": "18:00:00",
         "mem": "32G"
@@ -116,7 +120,7 @@
     },
     "bwa_mem": {
         "threads": "24",
-        "mem": "32G"
+        "mem": "64G"
     },
     "picard_headers": {
         "threads": "2",
