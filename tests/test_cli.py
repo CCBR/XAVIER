@@ -3,7 +3,8 @@ import os
 import subprocess
 import tempfile
 from xavier.src.xavier.__main__ import main
-from xavier.src.xavier.util import get_hpcname
+from ccbr_tools.pipeline.util import get_hpcname
+from ccbr_tools.shell import exec_in_context, shell_run
 
 xavier_run = (
     "xavier run "
@@ -17,11 +18,8 @@ def run_in_temp(command_str):
     with tempfile.TemporaryDirectory() as tmp_dir:
         outdir = os.path.join(tmp_dir, "testout")
         run_command = f"{command_str} --output {outdir}"
-        output = subprocess.run(
+        output = shell_run(
             f"{run_command} --runmode init && {run_command} --runmode dryrun",
-            capture_output=True,
-            shell=True,
-            text=True,
         )
         if os.path.exists(os.path.join(outdir, "config.json")):
             with open(os.path.join(outdir, "config.json"), "r") as infile:
@@ -32,12 +30,7 @@ def run_in_temp(command_str):
 
 
 def test_help():
-    assert (
-        "XAVIER"
-        in subprocess.run(
-            "./bin/xavier --help", capture_output=True, shell=True, text=True
-        ).stdout
-    )
+    assert "XAVIER" in shell_run("./bin/xavier --help")
 
 
 def test_dryrun_targets():
@@ -53,13 +46,13 @@ def test_dryrun_targets():
         assert all(
             [
                 "This was a dry-run (flag -n). The order of jobs does not reflect the order of execution."
-                in output_human.stdout,
+                in output_human,
                 "This was a dry-run (flag -n). The order of jobs does not reflect the order of execution."
-                in output_mouse.stdout,
+                in output_mouse,
                 "This was a dry-run (flag -n). The order of jobs does not reflect the order of execution."
-                in output_custom.stdout,
+                in output_custom,
                 "error: Path 'not/a/file.txt' does not exists! Failed to provide valid input."
-                in output_invalid.stderr,
+                in output_invalid,
                 config_human["input_params"]["EXOME_TARGETS"].endswith(
                     "resources/Agilent_SSv7_allExons_hg38.bed"
                 ),

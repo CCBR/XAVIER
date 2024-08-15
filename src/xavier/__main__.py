@@ -36,28 +36,20 @@ EXAMPLE:
 """
 
 # Python standard library
-from __future__ import print_function
 import sys, os, subprocess, re, json, textwrap
 
 
 # 3rd party imports from pypi
 import argparse  # potential python3 3rd party package, added in python/3.5
+from ccbr_tools.pipeline.util import err, exists, fatal, permissions, require
+from ccbr_tools.pipeline.cache import check_cache
 
 # Local imports
 from .run import init, setup, bind, dryrun, runner, run
 from .shells import bash
 from .options import genome_options
-from .util import (
-    err,
-    exists,
-    fatal,
-    permissions,
-    check_cache,
-    require,
-    get_version,
-    get_genomes_list,
-)
 from .gui import launch_gui
+from .util import xavier_base, get_version
 
 __version__ = get_version()
 __email__ = "ccbr@mail.nih.gov"

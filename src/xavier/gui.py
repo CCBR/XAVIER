@@ -5,21 +5,23 @@ import sys
 import glob
 import PySimpleGUI as sg
 
-from .util import (
+from ccbr_tools.pipeline.util import (
     get_genomes_dict,
     get_tmp_dir,
-    xavier_base,
-    get_version,
     get_hpcname,
     check_python_version,
 )
-from .run import run_in_context
-from .cache import get_sif_cache_dir
+from ccbr_tools.pipeline.cache import get_sif_cache_dir
+from ccbr_tools.shell import exec_in_context
+
+from .util import xavier_base, get_version
+from .run import run
+
 
 def launch_gui(DEBUG=True):
     check_python_version()
     # get drop down genome options
-    jsons = get_genomes_dict()
+    jsons = get_genomes_dict(repo_base=xavier_base)
     genome_annotation_combinations = list(jsons.keys())
     genome_annotation_combinations.sort()
     if DEBUG:
@@ -165,7 +167,9 @@ def launch_gui(DEBUG=True):
     if DEBUG:
         print("layout is ready!")
 
-    window = sg.Window(f"XAVIER {get_version()}", layout, location=(0, 500), finalize=True)
+    window = sg.Window(
+        f"XAVIER {get_version()}", layout, location=(0, 500), finalize=True
+    )
     if DEBUG:
         print("window created!")
 
@@ -277,7 +281,11 @@ def launch_gui(DEBUG=True):
                 input=list(glob.glob(os.path.join(values["-INDIR-"], "*.fastq.gz"))),
                 output=output_dir,
                 genome=genome,
-                targets=values["-TARGETS-"] if values["-TARGETS-"] else xavier_base('resources', 'Agilent_SSv7_allExons_hg38.bed'), # TODO should this be part of the genome config file?
+                targets=values["-TARGETS-"]
+                if values["-TARGETS-"]
+                else xavier_base(
+                    "resources", "Agilent_SSv7_allExons_hg38.bed"
+                ),  # TODO should this be part of the genome config file?
                 mode="slurm",
                 job_name="pl:xavier",
                 callers=["mutect2", "mutect", "strelka", "vardict", "varscan"],
@@ -292,9 +300,9 @@ def launch_gui(DEBUG=True):
                 tmp_dir=get_tmp_dir(None, output_dir),
                 threads=2,
             )
-            allout_init = run_in_context(run_args)
+            allout_init = exec_in_context(run, run_args)
             run_args.runmode = "dryrun"
-            allout_dryrun = run_in_context(run_args)
+            allout_dryrun = exec_in_context(run, run_args)
             allout = "\n".join([allout_init, allout_dryrun])
             if DEBUG:
                 print(allout)
@@ -308,7 +316,7 @@ def launch_gui(DEBUG=True):
             )
             if ch == "Yes":
                 run_args.runmode = "run"
-                allout = run_in_context(run_args)
+                allout = exec_in_context(run, run_args)
                 sg.popup_scrolled(
                     allout,
                     title="Slurmrun:STDOUT/STDERR",
@@ -343,6 +351,7 @@ def launch_gui(DEBUG=True):
                 window["-TUMONLY-"].update(value=False)
                 continue
     window.close()
+
 
 def copy_to_clipboard(string):
     r = Tk()

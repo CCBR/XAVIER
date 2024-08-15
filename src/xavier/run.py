@@ -11,20 +11,20 @@ import json
 import shutil
 import sys
 import subprocess
-
-# Local imports
-from .util import (
+from ccbr_tools.pipeline.util import (
     git_commit_hash,
     join_jsons,
     fatal,
     which,
     exists,
     err,
-    get_version,
-    xavier_base,
     require,
     get_hpcname,
 )
+from ccbr_tools.pipeline.cache import image_cache
+
+# Local imports
+from .util import get_version, xavier_base
 
 
 def run(sub_args):
@@ -38,7 +38,7 @@ def run(sub_args):
     # Step 0. Check for required dependencies
     # The pipelines has only two requirements:
     # snakemake and singularity
-    require(["snakemake", "singularity"], ["snakemake", "singularity"])
+    require(["snakemake", "singularity"], ["snakemake/7", "singularity"])
 
     # Optional Step. Initialize working directory,
     # copy over required resources to run
@@ -360,7 +360,7 @@ def setup(sub_args, repo_path, output_path, create_nidap_folder_YN="no", links=[
 
     # Resolves if an image needs to be pulled from an OCI registry or
     # a local SIF generated from the rna-seek cache subcommand exists
-    config = image_cache(sub_args, config, repo_path)
+    config = image_cache(sub_args, config)
 
     # Add other cli collected info
     config["project"]["annotation"] = sub_args.genome
@@ -626,49 +626,6 @@ def add_rawdata_information(sub_args, config, ifiles):
     # Finds the set of rawdata directories to bind
     rawdata_paths = get_rawdata_bind_paths(input_files=sub_args.input)
     config["project"]["datapath"] = ",".join(rawdata_paths)
-
-    return config
-
-
-def image_cache(sub_args, config, repo_path):
-    """Adds Docker Image URIs, or SIF paths to config if singularity cache option is provided.
-    If singularity cache option is provided and a local SIF does not exist, a warning is
-    displayed and the image will be pulled from URI in 'config/containers/images.json'.
-    @param sub_args <parser.parse_args() object>:
-        Parsed arguments for run sub-command
-    @params config <file>:
-        Docker Image config file
-    @param repo_path <str>:
-        Path to RNA-seek source code and its templates
-    @return config <dict>:
-         Updated config dictionary containing user information (username and home directory)
-    """
-    images = os.path.join(repo_path, "config", "containers", "images.json")
-
-    # Read in config for docker image uris
-    with open(images, "r") as fh:
-        data = json.load(fh)
-    # Check if local sif exists
-    for image, uri in data["images"].items():
-        if sub_args.sif_cache:
-            sif = os.path.join(
-                sub_args.sif_cache,
-                "{}.sif".format(os.path.basename(uri).replace(":", "_")),
-            )
-            if not exists(sif):
-                # If local sif does not exist on in cache, print warning
-                # and default to pulling from URI in config/containers/images.json
-                print(
-                    'Warning: Local image "{}" does not exist in singularity cache'.format(
-                        sif
-                    ),
-                    file=sys.stderr,
-                )
-            else:
-                # Change pointer to image from Registry URI to local SIF
-                data["images"][image] = sif
-
-    config.update(data)
 
     return config
 
@@ -969,13 +926,3 @@ def runner(
             )
 
     return masterjob
-
-
-def run_in_context(args):
-    """Execute the run function in a context manager to capture stdout/stderr"""
-    with contextlib.redirect_stdout(io.StringIO()) as out_f, contextlib.redirect_stderr(
-        io.StringIO()
-    ) as err_f:
-        run(args)
-        allout = out_f.getvalue() + "\n" + err_f.getvalue()
-    return allout

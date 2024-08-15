@@ -1,13 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 
-# Python standard library
-from __future__ import print_function
-
-# Local imports
-from .util import permissions
-
 import os
+from ccbr_tools.pipeline.util import permissions
 
 
 def genome_options(parser, user_option, prebuilt):
@@ -45,7 +40,3 @@ def genome_options(parser, user_option, prebuilt):
         )
 
     return user_option
-
-
-if __name__ == "__main__":
-    pass
