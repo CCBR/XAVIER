@@ -23,17 +23,15 @@ jobs:
         run: |
           docker run -v $PWD:/opt2 snakemake/snakemake:v7.32.4 \
           /opt2/bin/xavier run --input \
-          /opt2/.tests/Sample10_ARK1_S37.R1.fastq.gz /opt2/.tests/Sample10_ARK1_S37.R2.fastq.gz \
-          /opt2/.tests/Sample11_ACI_158_S38.R1.fastq.gz /opt2/.tests/Sample11_ACI_158_S38.R2.fastq.gz \
-          /opt2/.tests/Sample4_CRL1622_S31.R1.fastq.gz /opt2/.tests/Sample4_CRL1622_S31.R2.fastq.gz \
+          /opt2/.tests/WES_NC_N_1_sub.R1.fastq.gz /opt2/.tests/WES_NC_N_1_sub.R2.fastq.gz \
+          /opt2/.tests/WES_NC_T_1_sub.R1.fastq.gz /opt2/.tests/WES_NC_T_1_sub.R2.fastq.gz \
           --output /opt2/output_tn_fqs --targets /opt2/resources/Agilent_SSv7_allExons_hg38.bed \
           --pairs /opt2/.tests/pairs.tsv --genome hg38 --mode local --ffpe --cnv --runmode init
 
           docker run -v $PWD:/opt2 snakemake/snakemake:v7.32.4 \
           /opt2/bin/xavier run --input \
-          /opt2/.tests/Sample10_ARK1_S37.R1.fastq.gz /opt2/.tests/Sample10_ARK1_S37.R2.fastq.gz \
-          /opt2/.tests/Sample11_ACI_158_S38.R1.fastq.gz /opt2/.tests/Sample11_ACI_158_S38.R2.fastq.gz \
-          /opt2/.tests/Sample4_CRL1622_S31.R1.fastq.gz /opt2/.tests/Sample4_CRL1622_S31.R2.fastq.gz \
+          /opt2/.tests/WES_NC_N_1_sub.R1.fastq.gz /opt2/.tests/WES_NC_N_1_sub.R2.fastq.gz \
+          /opt2/.tests/WES_NC_T_1_sub.R1.fastq.gz /opt2/.tests/WES_NC_T_1_sub.R2.fastq.gz \
           --output /opt2/output_tn_fqs --targets /opt2/resources/Agilent_SSv7_allExons_hg38.bed \
           --pairs /opt2/.tests/pairs.tsv --genome hg38 --mode local --ffpe --cnv --runmode dryrun
 
@@ -41,17 +39,15 @@ jobs:
         run: |
           docker run -v $PWD:/opt2 snakemake/snakemake:v7.32.4 \
           /opt2/bin/xavier run --input \
-          /opt2/.tests/Sample10_ARK1_S37.R1.fastq.gz /opt2/.tests/Sample10_ARK1_S37.R2.fastq.gz \
-          /opt2/.tests/Sample11_ACI_158_S38.R1.fastq.gz /opt2/.tests/Sample11_ACI_158_S38.R2.fastq.gz \
-          /opt2/.tests/Sample4_CRL1622_S31.R1.fastq.gz /opt2/.tests/Sample4_CRL1622_S31.R2.fastq.gz \
+          /opt2/.tests/WES_NC_N_1_sub.R1.fastq.gz /opt2/.tests/WES_NC_N_1_sub.R2.fastq.gz \
+          /opt2/.tests/WES_NC_T_1_sub.R1.fastq.gz /opt2/.tests/WES_NC_T_1_sub.R2.fastq.gz \
           --output /opt2/output_tonly_fqs --targets /opt2/resources/Agilent_SSv7_allExons_hg38.bed \
           --genome hg38 --mode local --ffpe --runmode init
 
           docker run -v $PWD:/opt2 snakemake/snakemake:v7.32.4 \
           /opt2/bin/xavier run --input \
-          /opt2/.tests/Sample10_ARK1_S37.R1.fastq.gz /opt2/.tests/Sample10_ARK1_S37.R2.fastq.gz \
-          /opt2/.tests/Sample11_ACI_158_S38.R1.fastq.gz /opt2/.tests/Sample11_ACI_158_S38.R2.fastq.gz \
-          /opt2/.tests/Sample4_CRL1622_S31.R1.fastq.gz /opt2/.tests/Sample4_CRL1622_S31.R2.fastq.gz \
+          /opt2/.tests/WES_NC_N_1_sub.R1.fastq.gz /opt2/.tests/WES_NC_N_1_sub.R2.fastq.gz \
+          /opt2/.tests/WES_NC_T_1_sub.R1.fastq.gz /opt2/.tests/WES_NC_T_1_sub.R2.fastq.gz \
           --output /opt2/output_tonly_fqs --targets /opt2/resources/Agilent_SSv7_allExons_hg38.bed \
           --genome hg38 --mode local --ffpe --runmode dryrun
 
@@ -59,17 +55,15 @@ jobs:
         run: |
           docker run -v $PWD:/opt2 snakemake/snakemake:v7.32.4 \
           /opt2/bin/xavier run --input \
-          /opt2/.tests/Sample10_ARK1_S37.recal.bam \
-          /opt2/.tests/Sample11_ACI_158_S38.recal.bam \
-          /opt2/.tests/Sample4_CRL1622_S31.recal.bam \
+          /opt2/.tests/WES_NC_N_1_sub.bam \
+          /opt2/.tests/WES_NC_T_1_sub.bam  \
           --output /opt2/output_tn_bams --targets /opt2/resources/Agilent_SSv7_allExons_hg38.bed \
           --pairs /opt2/.tests/pairs.tsv --genome hg38 --mode local --ffpe --cnv --runmode init
 
           docker run -v $PWD:/opt2 snakemake/snakemake:v7.32.4 \
           /opt2/bin/xavier run --input \
-          /opt2/.tests/Sample10_ARK1_S37.recal.bam \
-          /opt2/.tests/Sample11_ACI_158_S38.recal.bam \
-          /opt2/.tests/Sample4_CRL1622_S31.recal.bam \
+          /opt2/.tests/WES_NC_N_1_sub.bam \
+          /opt2/.tests/WES_NC_T_1_sub.bam  \
           --output /opt2/output_tn_bams --targets /opt2/resources/Agilent_SSv7_allExons_hg38.bed \
           --pairs /opt2/.tests/pairs.tsv --genome hg38 --mode local --ffpe --cnv --runmode dryrun
 
@@ -77,17 +71,15 @@ jobs:
         run: |
           docker run -v $PWD:/opt2 snakemake/snakemake:v7.32.4 \
           /opt2/bin/xavier run --input \
-          /opt2/.tests/Sample10_ARK1_S37.recal.bam \
-          /opt2/.tests/Sample11_ACI_158_S38.recal.bam \
-          /opt2/.tests/Sample4_CRL1622_S31.recal.bam \
+          /opt2/.tests/WES_NC_N_1_sub.bam \
+          /opt2/.tests/WES_NC_T_1_sub.bam  \
           --output /opt2/output_tonly_bams --targets /opt2/resources/Agilent_SSv7_allExons_hg38.bed \
           --genome hg38 --mode local --ffpe --runmode init
 
           docker run -v $PWD:/opt2 snakemake/snakemake:v7.32.4 \
           /opt2/bin/xavier run --input \
-          /opt2/.tests/Sample10_ARK1_S37.recal.bam \
-          /opt2/.tests/Sample11_ACI_158_S38.recal.bam \
-          /opt2/.tests/Sample4_CRL1622_S31.recal.bam \
+          /opt2/.tests/WES_NC_N_1_sub.bam \
+          /opt2/.tests/WES_NC_T_1_sub.bam  \
           --output /opt2/output_tonly_bams --targets /opt2/resources/Agilent_SSv7_allExons_hg38.bed \
           --genome hg38 --mode local --ffpe --runmode dryrun
 
