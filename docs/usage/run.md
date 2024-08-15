@@ -46,7 +46,7 @@ Each of the following arguments are required. Failure to provide a required argu
 >
 > One or more FastQ files can be provided. The pipeline does NOT support single-end WES data. Please provide either a set of FastQ files or a set of BAM files. The pipeline does NOT support processing a mixture of FastQ files and BAM files. From the command-line, each input file should separated by a space. Globbing is supported! This makes selecting FastQ files easy. Input FastQ files should be gzipp-ed.
 >
-> **_Example:_** `--input .tests/*.R?.fastq.gz`
+> **_Example:_** `--input tests/data/*.R?.fastq.gz`
 
 ---
 
@@ -251,7 +251,7 @@ module purge
 module load ccbrpipeliner
 
 # Step 2A.) Initialize the all resources to the output folder
-xavier run --input .tests/*.R?.fastq.gz \
+xavier run --input tests/data/*.R?.fastq.gz \
                  --output /data/$USER/xavier_hg38 \
                  --genome hg38 \
                  --targets Agilent_SSv7_allExons_hg38.bed \
@@ -259,7 +259,7 @@ xavier run --input .tests/*.R?.fastq.gz \
                  --runmode init
 
 # Step 2B.) Dry-run the pipeline
-xavier run --input .tests/*.R?.fastq.gz \
+xavier run --input tests/data/*.R?.fastq.gz \
                  --output /data/$USER/xavier_hg38 \
                  --genome hg38 \
                  --targets Agilent_SSv7_allExons_hg38.bed \
@@ -269,7 +269,7 @@ xavier run --input .tests/*.R?.fastq.gz \
 # Step 2C.) Run the XAVIER pipeline
 # The slurm mode will submit jobs to the cluster.
 # It is recommended running xavier in this mode.
-xavier run --input .tests/*.R?.fastq.gz \
+xavier run --input tests/data/*.R?.fastq.gz \
                  --output /data/$USER/xavier_hg38 \
                  --genome hg38 \
                  --targets Agilent_SSv7_allExons_hg38.bed \

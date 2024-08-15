@@ -8,8 +8,8 @@ from ccbr_tools.shell import exec_in_context, shell_run
 
 xavier_run = (
     "xavier run "
-    "--input .tests/*.fastq.gz "
-    "--pairs .tests/pairs.tsv "
+    "--input tests/data/*.fastq.gz "
+    "--pairs tests/data/pairs.tsv "
     "--mode local "
 )
 

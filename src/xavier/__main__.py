@@ -220,7 +220,7 @@ def parsed_arguments():
                                 FastQ files or a set of BAM files. The pipeline does
                                 NOT support processing a mixture of FastQ files and
                                 BAM files.
-                                Example: --input .tests/*.R?.fastq.gz
+                                Example: --input tests/data/*.R?.fastq.gz
           --output OUTPUT
                                 Path to an output directory. This location is where
                                 the pipeline will create all of its output files, also
@@ -256,7 +256,7 @@ def parsed_arguments():
           # Step 2A.) Initialize the pipeline
           xavier run \\
                         --runmode init \\
-                        --input .tests/*.R?.fastq.gz \\
+                        --input tests/data/*.R?.fastq.gz \\
                         --output /data/$USER/xavier_hg38 \\
                         --genome hg38 \\
                         --targets resources/Agilent_SSv7_allExons_hg38.bed
@@ -264,7 +264,7 @@ def parsed_arguments():
           # Step 2B.) Dry-run the pipeline
           xavier run \\
                         --runmode dryrun \\
-                        --input .tests/*.R?.fastq.gz \\
+                        --input tests/data/*.R?.fastq.gz \\
                         --output /data/$USER/xavier_hg38 \\
                         --genome hg38 \\
                         --targets resources/Agilent_SSv7_allExons_hg38.bed \\
@@ -275,7 +275,7 @@ def parsed_arguments():
           # It is recommended running xavier in this mode.
           xavier run \\
                         --runmode run \\
-                        --input .tests/*.R?.fastq.gz \\
+                        --input tests/data/*.R?.fastq.gz \\
                         --output /data/$USER/xavier_hg38 \\
                         --genome hg38 \\
                         --targets resources/Agilent_SSv7_allExons_hg38.bed \\
