@@ -8,6 +8,7 @@
 - Provide default exome targets for hg38 and mm10, which can be overridden by the optional `--targets` argument. (#102, @kelly-sovacool)
   - Previously, the `--targets` argument was required with no defaults.
 - Increased memory for rules: BWA mem, qualimap, kraken. gatk_contamination is not localrule. (#89, @samarth8392)
+- fixes minor bug in GUI related to choosing the correct default target file (#108, @samarth8392)
 
 ## XAVIER 3.0.3
 
