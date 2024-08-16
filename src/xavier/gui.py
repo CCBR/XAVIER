@@ -283,11 +283,7 @@ def launch_gui(DEBUG=True):
                 genome=genome,
                 targets=values["-TARGETS-"]
                 if values["-TARGETS-"]
-                else (
-                    xavier_base("resources", "Agilent_SSv7_allExons_hg38.bed")
-                    if genome == "hg38"
-                    else(xavier_base("resources", "SureSelect_mm10_sorted.bed"))
-                ),  # TODO should this be part of the genome config file?
+                else (""),  # TODO should this be part of the genome config file?
                 mode="slurm",
                 job_name="pl:xavier",
                 callers=["mutect2", "mutect", "strelka", "vardict", "varscan"],
