@@ -47,6 +47,8 @@ Each of the following arguments are required. Failure to provide a required argu
 > One or more FastQ files can be provided. The pipeline does NOT support single-end WES data. Please provide either a set of FastQ files or a set of BAM files. The pipeline does NOT support processing a mixture of FastQ files and BAM files. From the command-line, each input file should separated by a space. Globbing is supported! This makes selecting FastQ files easy. Input FastQ files should be gzipp-ed.
 >
 > **_Example:_** `--input tests/data/*.R?.fastq.gz`
+>
+> **_Example:_** `--input /data/CCBR_Pipeliner/testdata/XAVIER/human_subset/*.R?.fastq.gz`
 
 ---
 
@@ -277,3 +279,10 @@ xavier run --input tests/data/*.R?.fastq.gz \
                  --runmode run
 
 ```
+
+The example dataset in `tests/data` in this repository is a very small
+subsampled dataset, and some steps of the pipeline fail due to the small size
+(CNV callling, somalier, etc).
+We have a larger subsample (25% of a full human dataset) available on Biowulf if
+you would like to test the full functionality of the pipeline:
+`/data/CCBR_Pipeliner/testdata/XAVIER/human_subset/*.R?.fastq.gz`
