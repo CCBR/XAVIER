@@ -56,13 +56,11 @@ fi
 #   - snakemake
 # are in PATH
 if [[ $ISBIOWULF == true ]];then
-	# module purge
 	load_module_if_needed singularity
-	load_module_if_needed snakemake
+	load_module_if_needed snakemake/7
 elif [[ $ISFRCE == true ]];then
 # snakemake module on FRCE does not work as expected
 # use the conda installed version of snakemake instead
-	# module purge
 	load_module_if_needed load singularity
 	export PATH="/mnt/projects/CCBR-Pipelines/bin:$PATH"
 fi

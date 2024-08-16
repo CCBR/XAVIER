@@ -36,28 +36,20 @@ EXAMPLE:
 """
 
 # Python standard library
-from __future__ import print_function
 import sys, os, subprocess, re, json, textwrap
 
 
 # 3rd party imports from pypi
 import argparse  # potential python3 3rd party package, added in python/3.5
+from ccbr_tools.pipeline.util import err, exists, fatal, permissions, require
+from ccbr_tools.pipeline.cache import check_cache
 
 # Local imports
 from .run import init, setup, bind, dryrun, runner, run
 from .shells import bash
 from .options import genome_options
-from .util import (
-    err,
-    exists,
-    fatal,
-    permissions,
-    check_cache,
-    require,
-    get_version,
-    get_genomes_list,
-)
 from .gui import launch_gui
+from .util import xavier_base, get_version
 
 __version__ = get_version()
 __email__ = "ccbr@mail.nih.gov"
@@ -228,7 +220,7 @@ def parsed_arguments():
                                 FastQ files or a set of BAM files. The pipeline does
                                 NOT support processing a mixture of FastQ files and
                                 BAM files.
-                                Example: --input .tests/*.R?.fastq.gz
+                                Example: --input tests/data/*.R?.fastq.gz
           --output OUTPUT
                                 Path to an output directory. This location is where
                                 the pipeline will create all of its output files, also
@@ -264,7 +256,7 @@ def parsed_arguments():
           # Step 2A.) Initialize the pipeline
           xavier run \\
                         --runmode init \\
-                        --input .tests/*.R?.fastq.gz \\
+                        --input tests/data/*.R?.fastq.gz \\
                         --output /data/$USER/xavier_hg38 \\
                         --genome hg38 \\
                         --targets resources/Agilent_SSv7_allExons_hg38.bed
@@ -272,7 +264,7 @@ def parsed_arguments():
           # Step 2B.) Dry-run the pipeline
           xavier run \\
                         --runmode dryrun \\
-                        --input .tests/*.R?.fastq.gz \\
+                        --input tests/data/*.R?.fastq.gz \\
                         --output /data/$USER/xavier_hg38 \\
                         --genome hg38 \\
                         --targets resources/Agilent_SSv7_allExons_hg38.bed \\
@@ -283,7 +275,7 @@ def parsed_arguments():
           # It is recommended running xavier in this mode.
           xavier run \\
                         --runmode run \\
-                        --input .tests/*.R?.fastq.gz \\
+                        --input tests/data/*.R?.fastq.gz \\
                         --output /data/$USER/xavier_hg38 \\
                         --genome hg38 \\
                         --targets resources/Agilent_SSv7_allExons_hg38.bed \\

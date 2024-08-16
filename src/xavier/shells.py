@@ -8,7 +8,7 @@ import os
 import subprocess
 
 # Local imports
-from .util import err
+from ccbr_tools.pipeline.util import err
 
 
 def set_options(strict):
@@ -65,9 +65,3 @@ def bash(
         )
 
     return exitcode
-
-
-if __name__ == "__main__":
-    # Tests
-    bash("ls -la /home/")
-    bash("ls -la /fake/path")
