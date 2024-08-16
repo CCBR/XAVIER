@@ -64,7 +64,7 @@ Repository = "https://github.com/CCBR/XAVIER"
 xavier = "."
 
 [tool.setuptools.package-data]
-"*" = ["CITATION.cff", "LICENSE", "VERSION", "docker/**", "resources/**", "bin/**", "config/**", "resources/**", "workflow/**", "tests/**", ".tests/**"]
+"*" = ["CITATION.cff", "LICENSE", "VERSION", "docker/**", "resources/**", "bin/**", "config/**", "resources/**", "workflow/**", "tests/**"]
 
 [tool.setuptools.dynamic]
 version = {file = "VERSION"}
