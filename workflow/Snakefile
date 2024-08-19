@@ -11,6 +11,7 @@ import datetime
 import uuid
 
 ## FROM: https://github.com/skchronicles/RNA-seek/blob/main/rna-seek
+# TODO import these functions from ccbr_tools
 def rename(filename):
     """Dynamically renames FastQ file to have one of the following extensions: *.R1.fastq.gz, *.R2.fastq.gz
     To automatically rename the fastq files, a few assumptions are made. If the extension of the
@@ -488,8 +489,8 @@ if config['input_params']['create_nidap_folder'] == 'yes':
     include: "rules/nidap.smk"
 
 # create jobby tables
-jobby_cmd = os.path.join('resources', 'run_jobby_on_snakemake_log') + " " + os.path.join('logfiles', 'snakemake.log') + " | tee " + os.path.join('logfiles', 'snakemake.log.jobby') + " | cut -f2,3,18 > " + os.path.join('logfiles', 'snakemake.log.jobby.short')
-spook_cmd = os.path.join('resources', 'spooker')  + " " + BASEDIR
+jobby_cmd = 'run_jobby_on_snakemake_log logfiles/snakemake.log | tee logfiles/snakemake.log.jobby | cut -f2,3,18 > logfiles/snakemake.log.jobby.short'
+spook_cmd = f'spooker {BASEDIR} XAVIER'
 
 onsuccess:
     #subprocess.run(shlex.split(jobby_cmd),capture_output=False,shell=False,text=True)
