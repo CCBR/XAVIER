@@ -258,7 +258,7 @@ def launch_gui(DEBUG=True):
                     window.Element("-OUTDIR-").update("")
                     continue
             if values["-CUSTARG-"] == True:
-                if values["-TARGETS-"] == "":
+                if not values["-TARGETS-"]:
                     sg.PopupError(
                         "Custom Targets BED file selected but not provided!!",
                         location=(0, 500),
@@ -281,9 +281,7 @@ def launch_gui(DEBUG=True):
                 input=list(glob.glob(os.path.join(values["-INDIR-"], "*.fastq.gz"))),
                 output=output_dir,
                 genome=genome,
-                targets=values["-TARGETS-"]
-                if values["-TARGETS-"]
-                else (""),  # TODO should this be part of the genome config file?
+                targets=values["-TARGETS-"],
                 mode="slurm",
                 job_name="pl:xavier",
                 callers=["mutect2", "mutect", "strelka", "vardict", "varscan"],
