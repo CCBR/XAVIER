@@ -10,6 +10,7 @@
 - Increased memory for rules: BWA mem, qualimap, kraken. gatk_contamination is not localrule. (#89, @samarth8392)
 - Added new human test dataset for github workflow (#27, @samarth8392)
 - fixes minor bug in GUI related to choosing the correct default target file (#108, @samarth8392)
+- Fix bug in the driver script that caused the snakemake module not to be loaded on biowulf in some cases. (#111, @kelly-sovacool)
 
 ## XAVIER 3.0.3
 
