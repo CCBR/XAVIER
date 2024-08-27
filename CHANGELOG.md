@@ -1,16 +1,24 @@
 ## development version
 
-- You can now cite XAVIER with the DOI [10.5281/zenodo.12727315](https://doi.org/10.5281/zenodo.12727315). (#88, @kelly-sovacool)
-- Minor documentation improvements. (#92, @kelly-sovacool; #93, @samarth8392)
-- The docs website now has a dropdown menu to select which version to view. The latest release is shown by default. (#150, @kelly-sovacool)
+### new features
+
 - Add `xavier gui` subcommand to launch the graphical user interface. (#99, @kelly-sovacool)
   - Previously, `xavier_gui` (with an underscore) was a command in the `ccbrpipeliner` module.
 - Provide default exome targets for hg38 and mm10, which can be overridden by the optional `--targets` argument. (#102, @kelly-sovacool)
   - Previously, the `--targets` argument was required with no defaults.
-- Increased memory for rules: BWA mem, qualimap, kraken. gatk_contamination is not localrule. (#89, @samarth8392)
-- Added new human test dataset for github workflow (#27, @samarth8392)
-- fixes minor bug in GUI related to choosing the correct default target file (#108, @samarth8392)
+- Add new human test dataset (#27, @samarth8392)
+
+### bug fixes
+
+- Fix bug in the GUI that always used the Agilent targets file by default, instead of picking based on the genome. (#108, @samarth8392)
 - Fix bug in the driver script that caused the snakemake module not to be loaded on biowulf in some cases. (#111, @kelly-sovacool)
+- Increased memory for rules: BWA mem, qualimap, kraken. gatk_contamination is no longer a localrule. (#89, @samarth8392)
+
+### documentation updates
+
+- You can now cite XAVIER with the DOI [10.5281/zenodo.12727315](https://doi.org/10.5281/zenodo.12727315). (#88, @kelly-sovacool)
+- The docs website now has a dropdown menu to select which version to view. The latest release is shown by default. (#150, @kelly-sovacool)
+- Other minor documentation improvements. (#92, @kelly-sovacool; #93, @samarth8392)
 
 ## XAVIER 3.0.3
 
