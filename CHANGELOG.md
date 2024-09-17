@@ -1,5 +1,7 @@
 ## XAVIER development version
 
+- minor documentation improvements.
+
 ## XAVIER 3.1.0
 
 ### new features
