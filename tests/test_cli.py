@@ -33,6 +33,11 @@ def test_help():
     assert "XAVIER" in shell_run("./bin/xavier --help")
 
 
+def test_debug():
+    out = shell_run("./bin/xavier debug")
+    assert all(["xavier (v" in out, "BASE: /" in out, "VERSION FILE: /" in out])
+
+
 def test_dryrun_targets():
     if get_hpcname() == "biowulf":
         output_human, config_human = run_in_temp(f"{xavier_run} --genome hg38")
