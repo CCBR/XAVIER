@@ -1,4 +1,4 @@
-# Contributing to TOOL_NAME
+# Contributing to XAVIER
 
 ## Proposing changes with issues
 
@@ -15,7 +15,7 @@ so others will know you're working on it.
 We use [GitHub Flow](https://docs.github.com/en/get-started/using-github/github-flow)
 as our collaboration process.
 Follow the steps below for detailed instructions on contributing changes to
-TOOL_NAME.
+XAVIER.
 
 ![GitHub Flow diagram](https://raw.githubusercontent.com/CCBR/CCBR_NextflowTemplate/main/.github/img/GitHub-Flow_bg-white.png)
 
@@ -28,10 +28,10 @@ Otherwise, you will first need to
 the repo and clone your fork. You only need to do this step once.
 
 ```sh
-git clone https://github.com/CCBR/TOOL_NAME
+git clone https://github.com/CCBR/XAVIER
 ```
 
-> Cloning into 'TOOL_NAME'... <br>
+> Cloning into 'XAVIER'... <br>
 > remote: Enumerating objects: 1136, done. <br>
 > remote: Counting objects: 100% (463/463), done. <br>
 > remote: Compressing objects: 100% (357/357), done. <br>
@@ -40,12 +40,12 @@ git clone https://github.com/CCBR/TOOL_NAME
 > Resolving deltas: 100% (530/530), done. <br>
 
 ```sh
-cd TOOL_NAME
+cd XAVIER
 ```
 
 ### If this is your first time cloning the repo, you may need to install dependencies
 
-- Install nextflow and singularity or docker if needed (biowulf already has these available as modules).
+- Install snakemake and singularity or docker if needed (biowulf already has these available as modules).
 
 - Install the python dependencies with pip
 
@@ -194,20 +194,20 @@ git push --set-upstream origin iss-10
 > remote: Resolving deltas: 100% (3/3), completed with 3 local objects. <br>
 > remote: <br>
 > remote: Create a pull request for 'iss-10' on GitHub by visiting: <br>
-> remote: https://github.com/CCBR/TOOL_NAME/pull/new/iss-10 <br>
+> remote: https://github.com/CCBR/XAVIER/pull/new/iss-10 <br>
 > remote: <br>
-> To https://github.com/CCBR/TOOL_NAME <br> > <br> > [new branch] iss-10 -> iss-10 <br>
+> To https://github.com/CCBR/XAVIER <br> > <br> > [new branch] iss-10 -> iss-10 <br>
 > branch 'iss-10' set up to track 'origin/iss-10'. <br>
 
 We recommend pushing your commits often so they will be backed up on GitHub.
 You can view the files in your branch on GitHub at
-`https://github.com/CCBR/TOOL_NAME/tree/<your-branch-name>`
+`https://github.com/CCBR/XAVIER/tree/<your-branch-name>`
 (replace `<your-branch-name>` with the actual name of your branch).
 
 ### Create the PR
 
 Once your branch is ready, create a PR on GitHub:
-<https://github.com/CCBR/TOOL_NAME/pull/new/>
+<https://github.com/CCBR/XAVIER/pull/new/>
 
 Select the branch you just pushed:
 
