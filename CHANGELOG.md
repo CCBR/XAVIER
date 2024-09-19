@@ -1,6 +1,7 @@
 ## XAVIER development version
 
-- minor documentation improvements.
+- New contributing guide available on GitHub and the documentation website. (#114, @kelly-sovacool)
+- New `xavier debug` subcommand to determine the base directory for debugging purposes. (#114, @kelly-sovacool)
 
 ## XAVIER 3.1.0
 
