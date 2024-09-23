@@ -1,6 +1,13 @@
 # Base image
 FROM nciccbr/ccbr_ubuntu_base_20.04:v6
 
+ARG BUILD_DATE="000000"
+ENV BUILD_DATE=${BUILD_DATE}
+ARG BUILD_TAG="000000"
+ENV BUILD_TAG=${BUILD_TAG}
+ARG REPONAME="000000"
+ENV REPONAME=${REPONAME}
+
 LABEL maintainer <vishal.koparde@nih.gov, kuhnsa@nih.gov>
 
 # Create Container filesystem specific
@@ -38,7 +45,8 @@ RUN apt-get update \
       python3 \
       python3-pip \
       unzip \
-      wget
+      wget \
+      less
 
 # Make python3 the default interpreter
 # and install Python Packages
@@ -89,12 +97,13 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
       manpages-dev \
       zlib1g \
       zlib1g-dev \
-      zlibc
+      zlibc \
+      openjdk-17-jdk
 
 # Install Java 17
-RUN apt-get update && apt-get install -y openjdk-17-jdk
-ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-ENV PATH="$JAVA_HOME/bin:${PATH}"
+# RUN apt-get update && apt-get install -y openjdk-17-jdk
+# ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+# ENV PATH="$JAVA_HOME/bin:${PATH}"
 
 # Common bioinformatics tools
 # bwa/0.7.17  bowtie/1.2.3  bowtie2/2.3.5.1
@@ -121,7 +130,7 @@ RUN wget https://github.com/biod/sambamba/releases/download/v0.8.1/sambamba-0.8.
     && chmod a+rx /opt2/sambamba
 
 # Install GATK4 (GATK/4.6.0.0)
-# Requires Java8 or 1.8
+# Requires Java17
 RUN wget https://github.com/broadinstitute/gatk/releases/download/4.6.0.0/gatk-4.6.0.0.zip \
     && unzip /opt2/gatk-4.6.0.0.zip \
     && rm /opt2/gatk-4.6.0.0.zip \
@@ -247,6 +256,7 @@ RUN echo '#!/bin/bash' > /opt2/trimmomatic \
     && chmod +x /opt2/trimmomatic
 RUN chmod -R a+rX /opt2 \
     && chmod a+x /opt2/argparse.bash \
+    && ln -s /usr/lib/jvm/java-17-openjdk-amd64/bin/java /usr/bin/java17 \
     && ln -s /usr/lib/jvm/java-11-openjdk-amd64/bin/java /usr/bin/java11 \
     && ln -s /usr/lib/jvm/java-8-openjdk-amd64/bin/java /usr/bin/java8 \
     && ln -fs /usr/lib/jvm/java-8-openjdk-amd64/bin/java /usr/bin/java
@@ -265,3 +275,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
     pandoc \
     && apt-get clean && apt-get purge \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+COPY Dockerfile /opt2/Dockerfile_${REPONAME}.${BUILD_TAG}
+RUN chmod a+r /opt2/Dockerfile_${REPONAME}.${BUILD_TAG}
