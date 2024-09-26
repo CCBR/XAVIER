@@ -168,7 +168,7 @@ rule somatic_merge_callers:
       mkdir -p "$(dirname {output.mergedvcf})"
     fi
 
-    java -Xmx60g -Djava.io.tmpdir=${{tmp}} -jar $GATK_JAR -T CombineVariants \\
+    java8 -Xmx60g -Djava.io.tmpdir=${{tmp}} -jar $GATK_JAR -T CombineVariants \\
         -R {params.genome} \\
         -nt {threads} \\
         --filteredrecordsmergetype KEEP_IF_ANY_UNFILTERED \\
