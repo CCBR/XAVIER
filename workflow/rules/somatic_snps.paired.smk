@@ -147,7 +147,7 @@ rule strelka:
     cd "$myoutdir"
     ./runWorkflow.py -m local -j {threads}
 
-    java -Xmx12g -Djava.io.tmpdir=${{tmp}} -XX:ParallelGCThreads={threads} \\
+    java8 -Xmx12g -Djava.io.tmpdir=${{tmp}} -XX:ParallelGCThreads={threads} \\
         -jar $GATK_JAR -T CombineVariants \\
         -R {params.genome} \\
         --variant results/variants/somatic.snvs.vcf.gz \\
@@ -439,7 +439,7 @@ rule varscan_paired:
     awk '{{gsub(/\y[W|K|Y|R|S|M|B|D|H|V]\y/,"N",$4); OFS = "\t"; print}}' {output.vcf}.indel \\
         | sed '/^$/d' > {output.vcf}.indel_temp
 
-    java -Xmx12g -Djava.io.tmpdir=${{tmp}} -XX:ParallelGCThreads={threads} \\
+    java8 -Xmx12g -Djava.io.tmpdir=${{tmp}} -XX:ParallelGCThreads={threads} \\
         -jar $GATK_JAR -T CombineVariants \\
         -R {params.genome} \\
         --variant {output.vcf}.snp_temp \\
