@@ -1,6 +1,6 @@
 {
     "images": {
-        "wes_base": "docker://samarth8392/ccbr_wes_base:v1.1.0",
+        "wes_base": "docker://nciccbr/ccbr_wes_base:v1.1.0",
         "vcf2maf": "docker://dnousome/ccbr_vcf2maf:v102.0.0",
         "mutect": "docker://nciccbr/ccbr_mutect:v0.1.0",
         "fastq_screen": "docker://nciccbr/ccbr_fastq_screen_0.13.0:v2.0",
