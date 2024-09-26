@@ -98,7 +98,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
       zlib1g \
       zlib1g-dev \
       zlibc \
-      openjdk-17-jdk
+      openjdk-17-jdk \
+      openjdk-11-jdk
 
 # Install Java 17
 # RUN apt-get update && apt-get install -y openjdk-17-jdk
@@ -194,7 +195,7 @@ RUN wget https://github.com/brentp/somalier/releases/download/v0.2.13/somalier \
 # and each wrapper script similar to HPC module
 RUN wget https://github.com/dkoboldt/varscan/raw/master/VarScan.v2.4.6.jar \
     && echo '#!/bin/bash' > /opt2/varscan \
-    && echo 'java -jar /opt2/VarScan.v2.4.6.jar  "$@"' >> /opt2/varscan \
+    && echo 'java8 -jar /opt2/VarScan.v2.4.6.jar  "$@"' >> /opt2/varscan \
     && chmod a+rx /opt2/varscan
 
 # Install snpEff/4.3t
@@ -259,7 +260,7 @@ RUN chmod -R a+rX /opt2 \
     && ln -s /usr/lib/jvm/java-17-openjdk-amd64/bin/java /usr/bin/java17 \
     && ln -s /usr/lib/jvm/java-11-openjdk-amd64/bin/java /usr/bin/java11 \
     && ln -s /usr/lib/jvm/java-8-openjdk-amd64/bin/java /usr/bin/java8 \
-    && ln -fs /usr/lib/jvm/java-8-openjdk-amd64/bin/java /usr/bin/java
+    && ln -fs /usr/lib/jvm/java-17-openjdk-amd64/bin/java /usr/bin/java
 ENV PATH="/opt2:$PATH"
 ENV TRIMMOJAR="/usr/share/java/trimmomatic-0.39.jar"
 
