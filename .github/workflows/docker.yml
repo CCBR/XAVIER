@@ -1,0 +1,64 @@
+name: docker
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "docker/**"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "docker/**"
+  workflow_dispatch:
+
+jobs:
+  generate-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix-metadata: ${{ steps.metadata.outputs.matrix }}
+    steps:
+      - uses: hellofresh/action-changed-files@v3
+        id: metadata
+        with:
+          pattern: docker/(?P<image_dir>\w+)/.*
+          default-patterns: |
+            meta.yml
+            Dockerfile
+
+  update-docker:
+    needs: [generate-matrix]
+    strategy:
+      matrix: ${{ fromJson(needs.generate-matrix.outputs.matrix-metadata) }}
+    if: ${{ fromJson(needs.generate-matrix.outputs.matrix-metadata).include[0] }} # skip if the matrix is empty!
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pietrobolcato/action-read-yaml@1.0.0
+        id: metadata
+        with:
+          config: ${{ github.workspace }}/docker/${{ matrix.image_dir }}/meta.yml
+      - name: Get date
+        id: date
+        run: |
+          echo "DATE=$(date +"%Y-%m-%d")" >> $GITHUB_OUTPUT
+      - name: Login to DockerHub
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        # only try building & pushing the container if parsing the metadata worked
+        if: ${{ steps.metadata.outputs['container'] != '' }}
+        with:
+          context: docker/${{ matrix.image_dir }}
+          # only push container to docker hub if not triggered from a PR
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.metadata.outputs['container'] }}
+          build-args: |
+            BUILD_DATE=${{ steps.date.outputs.DATE }}
+            BUILD_TAG=${{ steps.metadata.outputs['version'] }}
+            REPONAME=${{ steps.metadata.outputs['image_name'] }}
