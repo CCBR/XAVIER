@@ -2,7 +2,9 @@
 
 - New contributing guide available on GitHub and the documentation website. (#114, @kelly-sovacool)
 - New `xavier debug` subcommand to determine the base directory for debugging purposes. (#114, @kelly-sovacool)
+- Upgraded `ccbr_wes_base` docker to v1.1.0 with updated GATK version to v4.6.0.0 (#116, @samarth8392)
 - Upgrade multiqc container to use v1.15. (#117, @kelly-sovacool)
+- Upgrade memory for rule "bwa_mem" to 100G (#118, @samarth8392)
 
 ## XAVIER 3.1.0
 
