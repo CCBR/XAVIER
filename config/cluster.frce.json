@@ -119,7 +119,7 @@
     },
     "bwa_mem": {
         "threads": "24",
-        "mem": "64G"
+        "mem": "100G"
     },
     "picard_headers": {
         "threads": "2",
