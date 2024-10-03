@@ -48,7 +48,7 @@ for (i in c(1:length(cnvs[, 1]))) {
   }
   KS <- function(values, normals) {
     resultks <- try(ks.test(values, score(normals)), silent = TRUE)
-    if (class(resultks) == "try-error") {
+    if (paste(class(resultks), collapse="_") == "try-error") {
       return(list("statistic" = NA, "p.value" = NA, "alternative" = NA, "method" = NA, "data.name" = NA))
     } else {
       resultks
