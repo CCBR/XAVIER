@@ -1,5 +1,7 @@
 ## XAVIER development version
-
+- Bug fixes:
+  - Fix minor bug in assess_significance.R script associated with rule freec_exome_somatic (#120, @samarth8392)
+  
 ## XAVIER 3.1.1
 
 - New contributing guide available on GitHub and the documentation website. (#114, @kelly-sovacool)
