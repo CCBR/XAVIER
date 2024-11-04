@@ -390,7 +390,7 @@ rule snpeff:
     envmodules: config['tools']['snpEff']['modname']
     container: config['images']['wes_base']
     shell: """
-    java -Xmx12g -jar $SNPEFF_JAR \\
+    java8 -Xmx12g -jar $SNPEFF_JAR \\
         -v -canon -c {params.config} \\
         -csvstats {output.csv} \\
         -stats {output.html} \\

@@ -1,6 +1,15 @@
 ## XAVIER development version
 
+- Fix minor bug in assess_significance.R script associated with rule freec_exome_somatic (#120, @samarth8392)
 - Fix `cache` subcommand to correctly read the container images config file. (#124, @kelly-sovacool)
+
+## XAVIER 3.1.1
+
+- New contributing guide available on GitHub and the documentation website. (#114, @kelly-sovacool)
+- New `xavier debug` subcommand to determine the base directory for debugging purposes. (#114, @kelly-sovacool)
+- Upgraded `ccbr_wes_base` docker to v1.1.0 with updated GATK version to v4.6.0.0 (#116, @samarth8392)
+- Upgrade multiqc container to use v1.15. (#117, @kelly-sovacool)
+- Upgrade memory for rule "bwa_mem" to 100G (#118, @samarth8392)
 
 ## XAVIER 3.1.0
 

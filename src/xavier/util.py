@@ -22,10 +22,13 @@ def xavier_base(*paths):
     return str(basedir.joinpath(*paths))
 
 
-def get_version():
+def get_version(debug=False):
     """Get the current version
     @return version <str>
     """
-    with open(xavier_base("VERSION"), "r") as vfile:
+    version_file = xavier_base("VERSION")
+    if debug:
+        print("VERSION FILE:", version_file)
+    with open(version_file, "r") as vfile:
         version = f"v{vfile.read().strip()}"
     return version

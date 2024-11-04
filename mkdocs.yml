@@ -113,4 +113,5 @@ nav:
       - Output Files: pipeline-details/output.md
   - FAQ:
       - General Questions: faq/questions.md
+      - How to contribute: contributing.md
   - License: license.md

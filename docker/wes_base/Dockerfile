@@ -1,7 +1,14 @@
 # Base image
-FROM ubuntu:20.04
+FROM nciccbr/ccbr_ubuntu_base_20.04:v6
 
-MAINTAINER <vishal.koparde@nih.gov, kuhnsa@nih.gov>
+ARG BUILD_DATE="000000"
+ENV BUILD_DATE=${BUILD_DATE}
+ARG BUILD_TAG="000000"
+ENV BUILD_TAG=${BUILD_TAG}
+ARG REPONAME="000000"
+ENV REPONAME=${REPONAME}
+
+LABEL maintainer <vishal.koparde@nih.gov, kuhnsa@nih.gov>
 
 # Create Container filesystem specific
 # working directory and opt directories
@@ -38,11 +45,12 @@ RUN apt-get update \
       python3 \
       python3-pip \
       unzip \
-      wget
+      wget \
+      less
 
 # Make python3 the default interpreter
 # and install Python Packages
-RUN ln -s /usr/bin/python3.8 /usr/bin/python
+#RUN ln -s /usr/bin/python3.8 /usr/bin/python
 RUN pip3 install --upgrade pip \
 	  && pip3 install argparse \
 	  && pip3 install numpy \
@@ -89,7 +97,14 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
       manpages-dev \
       zlib1g \
       zlib1g-dev \
-      zlibc
+      zlibc \
+      openjdk-17-jdk \
+      openjdk-11-jdk
+
+# Install Java 17
+# RUN apt-get update && apt-get install -y openjdk-17-jdk
+# ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+# ENV PATH="$JAVA_HOME/bin:${PATH}"
 
 # Common bioinformatics tools
 # bwa/0.7.17  bowtie/1.2.3  bowtie2/2.3.5.1
@@ -115,13 +130,13 @@ RUN wget https://github.com/biod/sambamba/releases/download/v0.8.1/sambamba-0.8.
     && mv /opt2/sambamba-0.8.1-linux-amd64-static /opt2/sambamba \
     && chmod a+rx /opt2/sambamba
 
-# Install GATK4 (GATK/4.2.2.0)
-# Requires Java8 or 1.8
-RUN wget https://github.com/broadinstitute/gatk/releases/download/4.2.2.0/gatk-4.2.2.0.zip \
-    && unzip /opt2/gatk-4.2.2.0.zip \
-    && rm /opt2/gatk-4.2.2.0.zip \
-    && /opt2/gatk-4.2.2.0/gatk --list
-ENV PATH="/opt2/gatk-4.2.2.0:$PATH"
+# Install GATK4 (GATK/4.6.0.0)
+# Requires Java17
+RUN wget https://github.com/broadinstitute/gatk/releases/download/4.6.0.0/gatk-4.6.0.0.zip \
+    && unzip /opt2/gatk-4.6.0.0.zip \
+    && rm /opt2/gatk-4.6.0.0.zip \
+    && /opt2/gatk-4.6.0.0/gatk --list
+ENV PATH="/opt2/gatk-4.6.0.0:$PATH"
 
 # Install last release of GATK3 (GATK/3.8-1)
 # Only being used for the CombineVariants
@@ -175,12 +190,12 @@ RUN pip3 install --upgrade pip \
 RUN wget https://github.com/brentp/somalier/releases/download/v0.2.13/somalier \
     && chmod a+rx /opt2/somalier
 
-# Install VarScan/v2.4.4
+# Install VarScan/v2.4.6
 # Works with java8
 # and each wrapper script similar to HPC module
-RUN wget https://github.com/dkoboldt/varscan/raw/master/VarScan.v2.4.4.jar \
+RUN wget https://github.com/dkoboldt/varscan/raw/master/VarScan.v2.4.6.jar \
     && echo '#!/bin/bash' > /opt2/varscan \
-    && echo 'java -jar /opt2/VarScan.v2.4.4.jar  "$@"' >> /opt2/varscan \
+    && echo 'java8 -jar /opt2/VarScan.v2.4.6.jar  "$@"' >> /opt2/varscan \
     && chmod a+rx /opt2/varscan
 
 # Install snpEff/4.3t
@@ -195,7 +210,7 @@ ENV SNPEFF_JAR="/opt2/snpEff/snpEff.jar"
 
 # Install samblaster/0.1.26
 # Requires g++ and make (already satisfied)
-RUN git clone git://github.com/GregoryFaust/samblaster.git \
+RUN git clone https://github.com/GregoryFaust/samblaster.git \
     && cd /opt2/samblaster \
     && make \
     && chmod a+rX /opt2/samblaster/samblaster
@@ -234,7 +249,7 @@ ENV PATH="/opt2/VarDict-1.8.2/bin:$PATH"
 # and set java8 as default with links
 # to alternative versions
 ADD Dockerfile /opt2/base_gatk4_wes.dockerfile
-COPY argparse.bash /opt2
+COPY /argparse.bash /opt2
 # Trimmomatic requires java11
 ENV TRIMMOMATIC_JAR="/usr/share/java/trimmomatic-0.39.jar"
 RUN echo '#!/bin/bash' > /opt2/trimmomatic \
@@ -242,9 +257,10 @@ RUN echo '#!/bin/bash' > /opt2/trimmomatic \
     && chmod +x /opt2/trimmomatic
 RUN chmod -R a+rX /opt2 \
     && chmod a+x /opt2/argparse.bash \
+    && ln -s /usr/lib/jvm/java-17-openjdk-amd64/bin/java /usr/bin/java17 \
     && ln -s /usr/lib/jvm/java-11-openjdk-amd64/bin/java /usr/bin/java11 \
     && ln -s /usr/lib/jvm/java-8-openjdk-amd64/bin/java /usr/bin/java8 \
-    && ln -fs /usr/lib/jvm/java-8-openjdk-amd64/bin/java /usr/bin/java
+    && ln -fs /usr/lib/jvm/java-17-openjdk-amd64/bin/java /usr/bin/java
 ENV PATH="/opt2:$PATH"
 ENV TRIMMOJAR="/usr/share/java/trimmomatic-0.39.jar"
 
@@ -260,3 +276,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
     pandoc \
     && apt-get clean && apt-get purge \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+COPY Dockerfile /opt2/Dockerfile_${REPONAME}.${BUILD_TAG}
+RUN chmod a+r /opt2/Dockerfile_${REPONAME}.${BUILD_TAG}

@@ -658,8 +658,15 @@ def parsed_arguments():
         help="Only display what remote resources would be pulled.",
     )
 
+    subparser_debug = subparsers.add_parser(
+        "debug",
+        help="Debug the pipeline base directory.",
+        usage=argparse.SUPPRESS,
+    )
+
     # Define handlers for each sub-parser
     subparser_run.set_defaults(func=run)
+    subparser_debug.set_defaults(func=debug)
     subparser_unlock.set_defaults(func=unlock)
     subparser_cache.set_defaults(func=cache)
     subparser_gui.set_defaults(func=launch_gui)
@@ -667,6 +674,11 @@ def parsed_arguments():
     # Parse command-line args
     args = parser.parse_args()
     return args
+
+
+def debug(args):
+    print("BASE:", xavier_base())
+    print(get_version(debug=True))
 
 
 def main():
