@@ -1,5 +1,7 @@
 ## XAVIER development version
 
+- Fix `cache` subcommand to correctly read the container images config file. (#124, @kelly-sovacool)
+
 ## XAVIER 3.1.0
 
 ### new features
