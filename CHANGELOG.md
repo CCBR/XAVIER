@@ -1,4 +1,4 @@
-## XAVIER development version
+## XAVIER 3.1.2
 
 - Fix minor bug in `assess_significance.R` script associated with rule `freec_exome_somatic`. (#120, @samarth8392)
 - Fix bug in multiqc docker container, which caused an error when running xavier from ccbrpipeliner/7. (#123, @kelly-sovacool)
