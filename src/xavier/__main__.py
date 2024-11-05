@@ -92,8 +92,7 @@ def cache(sub_args):
 
     sif_cache = sub_args.sif_cache
     # Get absolute PATH to templates in XAVIER git repo
-    repo_path = os.path.dirname(os.path.abspath(__file__))
-    images = os.path.join(repo_path, "config", "containers", "images.json")
+    images = xavier_base("config", "containers", "images.json")
 
     # Create image cache
     if not exists(sif_cache):
@@ -135,7 +134,7 @@ def cache(sub_args):
             # Quote user provided values to avoid shell injections
             masterjob = subprocess.Popen(
                 "sbatch --parsable -J pl:cache --gres=lscratch:200  --time=10:00:00 --mail-type=BEGIN,END,FAIL "
-                + str(os.path.join(repo_path, "resources", "cacher"))
+                + xavier_base("resources", "cacher")
                 + " slurm "
                 + " -s '{}' ".format(sif_cache)
                 + " -i '{}' ".format(",".join(pull))
