@@ -60,7 +60,7 @@
         },
         "sequenza-utils": {
             "version": "3.0.0",
-            "modname": "bedtools/2.30.0"
+            "modname": "sequenza/3.0.0"
         },
         "python": {
             "version": "2.7",
