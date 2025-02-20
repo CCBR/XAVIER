@@ -486,7 +486,7 @@ rule varscan_filter:
 
     varscan somaticFilter \\
         {input.vcf} \\
-        {params.filter_settings} --output-file {output.filtered1}
+        {params.somatic_filter_settings} --output-file {output.filtered1}
 
     gatk SelectVariants \\
         -R {params.genome} \\
