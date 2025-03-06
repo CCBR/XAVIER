@@ -1,5 +1,7 @@
 ## XAVIER development version
 
+## XAVIER development version
+
 ## XAVIER 3.1.3
 
 - Fix breaking bug in varscan somaticFilter (#131, @dnousome)
