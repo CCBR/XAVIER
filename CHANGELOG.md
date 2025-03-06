@@ -3,6 +3,8 @@
 ## XAVIER 3.1.3
 
 - Fix breaking bug in varscan somaticFilter (#131, @dnousome)
+- Fix `pySimpleGUI` being removed from pip issue (#133, @samarth8392)
+- Minor documentation improvements to README.md and GUI docs (@samarth8392)
 
 ## XAVIER 3.1.2
 
