@@ -61,31 +61,28 @@ module load ccbrpipeliner
 
 # First, initialize the output directory
 xavier run \
---input data/*.R?.fastq.gz \
+--input /data/*R?*.fastq.gz  \
 --output /data/$USER/xavier_hg38 \
 --genome hg38 \
 --pairs pairs.txt \
---targets resources/Agilent_SSv7_allExons_hg38.bed \
 --mode slurm \
 --runmode init
 
 # Second, do a dry run to visualize outputs
 xavier run \
---input data/*.R?.fastq.gz \
+--input /data/*R?*.fastq.gz \
 --output /data/$USER/xavier_hg38 \
 --genome hg38 \
 --pairs pairs.txt \
---targets resources/Agilent_SSv7_allExons_hg38.bed \
 --mode slurm \
 --runmode dryrun
 
 # Then do a complete run
 xavier run \
---input data/*.R?.fastq.gz \
+--input /data/*R?*.fastq.gz \
 --output /data/$USER/xavier_hg38 \
 --genome hg38 \
 --pairs pairs.txt \
---targets resources/Agilent_SSv7_allExons_hg38.bed \
 --mode slurm \
 --runmode run
 ```
@@ -107,13 +104,12 @@ TMPDIR="/scratch/cluster_scratch/$USER"
 
 # Initialize and then dryrun (or run)
 xavier run \
---input data/*.R?.fastq.gz \
+--input /data/*R?*.fastq.gz \
 --output /data/$USER/xavier_hg38 \
 --genome hg38 \
 --sif-cache $SIFCACHE \
 --tmp-dir $TMPDIR \
 --pairs pairs.txt \
---targets resources/Agilent_SSv7_allExons_hg38.bed \
 --mode slurm \
 --runmode init # run
 

@@ -20,7 +20,7 @@ ssh -Y $USER@biowulf.nih.gov
 ```bash
 # Setup Step 2.) Please do not run XAVIER on the head node!
 # Grab an interactive node first
-sinteractive --time=12:00:00 --mem=8gb  --cpus-per-task=4
+sinteractive --tunnel  --time=12:00:00 --mem=8gb  --cpus-per-task=4
 ```
 
 ### 2.3 Load `ccbrpipeliner` module
