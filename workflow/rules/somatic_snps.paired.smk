@@ -465,7 +465,7 @@ rule varscan_filter:
         genome = config['references']['GENOME'],
         pon = config['references']['PON'],
         basedir = BASEDIR,
-        filter_settings = config['tools']['varscan']['filter_settings'],
+        somatic_filter_settings = config['tools']['varscan']['somatic_filter_settings'],
         ver_varscan = config['tools']['varscan']['version'],
         ver_gatk = config['tools']['gatk4']['version'],
         ver_bcftools = config['tools']['bcftools']['version'],
@@ -484,9 +484,9 @@ rule varscan_filter:
     # mechanism for deletion on exit
     {params.set_tmp}
 
-    varscan filter \\
+    varscan somaticFilter \\
         {input.vcf} \\
-        {params.filter_settings} > {output.filtered1}
+        {params.somatic_filter_settings} --output-file {output.filtered1}
 
     gatk SelectVariants \\
         -R {params.genome} \\

@@ -1,5 +1,16 @@
 ## XAVIER development version
 
+## XAVIER development version
+
+## XAVIER 3.1.4
+
+- Fix `pySimpleGUI` being removed from pip issue (#133, @samarth8392)
+- Minor documentation improvements to README.md and GUI docs (@samarth8392)
+
+## XAVIER 3.1.3
+
+- Fix breaking bug in varscan somaticFilter (#131, @dnousome)
+
 ## XAVIER 3.1.2
 
 - Fix minor bug in `assess_significance.R` script associated with rule `freec_exome_somatic`. (#120, @samarth8392)

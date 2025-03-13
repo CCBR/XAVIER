@@ -1,13 +1,17 @@
-# XAVIER - e**X**ome **A**nalysis and **V**ariant explor**ER** 🔬
+# XAVIER
+
+e**X**ome **A**nalysis and **V**ariant explor**ER** 🔬
 
 [![tests](https://github.com/CCBR/XAVIER/workflows/tests/badge.svg)](https://github.com/CCBR/XAVIER/actions/workflows/main.yaml)
-[![docs](https://github.com/CCBR/XAVIER/workflows/docs/badge.svg)](https://github.com/CCBR/XAVIER/actions/workflows/docs-mkdocs.yml)
-[![Docker Pulls](https://img.shields.io/docker/pulls/nciccbr/ccbr_wes_base)](https://hub.docker.com/r/nciccbr/ccbr_wes_base)
-[![GitHub Issues](https://img.shields.io/github/issues/CCBR/XAVIER?color=brightgreen)](https://github.com/CCBR/XAVIER/issues)
-[![MIT license](https://img.shields.io/github/license/CCBR/XAVIER)](https://github.com/CCBR/XAVIER/blob/main/LICENSE)
+[![docs](https://github.com/CCBR/XAVIER/workflows/docs/badge.svg)](https://ccbr.github.io/XAVIER)
+[![issues](https://img.shields.io/github/issues/CCBR/XAVIER?color=brightgreen)](https://github.com/CCBR/XAVIER/issues)
+[![license](https://img.shields.io/github/license/CCBR/XAVIER)](https://github.com/CCBR/XAVIER/blob/main/LICENSE)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.12727315.svg)](https://doi.org/10.5281/zenodo.12727315)
+[![release](https://img.shields.io/github/v/release/CCBR/XAVIER?color=blue&label=latest%20release)](https://github.com/CCBR/XAVIER/releases/latest)
 
-> **_*XAVIER - eXome Analysis and Variant explorER*_**. This is the home of the pipeline, XAVIER. Its long-term goals: to accurately call germline and somatic variants, to infer CNVs, and to boldly annotate variants like no pipeline before!
+This is the home of the XAVIER pipeline.
+Its long-term goals: to accurately call germline and somatic variants,
+to infer CNVs, and to boldly annotate variants like no pipeline before!
 
 ## Overview
 
@@ -57,31 +61,28 @@ module load ccbrpipeliner
 
 # First, initialize the output directory
 xavier run \
---input data/*.R?.fastq.gz \
+--input /data/*R?*.fastq.gz  \
 --output /data/$USER/xavier_hg38 \
 --genome hg38 \
 --pairs pairs.txt \
---targets resources/Agilent_SSv7_allExons_hg38.bed \
 --mode slurm \
 --runmode init
 
 # Second, do a dry run to visualize outputs
 xavier run \
---input data/*.R?.fastq.gz \
+--input /data/*R?*.fastq.gz \
 --output /data/$USER/xavier_hg38 \
 --genome hg38 \
 --pairs pairs.txt \
---targets resources/Agilent_SSv7_allExons_hg38.bed \
 --mode slurm \
 --runmode dryrun
 
 # Then do a complete run
 xavier run \
---input data/*.R?.fastq.gz \
+--input /data/*R?*.fastq.gz \
 --output /data/$USER/xavier_hg38 \
 --genome hg38 \
 --pairs pairs.txt \
---targets resources/Agilent_SSv7_allExons_hg38.bed \
 --mode slurm \
 --runmode run
 ```
@@ -103,13 +104,12 @@ TMPDIR="/scratch/cluster_scratch/$USER"
 
 # Initialize and then dryrun (or run)
 xavier run \
---input data/*.R?.fastq.gz \
+--input /data/*R?*.fastq.gz \
 --output /data/$USER/xavier_hg38 \
 --genome hg38 \
 --sif-cache $SIFCACHE \
 --tmp-dir $TMPDIR \
 --pairs pairs.txt \
---targets resources/Agilent_SSv7_allExons_hg38.bed \
 --mode slurm \
 --runmode init # run
 

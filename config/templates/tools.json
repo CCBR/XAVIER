@@ -35,6 +35,7 @@
         "varscan": {
             "version": "2.4.6",
             "filter_settings": "--strand-filter 1 --min-reads2 5 --min-strands2 2 --min-var-freq 0.05 --p-value 0.01 --min-avg-qual 30",
+            "somatic_filter_settings": "--min-reads2 5 --min-strands2 2 --min-var-freq 0.05 --p-value 0.01",
             "modname": "varscan/2.4.6"
         },
         "vcftools": {
@@ -59,7 +60,7 @@
         },
         "sequenza-utils": {
             "version": "3.0.0",
-            "modname": "bedtools/2.30.0"
+            "modname": "sequenza/3.0.0"
         },
         "python": {
             "version": "2.7",
