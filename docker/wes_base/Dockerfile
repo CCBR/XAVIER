@@ -183,7 +183,8 @@ WORKDIR /opt2
 # https://cran.r-project.org/web/packages/sequenza/vignettes/sequenza.html#getting-started
 RUN pip3 install --upgrade pip \
 	  && pip3 install sequenza-utils \
-      && Rscript -e 'BiocManager::install(c("copynumber")); install.packages(c("sequenza"), repos="http://cran.r-project.org")'
+      && Rscript -e 'remotes::install_github("ShixiangWang/copynumber"); remotes::install_github("cran/sequenza")' \
+      && Rscript -e 'remotes::install_version("iotools",version="0.3-2")'
 
 # Install Somalier/v0.2.13
 # download static binary
