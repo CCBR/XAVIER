@@ -163,7 +163,7 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD5
     && add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/' \
     && apt-get -y install r-base r-base-core r-recommended r-base-dev \
     && apt-get -y install libcurl4-openssl-dev libssl-dev libboost-dev libxml2-dev
-RUN Rscript -e 'install.packages(c("argparse", "knitr", "tidyverse", "dplyr", "plyr", "plotly", "ggplot2", "RColorBrewer", "htmlwidgets"), repos="http://cran.r-project.org")'
+RUN Rscript -e 'install.packages(c("argparse", "remotes", "knitr", "tidyverse", "dplyr", "plyr", "plotly", "ggplot2", "RColorBrewer", "htmlwidgets"), repos="http://cran.r-project.org")'
 RUN Rscript -e 'install.packages(c("shiny", "gridExtra", "flexdashboard", "rmarkdown", "crosstalk", "DT", "reshape2", "circlize", "viridis"), repos="http://cran.r-project.org")'
 RUN Rscript -e 'install.packages("BiocManager"); BiocManager::install(c("limma", "edgeR", "ComplexHeatmap", "rtracklayer"))'
 
@@ -183,7 +183,8 @@ WORKDIR /opt2
 # https://cran.r-project.org/web/packages/sequenza/vignettes/sequenza.html#getting-started
 RUN pip3 install --upgrade pip \
 	  && pip3 install sequenza-utils \
-      && Rscript -e 'BiocManager::install(c("copynumber")); install.packages(c("sequenza"), repos="http://cran.r-project.org")'
+      && Rscript -e 'remotes::install_github("ShixiangWang/copynumber"); remotes::install_github("cran/sequenza")' \
+      && Rscript -e 'remotes::install_version("iotools",version="0.3-2")'
 
 # Install Somalier/v0.2.13
 # download static binary
