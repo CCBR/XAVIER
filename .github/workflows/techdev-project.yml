@@ -8,6 +8,9 @@ on:
     types:
       - opened
 
+permissions:
+  issues: read
+
 jobs:
   add-to-project:
     runs-on: ubuntu-latest
