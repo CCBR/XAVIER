@@ -9,6 +9,10 @@ on:
   pull_request:
     branches-ignore: []
 
+permissions:
+  contents: read
+  pull-requests: read
+
 jobs:
   dryrun-lint:
     runs-on: ubuntu-latest
