@@ -1,5 +1,7 @@
 ## XAVIER development version
 
+- Minor documentation updates. (#147, @kelly-sovacool)
+
 ## XAVIER 3.1.5
 
 - Updated base docker image for sequenza (#130, @dnousome)
