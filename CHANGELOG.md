@@ -1,6 +1,6 @@
 ## XAVIER development version
 
-- Minor documentation updates. (#147, @kelly-sovacool)
+- Minor documentation updates. (#147, #149, @kelly-sovacool)
 
 ## XAVIER 3.1.5
 

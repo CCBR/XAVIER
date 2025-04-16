@@ -85,6 +85,5 @@ nav:
       - Settings: pipeline-details/settings.md
       - Output Files: pipeline-details/output.md
   - FAQ:
-      - General Questions: faq/questions.md
       - How to contribute: contributing.md
   - License: license.md
