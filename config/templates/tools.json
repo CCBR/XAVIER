@@ -109,6 +109,9 @@
         "samblaster": {
             "version": "0.1.26",
             "modname": "samblaster/0.1.26"
+        },
+        "ccbr_tools": {
+            "path": "/data/CCBR_Pipeliner/Tools/ccbr_tools/v0.2/bin/"
         }
     }
 }

@@ -488,20 +488,21 @@ if config['input_params']['create_nidap_folder'] == 'yes':
     NIDAP_OUTDIR = os.path.join(BASEDIR,"NIDAP")
     include: "rules/nidap.smk"
 
-# create jobby tables
-jobby_cmd = 'run_jobby_on_snakemake_log logfiles/snakemake.log | tee logfiles/snakemake.log.jobby | cut -f2,3,18 > logfiles/snakemake.log.jobby.short'
-spook_cmd = f'spooker {BASEDIR} XAVIER'
+on_complete = f"""
+for cmd in spooker run_jobby_on_snakemake_log; do
+    if ! command -v $cmd 2>&1 >/dev/null; then
+        export PATH="$PATH:{config['tools']['ccbr_tools']['path']}"
+    fi
+done
+run_jobby_on_snakemake_log logfiles/snakemake.log | tee logfiles/snakemake.log.jobby | cut -f2,3,18 > logfiles/snakemake.log.jobby.short
+spooker {BASEDIR} XAVIER {config["project"]["version"]} | tee logfiles/spooker.log
+"""
 
 onsuccess:
-    #subprocess.run(shlex.split(jobby_cmd),capture_output=False,shell=False,text=True)
-    print(jobby_cmd)
-    shell(jobby_cmd)
-    print(spook_cmd)
-    shell(spook_cmd)
+    print(on_complete)
+    shell(on_complete)
+
 
 onerror:
-    #subprocess.run(shlex.split(jobby_cmd),capture_output=False,shell=False,text=True)
-    print(jobby_cmd)
-    shell(jobby_cmd)
-    print(spook_cmd)
-    shell(spook_cmd)
+    print(on_complete)
+    shell(on_complete)
