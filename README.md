@@ -19,17 +19,15 @@ Welcome to XAVIER! Before getting started, we highly recommend reading through [
 
 The **`xavier`** pipeline is composed several inter-related sub commands to setup and run the pipeline across different systems. Each of the available sub commands perform different functions:
 
-- [<code>xavier <b>run</b></code>](https://CCBR.github.io/XAVIER/usage/run/): Run the XAVIER pipeline with your input files.
-- [<code>xavier <b>unlock</b></code>](https://CCBR.github.io/XAVIER/usage/unlock/): Unlocks a previous runs output directory.
-- [<code>xavier <b>cache</b></code>](https://CCBR.github.io/XAVIER/usage/cache/): Cache remote resources locally, coming soon!
+- [<code>xavier <b>run</b></code>](https://CCBR.github.io/XAVIER/latest/usage/run/): Run the XAVIER pipeline with your input files.
+- [<code>xavier <b>unlock</b></code>](https://CCBR.github.io/XAVIER/latest/usage/unlock/): Unlocks a previous runs output directory.
+- [<code>xavier <b>cache</b></code>](https://CCBR.github.io/XAVIER/latest/usage/cache/): Cache remote resources locally, coming soon!
 
 XAVIER is a comprehensive whole exome-sequencing pipeline following the Broad's set of best practices. It relies on technologies like [Singularity<sup>1</sup>](https://singularity.lbl.gov/) to maintain the highest-level of reproducibility. The pipeline consists of a series of data processing and quality-control steps orchestrated by [Snakemake<sup>2</sup>](https://snakemake.readthedocs.io/en/stable/), a flexible and scalable workflow management system, to submit jobs to a cluster or cloud provider.
 
 The pipeline is compatible with data generated from Illumina short-read sequencing technologies. As input, it accepts a set of FastQ or BAM files and can be run locally on a compute instance, on-premise using a cluster, or on the cloud (feature coming soon!). A user can define the method or mode of execution. The pipeline can submit jobs to a cluster using a job scheduler like SLURM, or run on AWS using Tibanna (feature coming soon!). A hybrid approach ensures the pipeline is accessible to all users.
 
-Before getting started, we highly recommend reading through the [usage](https://CCBR.github.io/XAVIER/usage/run/) section of each available sub command.
-
-For more information about issues or trouble-shooting a problem, please checkout our [FAQ](faq/questions.md) prior to [opening an issue on Github](https://github.com/CCBR/XAVIER/issues).
+Before getting started, we highly recommend reading through the [usage](https://CCBR.github.io/XAVIER/latest/usage/run/) section of each available sub command.
 
 ## Dependencies
 
@@ -115,9 +113,15 @@ xavier run \
 
 ```
 
-## Contribute
+## Help & Contributing
 
-This site is a living document, created for and by members like you. XAVIER is maintained by the members of CCBR and is improved by continuous feedback! We encourage you to contribute new content and make improvements to existing content via pull request to our [repository](https://github.com/CCBR/XAVIER/pulls).
+Come across a **bug**? Open an [issue](https://github.com/CCBR/XAVIER/issues) and include a minimal reproducible example.
+
+Have a **question**? Ask it in [discussions](https://github.com/CCBR/XAVIER/discussions).
+
+Want to **contribute** to this project? Check out the [contributing guidelines](.github/CONTRIBUTING.md).
+
+**General Inquiries and Collaboration:** Please contact the CCBR Pipeliner team at [CCBR_Pipeliner@mail.nih.gov](mailto:CCBR_Pipeliner@mail.nih.gov).
 
 ## References
 
