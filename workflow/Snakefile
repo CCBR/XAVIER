@@ -270,6 +270,9 @@ VCF2MAF_WRAPPER=config['scripts']['vcf2maf_wrapper']
 SOBDetector_out=os.path.join(BASEDIR,"ffpe_filter","sobdetector")
 SOBDetector_JARFILE=os.path.join(SOBDetector_out, "jarfile","SOBDetector_v1.0.2.jar")
 
+
+CLEANUP_WRAPPER=config['scripts']['cleanup']
+
 name_symlinks=[]
 if fqs_found:
     name_suffix=".R[1,2].fastq.gz"
@@ -498,9 +501,15 @@ run_jobby_on_snakemake_log logfiles/snakemake.log | tee logfiles/snakemake.log.j
 spooker {BASEDIR} XAVIER {config["project"]["version"]} | tee logfiles/spooker.log
 """
 
+cleanup = f"""
+bash {CLEANUP_WRAPPER} --outdir={BASEDIR}
+"""
+
 onsuccess:
     print(on_complete)
     shell(on_complete)
+    print(cleanup)
+    shell(cleanup)
 
 
 onerror:
