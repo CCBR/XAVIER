@@ -109,7 +109,7 @@
     },
     "trimmomatic": {
         "threads": "24",
-        "time": "8:00:00",
+        "time": "24:00:00",
         "mem": "16G"
     },
     "presort": {
