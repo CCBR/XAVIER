@@ -1,6 +1,7 @@
 ## XAVIER development version
 
 - Minor documentation updates. (#147, #149, @kelly-sovacool)
+- Fix sample names in pairs file. (#151, @samarth8392)
 
 ## XAVIER 3.1.5
 
