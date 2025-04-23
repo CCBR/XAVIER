@@ -56,7 +56,7 @@ if (length(not_included) > 0) {
   print("Excluding these chromosomes because of too few mutations...")
   print(not_included)
 }
-sequenza.results(sequenza.extract = seqzdata, cp.table = CP.example, sample.id = sampleid, out.dir = out_dir, chromosome.list = chrom_list)
+sequenza.results(sequenza.extract = seqzdata, cp.table = CP.example, sample.id = sampleid, out.dir = out_dir)
 
 date()
 print("Done")
