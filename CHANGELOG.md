@@ -1,4 +1,4 @@
-## XAVIER 3.1.5
+## XAVIER development version
 
 - Added cleanup script that deletes extra files from xavier pipeline output only on success (#154, @samarth8392)
 - Fixed sequenza issue about not enough variants to solve model by removing the chrom-list filter (#154, @samarth8392)
