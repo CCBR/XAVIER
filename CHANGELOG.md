@@ -1,11 +1,12 @@
-## XAVIER development version
-
-- Minor documentation updates. (#147, #149, @kelly-sovacool)
-- Fix sample names in pairs file. (#151, @samarth8392)
-
 ## XAVIER 3.1.5
 
-- Updated base docker image for sequenza (#130, @dnousome)
+- Added cleanup script that deletes extra files from xavier pipeline output only on success (#154, @samarth8392)
+- Fixed sequenza issue about not enough variants to solve model by removing the chrom-list filter (#154, @samarth8392)
+- Added dryrun output to xavier output folder (#154, @samarth8392)
+- Increased walltime for rule trimmomatic (#154, @samarth8392)
+- Minor documentation updates. (#147, #149, @kelly-sovacool)
+- Fix sample names in pairs file. (#151, @samarth8392)
+- Updated base docker image for sequenza (#140, #154, @dnousome, @samarth8392)
 
 ## XAVIER 3.1.4
 
