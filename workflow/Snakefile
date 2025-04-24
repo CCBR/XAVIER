@@ -502,7 +502,10 @@ spooker {BASEDIR} XAVIER {config["project"]["version"]} | tee logfiles/spooker.l
 """
 
 cleanup = f"""
-bash {CLEANUP_WRAPPER} --outdir={BASEDIR}
+rm -r \
+    bams/chrom_split \
+    somatic_paired/SNP_Indels/*/chrom_split \
+    QC/kraken
 """
 
 onsuccess:
