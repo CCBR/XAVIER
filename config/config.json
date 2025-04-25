@@ -56,8 +56,7 @@
         "correct_target_bed": "workflow/scripts/correct_target_bed.py",
         "genderPrediction": "workflow/scripts/RScripts/predictGender.R",
         "combineSamples": "workflow/scripts/RScripts/combineAllSampleCompareResults.R",
-        "ancestry": "workflow/scripts/RScripts/sampleCompareAncestryPlots.R",
-        "cleanup": "workflow/scripts/post_complete_cleanup.sh"
+        "ancestry": "workflow/scripts/RScripts/sampleCompareAncestryPlots.R"
     },
     "available_somatic_callers": {
         "paired": ["mutect2", "strelka", "mutect", "vardict", "varscan"],
