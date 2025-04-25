@@ -498,9 +498,18 @@ run_jobby_on_snakemake_log logfiles/snakemake.log | tee logfiles/snakemake.log.j
 spooker {BASEDIR} XAVIER {config["project"]["version"]} | tee logfiles/spooker.log
 """
 
+cleanup = f"""
+rm -r \
+    bams/chrom_split \
+    somatic_paired/SNP_Indels/*/chrom_split \
+    QC/kraken
+"""
+
 onsuccess:
     print(on_complete)
     shell(on_complete)
+    print(cleanup)
+    shell(cleanup)
 
 
 onerror:
