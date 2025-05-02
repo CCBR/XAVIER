@@ -57,9 +57,23 @@ xavier run --help
 sinteractive --mem=110g --cpus-per-task=12 --gres=lscratch:200
 module load ccbrpipeliner
 
-# First, initialize the output directory
+# Input files
+# It's easier to keep all the paired-end FASTQ files (R1/R2) for each sample
+# to be analyzed in a single folder and then globbing them all together
+
+INDIR="/path/to/your/fastq/files"
+
+# For tumor-normal pair
+ls $INDIR
+sample1_tumor.R1.fastq.gz sample1_tumor.R2.fastq.gz sample1_normal.R1.fastq.gz sample1_normal.R2.fastq.gz ...
+
+# For tumor-only
+ls $INDIR
+sample1.R1.fastq.gz sample1.R2.fastq.gz sample2.R1.fastq.gz sample2.R2.fastq.gz ...
+
+# Next, initialize the output directory
 xavier run \
---input /data/*R?*.fastq.gz  \
+--input $INDIR/*R?*.fastq.gz  \ # glob all samples together
 --output /data/$USER/xavier_hg38 \
 --genome hg38 \
 --pairs pairs.txt \
@@ -68,7 +82,7 @@ xavier run \
 
 # Second, do a dry run to visualize outputs
 xavier run \
---input /data/*R?*.fastq.gz \
+--input $INDIR/*R?*.fastq.gz  \ # glob all samples together
 --output /data/$USER/xavier_hg38 \
 --genome hg38 \
 --pairs pairs.txt \
@@ -77,7 +91,7 @@ xavier run \
 
 # Then do a complete run
 xavier run \
---input /data/*R?*.fastq.gz \
+--input $INDIR/*R?*.fastq.gz  \ # glob all samples together
 --output /data/$USER/xavier_hg38 \
 --genome hg38 \
 --pairs pairs.txt \
@@ -98,11 +112,13 @@ srun --export all --pty --x11 bash
 SIFCACHE="/mnt/projects/CCBR-Pipelines/SIFs/XAVIER"
 TMPDIR="/scratch/cluster_scratch/$USER"
 
-# run xavier
+
+
+# run xavier (see more details above)
 
 # Initialize and then dryrun (or run)
 xavier run \
---input /data/*R?*.fastq.gz \
+--input $INDIR/*R?*.fastq.gz \
 --output /data/$USER/xavier_hg38 \
 --genome hg38 \
 --sif-cache $SIFCACHE \

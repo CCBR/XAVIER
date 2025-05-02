@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 import os
+os.environ['XDG_RUNTIME_DIR'] = '/tmp/runtime-dir'
+os.makedirs('/tmp/runtime-dir', exist_ok=True)
 import sys
 import argparse
 import pandas as pd
@@ -11,7 +13,7 @@ from tqdm import tqdm
 from rich.console import Console
 from matplotlib.ticker import FuncFormatter
 
-__version__="0.2.0"
+__version__="0.1.0"
 
 console = Console()
 ascii_banner = f"""
@@ -42,7 +44,7 @@ console.print(description)
 usage_epilog=f"""
 Examples:
   # Basic usage with BED file
-  python allele_counter_visualizer.py \\
+  python atari.py \\
     --bam sample1.bam sample2.bam \\
     --reference genome.fa \\
     --bed regions.bed \\
@@ -50,7 +52,7 @@ Examples:
     --output results.tsv
 
   # Full pipeline with visualization and gene annotations
-  python allele_counter_visualizer.py \\
+  python atari.py \\
     --bam sample1.bam sample2.bam \\
     --reference genome.fa \\
     --bed regions.bed \\
@@ -62,7 +64,7 @@ Examples:
     --verbose
     
   # Generate detailed base-level counts
-  python allele_counter_visualizer.py \\
+  python atari.py \\
     --bam sample1.bam \\
     --reference genome.fa \\
     --bed regions.bed \\
@@ -72,7 +74,7 @@ Examples:
     --verbose
 
   # Analyze a specific region with advanced visualization options
-  python allele_counter_visualizer.py \\
+  python atari.py \\
     --bam sample.bam \\
     --reference genome.fa \\
     --chromosome chr20 \\
@@ -88,7 +90,7 @@ Examples:
     --max-genes 15
 
   # Multi-sample comparison with quality filters
-  python allele_counter_visualizer.py \\
+  python atari.py \\
     --bam tumor.bam normal.bam \\
     --reference genome.fa \\
     --bed hotspot_regions.bed \\
@@ -705,11 +707,11 @@ def plot_gene_annotations(ax, features, start_pos, end_pos, max_genes=10):
     ax.set_yticks([])
     
     # Format x-axis in Mbp
-    def format_mbp(x, pos):
-        return f'{x/1_000_000:.2f}'
+    def format_kbp(x, pos):
+        return f'{x/1_000:.2f}'
     
-    ax.xaxis.set_major_formatter(FuncFormatter(format_mbp))
-    ax.set_xlabel('Position (Mbp)')
+    ax.xaxis.set_major_formatter(FuncFormatter(format_kbp))
+    ax.set_xlabel('Position (Kbp)')
     
     # Add legend for gene features
     if legend_elements:
@@ -855,8 +857,8 @@ def plot_allele_counts_with_annotations(df, gtf_features=None, output_file=None,
                       for j in range(num_chroms)]
     
     # Format function for x-axis (millions of base pairs)
-    def format_mbp(x, pos):
-        return f'{x/1_000_000:.2f}'
+    def format_kbp(x, pos):
+        return f'{x/1_000:.2f}'
     
     # Process each chromosome to determine plot ranges
     chrom_data = {}
@@ -876,7 +878,7 @@ def plot_allele_counts_with_annotations(df, gtf_features=None, output_file=None,
     # Create each subplot
     for i, bam in enumerate(bam_files):
         for j, chrom in enumerate(chromosomes):
-            subset = df[(df['Bam_file'] == bam) & (df['CHROM'] == chrom)]
+            subset = df[(df['Bam_file'] == bam) & (df['CHROM'] == chrom)].copy()
             
             if subset.empty:
                 continue
@@ -1017,8 +1019,8 @@ def plot_allele_counts_with_annotations(df, gtf_features=None, output_file=None,
         if gtf_features and chrom in gtf_features:
             gene_legend_added = plot_gene_annotations(ax_genes, gtf_features[chrom], min_pos, max_pos, max_genes)
             # Format x-axis in Mbp
-            ax_genes.xaxis.set_major_formatter(FuncFormatter(format_mbp))
-            ax_genes.set_xlabel('Position (Mbp)')
+            ax_genes.xaxis.set_major_formatter(FuncFormatter(format_kbp))
+            ax_genes.set_xlabel('Position (kbp)')
         else:
             ax_genes.text(0.5, 0.5, 'No gene annotations available', 
                          ha='center', va='center', transform=ax_genes.transAxes)
@@ -1140,8 +1142,8 @@ def plot_allele_counts(df, output_file=None, dpi=300, figsize=(12, 8), show_plot
             axes_ratio.append(axes_ratio_row)
     
     # Format function for x-axis (millions of base pairs)
-    def format_mbp(x, pos):
-        return f'{x/1_000_000:.2f}'
+    def format_kbp(x, pos):
+        return f'{x/1_000:.2f}'
     
     # Create each subplot
     for i, bam in enumerate(bam_files):
@@ -1258,8 +1260,8 @@ def plot_allele_counts(df, output_file=None, dpi=300, figsize=(12, 8), show_plot
             ax_cov.tick_params(axis='x', labelbottom=False)
             
             # Format x-axis in Mbp for ratio plot
-            ax_ratio.xaxis.set_major_formatter(FuncFormatter(format_mbp))
-            ax_ratio.set_xlabel('Position (Mbp)')
+            ax_ratio.xaxis.set_major_formatter(FuncFormatter(format_kbp))
+            ax_ratio.set_xlabel('Position (kbp)')
             
             # Add legend to first plot only with better positioning
             if i == 0 and j == 0:
