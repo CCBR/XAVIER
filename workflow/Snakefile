@@ -494,8 +494,13 @@ for cmd in spooker run_jobby_on_snakemake_log; do
         export PATH="$PATH:{config['tools']['ccbr_tools']['path']}"
     fi
 done
-run_jobby_on_snakemake_log logfiles/snakemake.log | tee logfiles/snakemake.log.jobby | cut -f2,3,18 > logfiles/snakemake.log.jobby.short
-spooker {BASEDIR} XAVIER {config["project"]["version"]} | tee logfiles/spooker.log
+jobby logfiles/snakemake.log --tsv | tee logfiles/snakemake.log.jobby.tsv | cut -f2,3,18 > logfiles/snakemake.log.jobby.short.tsv
+spooker \
+    --outdir {BASEDIR} \
+    --name XAVIER \
+    --version {config["project"]["version"]} \
+    --path {config["project"]["pipehome"]} \
+    > logfiles/spooker.log 2>&1
 """
 
 cleanup = f"""
