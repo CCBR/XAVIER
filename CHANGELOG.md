@@ -1,5 +1,7 @@
 ## XAVIER development version
 
+## XAVIER 3.1.5
+
 - Added cleanup script that deletes extra files from xavier pipeline output only on success (#154, @samarth8392)
 - Fixed sequenza issue about not enough variants to solve model by removing the chrom-list filter (#154, @samarth8392)
 - Added dryrun output to xavier output folder (#154, @samarth8392)
