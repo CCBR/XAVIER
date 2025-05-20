@@ -1,5 +1,7 @@
 ## XAVIER development version
 
+- XAVIER now depends on ccbr_tools v0.4 for updated jobby & spooker utilities. (#165, @kelly-sovacool)
+
 ## XAVIER 3.1.5
 
 - Added cleanup script that deletes extra files from xavier pipeline output only on success (#154, @samarth8392)
@@ -9,7 +11,6 @@
 - Minor documentation updates. (#147, #149, @kelly-sovacool)
 - Fix sample names in pairs file. (#151, @samarth8392)
 - Updated base docker image for sequenza (#140, #154, @dnousome, @samarth8392)
-- XAVIER now depends on ccbr_tools v0.4 for updated jobby & spooker utilities. (#165, @kelly-sovacool)
 
 ## XAVIER 3.1.4
 
