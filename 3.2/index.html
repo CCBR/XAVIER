@@ -1,0 +1,85 @@
+<!DOCTYPE html><html class=writer-html5 lang=en> <head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width, initial-scale=1.0"><meta name=description content="XAVIER is an open-source, reproducible, and scalable best practices pipeline for analyzing Whole Exome DNA-sequencing data."><meta name=author content=CCBR><link rel="shortcut icon" href=img/favicon.ico><title>XAVIER Documentation</title><link rel=stylesheet href=css/theme.css><link rel=stylesheet href=css/theme_extra.css><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css><link href=css/custom.css rel=stylesheet><link href=css/version-select.css rel=stylesheet><script>
+        // Current page data
+        var mkdocs_page_name = "About";
+        var mkdocs_page_input_path = "index.md";
+        var mkdocs_page_url = null;
+      </script><!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]--><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js></script><script>hljs.highlightAll();</script></head> <body class=wy-body-for-nav role=document> <div class=wy-grid-for-nav> <nav data-toggle=wy-nav-shift class="wy-nav-side stickynav"> <div class=wy-side-scroll> <div class=wy-side-nav-search> <a href=. class="icon icon-home"> XAVIER Documentation </a><div role=search> <form id=rtd-search-form class=wy-form action=./search.html method=get> <input type=text name=q placeholder="Search docs" aria-label="Search docs" title="Type search term here"> </form> </div> </div> <div class="wy-menu wy-menu-vertical" data-spy=affix role=navigation aria-label="Navigation menu"> <ul class=current> <li class="toctree-l1 current"><a class="reference internal current" href=#>About</a> <ul class=current> <li class=toctree-l2><a class="reference internal" href=#overview>Overview</a> </li> <li class=toctree-l2><a class="reference internal" href=#dependencies>Dependencies</a> </li> <li class=toctree-l2><a class="reference internal" href=#run-xavier-pipeline>Run XAVIER pipeline</a> <ul> <li class=toctree-l3><a class="reference internal" href=#biowulf>Biowulf</a> </li> <li class=toctree-l3><a class="reference internal" href=#frce>FRCE</a> </li> </ul> </li> <li class=toctree-l2><a class="reference internal" href=#help-contributing>Help &amp; Contributing</a> </li> <li class=toctree-l2><a class="reference internal" href=#references>References</a> </li> </ul> </li> </ul> <p class=caption><span class=caption-text>Command Line</span></p> <ul> <li class=toctree-l1><a href=usage/run/ class="reference internal">xavier run</a> </li> <li class=toctree-l1><a href=usage/unlock/ class="reference internal">xavier unlock</a> </li> <li class=toctree-l1><a href=usage/cache/ class="reference internal">xavier cache</a> </li> </ul> <ul> <li class=toctree-l1><a href=usage/gui/ class="reference internal">Graphical Interface</a> </li> </ul> <p class=caption><span class=caption-text>Pipeline Details</span></p> <ul> <li class=toctree-l1><a href=pipeline-details/overview/ class="reference internal">Overview</a> </li> <li class=toctree-l1><a href=pipeline-details/methods/ class="reference internal">Methods</a> </li> <li class=toctree-l1><a href=pipeline-details/tools/ class="reference internal">Tools</a> </li> <li class=toctree-l1><a href=pipeline-details/settings/ class="reference internal">Settings</a> </li> <li class=toctree-l1><a href=pipeline-details/output/ class="reference internal">Output Files</a> </li> </ul> <p class=caption><span class=caption-text>FAQ</span></p> <ul> <li class=toctree-l1><a href=contributing/ class="reference internal">How to contribute</a> </li> </ul> <ul> <li class=toctree-l1><a href=license/ class="reference internal">License</a> </li> </ul> </div> </div> </nav> <section data-toggle=wy-nav-shift class=wy-nav-content-wrap> <nav class=wy-nav-top role=navigation aria-label="Mobile navigation menu"> <i data-toggle=wy-nav-top class="fa fa-bars"></i> <a href=.>XAVIER Documentation</a> </nav> <div class=wy-nav-content> <div class=rst-content><div role=navigation aria-label="breadcrumbs navigation"> <ul class=wy-breadcrumbs> <li><a href=. class="icon icon-home" aria-label=Docs></a></li> <li class="breadcrumb-item active">About</li> <li class=wy-breadcrumbs-aside> <a href=https://github.com/CCBR/XAVIER/edit/unified/docs/index.md>Edit on CCBR/XAVIER</a> </li> </ul> <hr> </div> <div role=main class=document itemscope=itemscope itemtype=http://schema.org/Article> <div class=section itemprop=articleBody> <!-- the README is inserted here automatically--> <h1 id=xavier>XAVIER<a class=headerlink href=#xavier title="Permanent link">&para;</a></h1> <p>e<strong>X</strong>ome <strong>A</strong>nalysis and <strong>V</strong>ariant explor<strong>ER</strong> 🔬</p> <p><a href=https://github.com/CCBR/XAVIER/actions/workflows/main.yaml><img alt=tests src=https://github.com/CCBR/XAVIER/workflows/tests/badge.svg></a> <a href=https://ccbr.github.io/XAVIER><img alt=docs src=https://github.com/CCBR/XAVIER/workflows/docs/badge.svg></a> <a href=https://github.com/CCBR/XAVIER/issues><img alt=issues src="https://img.shields.io/github/issues/CCBR/XAVIER?color=brightgreen"></a> <a href=https://github.com/CCBR/XAVIER/blob/main/LICENSE><img alt=license src=https://img.shields.io/github/license/CCBR/XAVIER></a> <a href=https://doi.org/10.5281/zenodo.12727315><img alt=DOI src=https://zenodo.org/badge/DOI/10.5281/zenodo.12727315.svg></a> <a href=https://github.com/CCBR/XAVIER/releases/latest><img alt=release src="https://img.shields.io/github/v/release/CCBR/XAVIER?color=blue&label=latest%20release"></a></p> <p>This is the home of the XAVIER pipeline. Its long-term goals: to accurately call germline and somatic variants, to infer CNVs, and to boldly annotate variants like no pipeline before!</p> <h2 id=overview>Overview<a class=headerlink href=#overview title="Permanent link">&para;</a></h2> <p>Welcome to XAVIER! Before getting started, we highly recommend reading through <a href=https://CCBR.github.io/XAVIER>xavier's documentation</a>.</p> <p>The <strong><code>xavier</code></strong> pipeline is composed several inter-related sub commands to setup and run the pipeline across different systems. Each of the available sub commands perform different functions:</p> <ul> <li><a href=https://CCBR.github.io/XAVIER/latest/usage/run/ ><code>xavier <b>run</b></code></a>: Run the XAVIER pipeline with your input files.</li> <li><a href=https://CCBR.github.io/XAVIER/latest/usage/unlock/ ><code>xavier <b>unlock</b></code></a>: Unlocks a previous runs output directory.</li> <li><a href=https://CCBR.github.io/XAVIER/latest/usage/cache/ ><code>xavier <b>cache</b></code></a>: Cache remote resources locally, coming soon!</li> </ul> <p>XAVIER is a comprehensive whole exome-sequencing pipeline following the Broad's set of best practices. It relies on technologies like <a href=https://singularity.lbl.gov/ >Singularity<sup>1</sup></a> to maintain the highest-level of reproducibility. The pipeline consists of a series of data processing and quality-control steps orchestrated by <a href=https://snakemake.readthedocs.io/en/stable/ >Snakemake<sup>2</sup></a>, a flexible and scalable workflow management system, to submit jobs to a cluster or cloud provider.</p> <p>The pipeline is compatible with data generated from Illumina short-read sequencing technologies. As input, it accepts a set of FastQ or BAM files and can be run locally on a compute instance, on-premise using a cluster, or on the cloud (feature coming soon!). A user can define the method or mode of execution. The pipeline can submit jobs to a cluster using a job scheduler like SLURM, or run on AWS using Tibanna (feature coming soon!). A hybrid approach ensures the pipeline is accessible to all users.</p> <p>Before getting started, we highly recommend reading through the <a href=https://CCBR.github.io/XAVIER/latest/usage/run/ >usage</a> section of each available sub command.</p> <h2 id=dependencies>Dependencies<a class=headerlink href=#dependencies title="Permanent link">&para;</a></h2> <p><strong>Requires:</strong> <code>singularity&gt;=3.5</code> <code>snakemake==6.X</code></p> <p><a href=https://snakemake.readthedocs.io/en/stable/getting_started/installation.html>Snakemake</a> and <a href=https://singularity.lbl.gov/all-releases>singularity</a> must be installed on the target system. Snakemake orchestrates the execution of each step in the pipeline. To guarantee the highest level of reproducibility, each step relies on versioned images from <a href=https://hub.docker.com/orgs/nciccbr/repositories>DockerHub</a>. Snakemake uses singaularity to pull these images onto the local filesystem prior to job execution, and as so, snakemake and singularity are the only two dependencies.</p> <h2 id=run-xavier-pipeline>Run XAVIER pipeline<a class=headerlink href=#run-xavier-pipeline title="Permanent link">&para;</a></h2> <h3 id=biowulf>Biowulf<a class=headerlink href=#biowulf title="Permanent link">&para;</a></h3> <div class=highlight><pre><span></span><code><span class=c1># XAVIER is configured to use different execution backends: local or slurm</span>
+<span class=c1># view the help page for more information</span>
+module<span class=w> </span>load<span class=w> </span>ccbrpipeliner
+xavier<span class=w> </span>run<span class=w> </span>--help
+
+<span class=c1># @slurm: uses slurm and singularity execution method</span>
+<span class=c1># The slurm MODE will submit jobs to the cluster.</span>
+<span class=c1># It is recommended running XAVIER in this mode.</span>
+
+<span class=c1># Please note that you can dry-run the command below</span>
+<span class=c1># by providing  --runmode dryrun flag</span>
+
+<span class=c1># Do not run this on the head node!</span>
+<span class=c1># Grab an interactive node</span>
+sinteractive<span class=w> </span>--mem<span class=o>=</span>110g<span class=w> </span>--cpus-per-task<span class=o>=</span><span class=m>12</span><span class=w> </span>--gres<span class=o>=</span>lscratch:200
+module<span class=w> </span>load<span class=w> </span>ccbrpipeliner
+
+<span class=c1># First, initialize the output directory</span>
+xavier<span class=w> </span>run<span class=w> </span><span class=se>\</span>
+--input<span class=w> </span>/data/*R?*.fastq.gz<span class=w>  </span><span class=se>\</span>
+--output<span class=w> </span>/data/<span class=nv>$USER</span>/xavier_hg38<span class=w> </span><span class=se>\</span>
+--genome<span class=w> </span>hg38<span class=w> </span><span class=se>\</span>
+--pairs<span class=w> </span>pairs.txt<span class=w> </span><span class=se>\</span>
+--mode<span class=w> </span>slurm<span class=w> </span><span class=se>\</span>
+--runmode<span class=w> </span>init
+
+<span class=c1># Second, do a dry run to visualize outputs</span>
+xavier<span class=w> </span>run<span class=w> </span><span class=se>\</span>
+--input<span class=w> </span>/data/*R?*.fastq.gz<span class=w> </span><span class=se>\</span>
+--output<span class=w> </span>/data/<span class=nv>$USER</span>/xavier_hg38<span class=w> </span><span class=se>\</span>
+--genome<span class=w> </span>hg38<span class=w> </span><span class=se>\</span>
+--pairs<span class=w> </span>pairs.txt<span class=w> </span><span class=se>\</span>
+--mode<span class=w> </span>slurm<span class=w> </span><span class=se>\</span>
+--runmode<span class=w> </span>dryrun
+
+<span class=c1># Then do a complete run</span>
+xavier<span class=w> </span>run<span class=w> </span><span class=se>\</span>
+--input<span class=w> </span>/data/*R?*.fastq.gz<span class=w> </span><span class=se>\</span>
+--output<span class=w> </span>/data/<span class=nv>$USER</span>/xavier_hg38<span class=w> </span><span class=se>\</span>
+--genome<span class=w> </span>hg38<span class=w> </span><span class=se>\</span>
+--pairs<span class=w> </span>pairs.txt<span class=w> </span><span class=se>\</span>
+--mode<span class=w> </span>slurm<span class=w> </span><span class=se>\</span>
+--runmode<span class=w> </span>run
+</code></pre></div> <h3 id=frce>FRCE<a class=headerlink href=#frce title="Permanent link">&para;</a></h3> <div class=highlight><pre><span></span><code><span class=c1># grab an interactive node</span>
+srun<span class=w> </span>--export<span class=w> </span>all<span class=w> </span>--pty<span class=w> </span>--x11<span class=w> </span>bash
+
+<span class=c1># add xavier to path correctly</span>
+.<span class=w> </span>/mnt/projects/CCBR-Pipelines/pipelines/guis/latest/bin/setup
+
+<span class=c1># add SIF cache and TMPDIR path</span>
+<span class=nv>SIFCACHE</span><span class=o>=</span><span class=s2>&quot;/mnt/projects/CCBR-Pipelines/SIFs/XAVIER&quot;</span>
+<span class=nv>TMPDIR</span><span class=o>=</span><span class=s2>&quot;/scratch/cluster_scratch/</span><span class=nv>$USER</span><span class=s2>&quot;</span>
+
+<span class=c1># run xavier</span>
+
+<span class=c1># Initialize and then dryrun (or run)</span>
+xavier<span class=w> </span>run<span class=w> </span><span class=se>\</span>
+--input<span class=w> </span>/data/*R?*.fastq.gz<span class=w> </span><span class=se>\</span>
+--output<span class=w> </span>/data/<span class=nv>$USER</span>/xavier_hg38<span class=w> </span><span class=se>\</span>
+--genome<span class=w> </span>hg38<span class=w> </span><span class=se>\</span>
+--sif-cache<span class=w> </span><span class=nv>$SIFCACHE</span><span class=w> </span><span class=se>\</span>
+--tmp-dir<span class=w> </span><span class=nv>$TMPDIR</span><span class=w> </span><span class=se>\</span>
+--pairs<span class=w> </span>pairs.txt<span class=w> </span><span class=se>\</span>
+--mode<span class=w> </span>slurm<span class=w> </span><span class=se>\</span>
+--runmode<span class=w> </span>init<span class=w> </span><span class=c1># run</span>
+</code></pre></div> <h2 id=help-contributing>Help &amp; Contributing<a class=headerlink href=#help-contributing title="Permanent link">&para;</a></h2> <p>Come across a <strong>bug</strong>? Open an <a href=https://github.com/CCBR/XAVIER/issues>issue</a> and include a minimal reproducible example.</p> <p>Have a <strong>question</strong>? Ask it in <a href=https://github.com/CCBR/XAVIER/discussions>discussions</a>.</p> <p>Want to <strong>contribute</strong> to this project? Check out the <a href=.github/CONTRIBUTING.md>contributing guidelines</a>.</p> <p><strong>General Inquiries and Collaboration:</strong> Please contact the CCBR Pipeliner team at <a href=mailto:CCBR_Pipeliner@mail.nih.gov>CCBR_Pipeliner@mail.nih.gov</a>.</p> <h2 id=references>References<a class=headerlink href=#references title="Permanent link">&para;</a></h2> <p><sup><strong>1.</strong> Kurtzer GM, Sochat V, Bauer MW (2017). Singularity: Scientific containers for mobility of compute. PLoS ONE 12(5): e0177459.</sup><br> <sup><strong>2.</strong> Koster, J. and S. Rahmann (2018). "Snakemake-a scalable bioinformatics workflow engine." Bioinformatics 34(20): 3600.</sup></p> </div> </div><script async src="https://www.googletagmanager.com/gtag/js?id=G-D3SL9V30KL"></script> <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-D3SL9V30KL'); // Replace with your tracking ID
+</script> </div> </div> </section> </div> <div class=rst-versions role=note aria-label=Versions> <span class=rst-current-version data-toggle=rst-current-version> <span> <a href=https://github.com/CCBR/XAVIER class="fa fa-code-fork" style="color: #fcfcfc"> CCBR/XAVIER</a> </span> <span><a href=usage/run/ style="color: #fcfcfc">Next &raquo;</a></span> </span> </div> <script src=js/jquery-3.6.0.min.js></script> <script>var base_url = ".";</script> <script src=js/theme_extra.js></script> <script src=js/theme.js></script> <script src=js/custom.js></script> <script src=search/main.js></script> <script src=js/version-select.js></script> <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script> </body> </html> <!--
+MkDocs version : 1.6.1
+Build Date UTC : 2025-05-20 13:51:06.239008+00:00
+--> 
