@@ -9,6 +9,7 @@
         "SNPEFF_BUNDLE": "/data/CCBR_Pipeliner/Pipelines/XAVIER/resources/hg38/snpEff/4.3t/",
         "BWAGENOME": "/data/CCBR_Pipeliner/Pipelines/XAVIER/resources/hg38/genome/Homo_sapiens_assembly38.fasta",
         "GENOME": "/data/CCBR_Pipeliner/Pipelines/XAVIER/resources/hg38/genome/Homo_sapiens_assembly38.fasta",
+        "FREECGENOME": "/data/CCBR_Pipeliner/Pipelines/XAVIER/resources/hg38/genome/Homo_sapiens_assembly38.fasta",
         "GENOMEDICT": "/data/CCBR_Pipeliner/Pipelines/XAVIER/resources/hg38/genome/Homo_sapiens_assembly38.dict",
         "DBSNP": "/data/CCBR_Pipeliner/Pipelines/XAVIER/resources/hg38/GATK_resource_bundle/dbsnp_138.hg38.vcf.gz",
         "KNOWNANCESTRY": "/data/CCBR_Pipeliner/Pipelines/XAVIER/resources/hg38/1k_genomes/1k_genomes_phase3_autosomes.hg38.vcf.gz",
