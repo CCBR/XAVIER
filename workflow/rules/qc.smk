@@ -398,7 +398,7 @@ rule snpeff:
         {input.vcf} > {output.vcf}
     """
 
-if config['project']['annotation']=='hg38':
+if config['project']['annotation'] in ['hg38', 'hg38_noalt']:
     ##Human MultiQC includes somalier
     localrules: somalier_extract
     rule somalier_extract:
