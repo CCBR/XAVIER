@@ -29,14 +29,14 @@ jobs:
           /opt2/bin/xavier run --input \
           /opt2/tests/data/WES_NC_N_1_sub.R1.fastq.gz /opt2/tests/data/WES_NC_N_1_sub.R2.fastq.gz \
           /opt2/tests/data/WES_NC_T_1_sub.R1.fastq.gz /opt2/tests/data/WES_NC_T_1_sub.R2.fastq.gz \
-          --output /opt2/output_tn_fqs --targets /opt2/resources/Agilent_SSv7_allExons_hg38.bed \
+          --output /opt2/output_tn_fqs --targets /opt2/resources/Agilent_SSv8_allExons_hg38.bed \
           --pairs /opt2/tests/data/pairs.tsv --genome hg38 --mode local --ffpe --cnv --runmode init
 
           docker run -v $PWD:/opt2 snakemake/snakemake:v7.32.4 \
           /opt2/bin/xavier run --input \
           /opt2/tests/data/WES_NC_N_1_sub.R1.fastq.gz /opt2/tests/data/WES_NC_N_1_sub.R2.fastq.gz \
           /opt2/tests/data/WES_NC_T_1_sub.R1.fastq.gz /opt2/tests/data/WES_NC_T_1_sub.R2.fastq.gz \
-          --output /opt2/output_tn_fqs --targets /opt2/resources/Agilent_SSv7_allExons_hg38.bed \
+          --output /opt2/output_tn_fqs --targets /opt2/resources/Agilent_SSv8_allExons_hg38.bed \
           --pairs /opt2/tests/data/pairs.tsv --genome hg38 --mode local --ffpe --cnv --runmode dryrun
 
       - name: Tumor-only FastQ Dry Run
@@ -45,14 +45,14 @@ jobs:
           /opt2/bin/xavier run --input \
           /opt2/tests/data/WES_NC_N_1_sub.R1.fastq.gz /opt2/tests/data/WES_NC_N_1_sub.R2.fastq.gz \
           /opt2/tests/data/WES_NC_T_1_sub.R1.fastq.gz /opt2/tests/data/WES_NC_T_1_sub.R2.fastq.gz \
-          --output /opt2/output_tonly_fqs --targets /opt2/resources/Agilent_SSv7_allExons_hg38.bed \
+          --output /opt2/output_tonly_fqs --targets /opt2/resources/Agilent_SSv8_allExons_hg38.bed \
           --genome hg38 --mode local --ffpe --runmode init
 
           docker run -v $PWD:/opt2 snakemake/snakemake:v7.32.4 \
           /opt2/bin/xavier run --input \
           /opt2/tests/data/WES_NC_N_1_sub.R1.fastq.gz /opt2/tests/data/WES_NC_N_1_sub.R2.fastq.gz \
           /opt2/tests/data/WES_NC_T_1_sub.R1.fastq.gz /opt2/tests/data/WES_NC_T_1_sub.R2.fastq.gz \
-          --output /opt2/output_tonly_fqs --targets /opt2/resources/Agilent_SSv7_allExons_hg38.bed \
+          --output /opt2/output_tonly_fqs --targets /opt2/resources/Agilent_SSv8_allExons_hg38.bed \
           --genome hg38 --mode local --ffpe --runmode dryrun
 
       - name: Tumor-normal BAM Dry Run
@@ -61,14 +61,14 @@ jobs:
           /opt2/bin/xavier run --input \
           /opt2/tests/data/WES_NC_N_1_sub.bam \
           /opt2/tests/data/WES_NC_T_1_sub.bam  \
-          --output /opt2/output_tn_bams --targets /opt2/resources/Agilent_SSv7_allExons_hg38.bed \
+          --output /opt2/output_tn_bams --targets /opt2/resources/Agilent_SSv8_allExons_hg38.bed \
           --pairs /opt2/tests/data/pairs.tsv --genome hg38 --mode local --ffpe --cnv --runmode init
 
           docker run -v $PWD:/opt2 snakemake/snakemake:v7.32.4 \
           /opt2/bin/xavier run --input \
           /opt2/tests/data/WES_NC_N_1_sub.bam \
           /opt2/tests/data/WES_NC_T_1_sub.bam  \
-          --output /opt2/output_tn_bams --targets /opt2/resources/Agilent_SSv7_allExons_hg38.bed \
+          --output /opt2/output_tn_bams --targets /opt2/resources/Agilent_SSv8_allExons_hg38.bed \
           --pairs /opt2/tests/data/pairs.tsv --genome hg38 --mode local --ffpe --cnv --runmode dryrun
 
       - name: Tumor-only BAM Dry Run
@@ -77,14 +77,14 @@ jobs:
           /opt2/bin/xavier run --input \
           /opt2/tests/data/WES_NC_N_1_sub.bam \
           /opt2/tests/data/WES_NC_T_1_sub.bam  \
-          --output /opt2/output_tonly_bams --targets /opt2/resources/Agilent_SSv7_allExons_hg38.bed \
+          --output /opt2/output_tonly_bams --targets /opt2/resources/Agilent_SSv8_allExons_hg38.bed \
           --genome hg38 --mode local --ffpe --runmode init
 
           docker run -v $PWD:/opt2 snakemake/snakemake:v7.32.4 \
           /opt2/bin/xavier run --input \
           /opt2/tests/data/WES_NC_N_1_sub.bam \
           /opt2/tests/data/WES_NC_T_1_sub.bam  \
-          --output /opt2/output_tonly_bams --targets /opt2/resources/Agilent_SSv7_allExons_hg38.bed \
+          --output /opt2/output_tonly_bams --targets /opt2/resources/Agilent_SSv8_allExons_hg38.bed \
           --genome hg38 --mode local --ffpe --runmode dryrun
 
       - name: Lint

@@ -18,7 +18,7 @@ def test_dryrun():
                 input=list(glob.glob(f"{xavier_base('tests/data')}/*.fastq.gz")),
                 output=tmp_dir,
                 genome="hg38",
-                targets=xavier_base("resources/Agilent_SSv7_allExons_hg38.bed"),
+                targets=xavier_base("resources/Agilent_SSv8_allExons_hg38.bed"),
                 mode="local",
                 job_name="pl:xavier",
                 callers=["mutect2", "mutect", "strelka", "vardict", "varscan"],

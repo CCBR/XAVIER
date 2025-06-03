@@ -13,7 +13,7 @@
         ],
         "BASE_OUTDIR": "pipeline_output",
         "OTHER_SOMATIC_VCFS": {},
-        "EXOME_TARGETS": "/data/CCBR_Pipeliner/db/PipeDB/lib/Agilent_SSv7_allExons_hg38.bed",
+        "EXOME_TARGETS": "/data/CCBR_Pipeliner/db/PipeDB/lib/Agilent_SSv8_allExons_hg38.bed",
         "GERMLINE": "false",
         "FFPE_FILTER": "false",
         "CNV_CALLING": "false",
@@ -33,7 +33,7 @@
         ],
         "BASE_OUTDIR": "pipe_out_1",
         "OTHER_SOMATIC_VCFS": {},
-        "EXOME_TARGETS": "/data/CCBR_Pipeliner/db/PipeDB/lib/Agilent_SSv7_allExons_hg38.bed",
+        "EXOME_TARGETS": "/data/CCBR_Pipeliner/db/PipeDB/lib/Agilent_SSv8_allExons_hg38.bed",
         "FFPE_FILTER": "false",
         "CNV_CALLING": "false"
     },
