@@ -29,34 +29,46 @@ _NOTE: `ccbrpipeliner` is a custom module created on biowulf which contains vari
 
 ```bash
 # Setup Step 3.) Add ccbrpipeliner module
-module purge # to reset the module environment
+
+module purge 
 module load ccbrpipeliner
 ```
 
 If the module was loaded correctly, the greetings message should be displayed.
 
 ```bash
-[+] Loading ccbrpipeliner  5  ...
+[+] Loading ccbrpipeliner  8  ... 
 ###########################################################################
-                                CCBR Pipeliner
+			CCBR Pipeliner release 8
 ###########################################################################
-    "ccbrpipeliner" is a suite of end-to-end pipelines and tools
-    Visit https://github.com/ccbr for more details.
-    Pipelines are available on BIOWULF and FRCE.
-    Tools are available on BIOWULF, HELIX and FRCE.
+	"ccbrpipeliner" is a suite of end-to-end pipelines and tools
+	Visit https://github.com/CCBR for more details.
+	Pipelines are available on BIOWULF and FRCE.
+	Tools are available on BIOWULF, HELIX and FRCE.
 
-    The following pipelines/tools will be loaded in this module:
-
-    RENEE v2.5 https://ccbr.github.io/RENEE/
-    XAVIER v3.0 https://ccbr.github.io/XAVIER/
-    CARLISLE v2.4 https://ccbr.github.io/CARLISLE/
-    CHAMPAGNE v0.2 https://ccbr.github.io/CHAMPAGNE/
-    CRUISE v0.1 https://ccbr.github.io/CRUISE/
-
-    spacesavers2 v0.10 https://ccbr.github.io/spacesavers2/
-    permfix v0.6 https://github.com/ccbr/permfix
+	The following pipelines/tools will be loaded in this module:
+	 
+	PIPELINES:
+	ASPEN		v1.1	ATAC-seq		https://ccbr.github.io/ASPEN/1.1
+	CARLISLE	v2.7	CUT&RUN			https://ccbr.github.io/CARLISLE/2.7
+	CHAMPAGNE	v0.5	ChIP-seq		https://ccbr.github.io/CHAMPAGNE/0.5
+	CHARLIE		v0.12	circRNAs		https://ccbr.github.io/CHARLIE/0.12
+	CRISPIN		v1.2	CRISPR			https://ccbr.github.io/CRISPIN/1.2
+	ESCAPE		v1.2	EV-seq			https://ccbr.github.io/ESCAPE/1.2
+	LOGAN		v0.3	whole genome seq	https://ccbr.github.io/LOGAN/0.3
+	RENEE		v2.7	bulk RNA-seq		https://ccbr.github.io/RENEE/2.7
+	SINCLAIR	v0.3	scRNA-seq		https://ccbr.github.io/SINCLAIR/0.3
+	XAVIER		v3.2	whole exome-seq		https://ccbr.github.io/XAVIER/3.2
+	 
+	TOOLS:
+	spacesavers2	v0.14			https://ccbr.github.io/spacesavers2/
+	permfix		v0.6			https://github.com/ccbr/permfix/
+	ccbr_tools	v0.4			https://ccbr.github.io/Tools/
+	
 ###########################################################################
-Thank you for using CCBR Pipeliner
+			Thank you for using CCBR Pipeliner
+			Comments/Questions/Requests:
+			CCBR_Pipeliner@mail.nih.gov
 ###########################################################################
 ```
 
