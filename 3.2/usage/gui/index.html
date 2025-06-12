@@ -12,29 +12,41 @@ ssh<span class=w> </span>-Y<span class=w> </span><span class=nv>$USER</span>@bio
 <span class=c1># Grab an interactive node first</span>
 sinteractive<span class=w> </span>--tunnel<span class=w>  </span>--time<span class=o>=</span><span class=m>12</span>:00:00<span class=w> </span>--mem<span class=o>=</span>8gb<span class=w>  </span>--cpus-per-task<span class=o>=</span><span class=m>4</span>
 </code></pre></div> <h3 id=23-load-ccbrpipeliner-module>2.3 Load <code>ccbrpipeliner</code> module<a class=headerlink href=#23-load-ccbrpipeliner-module title="Permanent link">&para;</a></h3> <p><em>NOTE: <code>ccbrpipeliner</code> is a custom module created on biowulf which contains various NGS data analysis pipelines developed, tested, and benchmarked by experts at CCBR.</em></p> <div class=highlight><pre><span></span><code><span class=c1># Setup Step 3.) Add ccbrpipeliner module</span>
-module<span class=w> </span>purge<span class=w> </span><span class=c1># to reset the module environment</span>
+
+module<span class=w> </span>purge<span class=w> </span>
 module<span class=w> </span>load<span class=w> </span>ccbrpipeliner
-</code></pre></div> <p>If the module was loaded correctly, the greetings message should be displayed.</p> <div class=highlight><pre><span></span><code><span class=o>[</span>+<span class=o>]</span><span class=w> </span>Loading<span class=w> </span>ccbrpipeliner<span class=w>  </span><span class=m>5</span><span class=w>  </span>...
+</code></pre></div> <p>If the module was loaded correctly, the greetings message should be displayed.</p> <div class=highlight><pre><span></span><code><span class=o>[</span>+<span class=o>]</span><span class=w> </span>Loading<span class=w> </span>ccbrpipeliner<span class=w>  </span><span class=m>8</span><span class=w>  </span>...<span class=w> </span>
 <span class=c1>###########################################################################</span>
-<span class=w>                                </span>CCBR<span class=w> </span>Pipeliner
+<span class=w>            </span>CCBR<span class=w> </span>Pipeliner<span class=w> </span>release<span class=w> </span><span class=m>8</span>
 <span class=c1>###########################################################################</span>
 <span class=w>    </span><span class=s2>&quot;ccbrpipeliner&quot;</span><span class=w> </span>is<span class=w> </span>a<span class=w> </span>suite<span class=w> </span>of<span class=w> </span>end-to-end<span class=w> </span>pipelines<span class=w> </span>and<span class=w> </span>tools
-<span class=w>    </span>Visit<span class=w> </span>https://github.com/ccbr<span class=w> </span><span class=k>for</span><span class=w> </span>more<span class=w> </span>details.
+<span class=w>    </span>Visit<span class=w> </span>https://github.com/CCBR<span class=w> </span><span class=k>for</span><span class=w> </span>more<span class=w> </span>details.
 <span class=w>    </span>Pipelines<span class=w> </span>are<span class=w> </span>available<span class=w> </span>on<span class=w> </span>BIOWULF<span class=w> </span>and<span class=w> </span>FRCE.
 <span class=w>    </span>Tools<span class=w> </span>are<span class=w> </span>available<span class=w> </span>on<span class=w> </span>BIOWULF,<span class=w> </span>HELIX<span class=w> </span>and<span class=w> </span>FRCE.
 
 <span class=w>    </span>The<span class=w> </span>following<span class=w> </span>pipelines/tools<span class=w> </span>will<span class=w> </span>be<span class=w> </span>loaded<span class=w> </span><span class=k>in</span><span class=w> </span>this<span class=w> </span>module:
 
-<span class=w>    </span>RENEE<span class=w> </span>v2.5<span class=w> </span>https://ccbr.github.io/RENEE/
-<span class=w>    </span>XAVIER<span class=w> </span>v3.0<span class=w> </span>https://ccbr.github.io/XAVIER/
-<span class=w>    </span>CARLISLE<span class=w> </span>v2.4<span class=w> </span>https://ccbr.github.io/CARLISLE/
-<span class=w>    </span>CHAMPAGNE<span class=w> </span>v0.2<span class=w> </span>https://ccbr.github.io/CHAMPAGNE/
-<span class=w>    </span>CRUISE<span class=w> </span>v0.1<span class=w> </span>https://ccbr.github.io/CRUISE/
+<span class=w>    </span>PIPELINES:
+<span class=w>    </span>ASPEN<span class=w>       </span>v1.1<span class=w>    </span>ATAC-seq<span class=w>        </span>https://ccbr.github.io/ASPEN/1.1
+<span class=w>    </span>CARLISLE<span class=w>    </span>v2.7<span class=w>    </span>CUT<span class=p>&amp;</span>RUN<span class=w>         </span>https://ccbr.github.io/CARLISLE/2.7
+<span class=w>    </span>CHAMPAGNE<span class=w>   </span>v0.5<span class=w>    </span>ChIP-seq<span class=w>        </span>https://ccbr.github.io/CHAMPAGNE/0.5
+<span class=w>    </span>CHARLIE<span class=w>     </span>v0.12<span class=w>   </span>circRNAs<span class=w>        </span>https://ccbr.github.io/CHARLIE/0.12
+<span class=w>    </span>CRISPIN<span class=w>     </span>v1.2<span class=w>    </span>CRISPR<span class=w>          </span>https://ccbr.github.io/CRISPIN/1.2
+<span class=w>    </span>ESCAPE<span class=w>      </span>v1.2<span class=w>    </span>EV-seq<span class=w>          </span>https://ccbr.github.io/ESCAPE/1.2
+<span class=w>    </span>LOGAN<span class=w>       </span>v0.3<span class=w>    </span>whole<span class=w> </span>genome<span class=w> </span>seq<span class=w>    </span>https://ccbr.github.io/LOGAN/0.3
+<span class=w>    </span>RENEE<span class=w>       </span>v2.7<span class=w>    </span>bulk<span class=w> </span>RNA-seq<span class=w>        </span>https://ccbr.github.io/RENEE/2.7
+<span class=w>    </span>SINCLAIR<span class=w>    </span>v0.3<span class=w>    </span>scRNA-seq<span class=w>       </span>https://ccbr.github.io/SINCLAIR/0.3
+<span class=w>    </span>XAVIER<span class=w>      </span>v3.2<span class=w>    </span>whole<span class=w> </span>exome-seq<span class=w>     </span>https://ccbr.github.io/XAVIER/3.2
 
-<span class=w>    </span>spacesavers2<span class=w> </span>v0.10<span class=w> </span>https://ccbr.github.io/spacesavers2/
-<span class=w>    </span>permfix<span class=w> </span>v0.6<span class=w> </span>https://github.com/ccbr/permfix
+<span class=w>    </span>TOOLS:
+<span class=w>    </span>spacesavers2<span class=w>    </span>v0.14<span class=w>           </span>https://ccbr.github.io/spacesavers2/
+<span class=w>    </span>permfix<span class=w>     </span>v0.6<span class=w>            </span>https://github.com/ccbr/permfix/
+<span class=w>    </span>ccbr_tools<span class=w>  </span>v0.4<span class=w>            </span>https://ccbr.github.io/Tools/
+
 <span class=c1>###########################################################################</span>
-Thank<span class=w> </span>you<span class=w> </span><span class=k>for</span><span class=w> </span>using<span class=w> </span>CCBR<span class=w> </span>Pipeliner
+<span class=w>            </span>Thank<span class=w> </span>you<span class=w> </span><span class=k>for</span><span class=w> </span>using<span class=w> </span>CCBR<span class=w> </span>Pipeliner
+<span class=w>            </span>Comments/Questions/Requests:
+<span class=w>            </span>CCBR_Pipeliner@mail.nih.gov
 <span class=c1>###########################################################################</span>
 </code></pre></div> <p>To check the current version of XAVIER, enter:</p> <div class=highlight><pre><span></span><code>xavier<span class=w> </span>--version
 </code></pre></div> <h2 id=3-running-xavier>3. Running XAVIER<a class=headerlink href=#3-running-xavier title="Permanent link">&para;</a></h2> <h3 id=31-launching-xavier-gui>3.1 Launching XAVIER GUI<a class=headerlink href=#31-launching-xavier-gui title="Permanent link">&para;</a></h3> <p>To run the XAVIER pipeline from the GUI, simply enter:</p> <div class=highlight><pre><span></span><code>xavier<span class=w> </span>gui
