@@ -9,6 +9,7 @@
         "SNPEFF_BUNDLE": "/data/CCBR_Pipeliner/Pipelines/XAVIER/resources/mm10/snpEff/4.3t/",
         "BWAGENOME": "/data/CCBR_Pipeliner/Pipelines/XAVIER/resources/mm10/genome/bwaindex/genome.fa",
         "GENOME": "/data/CCBR_Pipeliner/Pipelines/XAVIER/resources/mm10/genome/bwaindex/genome.fa",
+        "FREECGENOME": "/data/CCBR_Pipeliner/Pipelines/XAVIER/resources/mm10/genome/bwaindex/genome.fa",
         "GENOMEDICT": "/data/CCBR_Pipeliner/Pipelines/XAVIER/resources/mm10/genome/bwaindex/genome.dict",
         "DBSNP": "/data/CCBR_Pipeliner/Pipelines/XAVIER/resources/mm10/dbsnp/mm10_allstrains_dbSNP142.vcf.gz",
         "DBSNP_COSMIC": "--dbsnp /data/CCBR_Pipeliner/Pipelines/XAVIER/resources/mm10/dbsnp/mm10_allstrains_dbSNP142.vcf.gz",

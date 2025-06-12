@@ -9,7 +9,7 @@ rule freec_exome_somatic_pass1:
     params:
         normalsample = lambda w: [pairs_dict[w.samples]],
         tumorsample = "{samples}",
-        fasta = config['references']['GENOME'],
+        fasta = config['references']['FREECGENOME'],
         lengths = config['references']['FREECLENGTHS'],
         chroms = config['references']['FREECCHROMS'],
         pile = config['references']['FREECPILEUP'],
@@ -116,7 +116,7 @@ rule freec_exome_somatic_pass2:
     params:
         normalsample = lambda w: [pairs_dict[w.samples]],
         tumorsample = "{samples}",
-        fasta = config['references']['GENOME'],
+        fasta = config['references']['FREECGENOME'],
         lengths = config['references']['FREECLENGTHS'],
         chroms = config['references']['FREECCHROMS'],
         pile = config['references']['FREECPILEUP'],

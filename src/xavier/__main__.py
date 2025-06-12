@@ -237,7 +237,7 @@ def parsed_arguments():
                                 obtained from the manufacturer of the target capture
                                 kit that was used.
                                 If not provided, the default targets file is used from the genome config file.
-                                Example: --targets resources/Agilent_SSv7_allExons_hg38.bed
+                                Example: --targets resources/Agilent_SSv8_allExons_hg38.bed
                                 Example: --targets resources/SureSelect_mm10_sorted.bed
 
         """
@@ -258,7 +258,7 @@ def parsed_arguments():
                         --input tests/data/*.R?.fastq.gz \\
                         --output /data/$USER/xavier_hg38 \\
                         --genome hg38 \\
-                        --targets resources/Agilent_SSv7_allExons_hg38.bed
+                        --targets resources/Agilent_SSv8_allExons_hg38.bed
 
           # Step 2B.) Dry-run the pipeline
           xavier run \\
@@ -266,7 +266,7 @@ def parsed_arguments():
                         --input tests/data/*.R?.fastq.gz \\
                         --output /data/$USER/xavier_hg38 \\
                         --genome hg38 \\
-                        --targets resources/Agilent_SSv7_allExons_hg38.bed \\
+                        --targets resources/Agilent_SSv8_allExons_hg38.bed \\
                         --mode slurm \\
 
           # Step 2C.) Run the XAVIER pipeline
@@ -277,7 +277,7 @@ def parsed_arguments():
                         --input tests/data/*.R?.fastq.gz \\
                         --output /data/$USER/xavier_hg38 \\
                         --genome hg38 \\
-                        --targets resources/Agilent_SSv7_allExons_hg38.bed \\
+                        --targets resources/Agilent_SSv8_allExons_hg38.bed \\
                         --mode slurm
 
         version:
@@ -336,9 +336,9 @@ def parsed_arguments():
     subparser_run.add_argument(
         "--genome",
         required=True,
-        # choices = ['hg38', 'mm10'],
+        # choices = ['hg38', 'hg38_noalt', 'mm10'],
         type=lambda option: str(
-            genome_options(subparser_run, option, ["hg38", "mm10"])
+            genome_options(subparser_run, option, ["hg38", "hg38_noalt","mm10"])
         ),
         help=argparse.SUPPRESS,
     )

@@ -59,13 +59,13 @@ def test_dryrun_targets():
                 "error: Path 'not/a/file.txt' does not exists! Failed to provide valid input."
                 in output_invalid,
                 config_human["input_params"]["EXOME_TARGETS"].endswith(
-                    "resources/Agilent_SSv7_allExons_hg38.bed"
+                    "resources/Agilent_SSv8_allExons_hg38.bed"
                 ),
                 config_mouse["input_params"]["EXOME_TARGETS"].endswith(
                     "resources/SureSelect_mm10_sorted.bed"
                 ),
                 config_custom["input_params"]["EXOME_TARGETS"].endswith(
-                    "resources/Agilent_SSv7_allExons_hg38.bed"
+                    "resources/Agilent_SSv8_allExons_hg38.bed"
                 ),
                 not config_invalid,
             ]

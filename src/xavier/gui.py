@@ -143,7 +143,7 @@ def launch_gui(DEBUG=True):
             sg.Combo(
                 values=genome_annotation_combinations,
                 key="-ANNOTATION-",
-                tooltip="hg38: Homo sapiens GRCh38.p14; mm10: Mus musculus GRCm38.p6",
+                tooltip="hg38: Homo sapiens GRCh38.p14; hg38_noalt: hg38 no alternate contigs; mm10: Mus musculus GRCm38.p6",
             ),
         ],
         [
