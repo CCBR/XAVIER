@@ -1,5 +1,7 @@
 ## XAVIER development version
 
+## XAVIER 3.2.1
+
 - Added separate variable for control-freec genome fasta file (#169, @samarth8392)
 - Updated default hg38 targets bed file to Agilent SureSelect v8 (#169, @samarth8392)
 - Created a new hg38 config file (`hg38_noalt`) to use hg38 no alternate contigs reference genome (`GCA_000001405.15_GRCh38_no_alt_analysis_set.fasta`). (#169, @samarth8392)
