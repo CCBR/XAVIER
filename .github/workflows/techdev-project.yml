@@ -1,4 +1,4 @@
-name: Add issues/PRs to the TechDev project
+name: TechDev-project
 
 on:
   issues:
@@ -9,13 +9,24 @@ on:
       - opened
 
 permissions:
-  issues: read
+  issues: write
+  pull-requests: write
+  contents: read
 
 jobs:
   add-to-project:
     runs-on: ubuntu-latest
     steps:
+      - name: Generate a token
+        id: generate-token
+        if: ${{ inputs.github-token == '' }}
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.CCBR_BOT_APP_ID }}
+          private-key: ${{ secrets.CCBR_BOT_PRIVATE_KEY }}
+          owner: CCBR
+
       - uses: actions/add-to-project@v1.0.2
         with:
           project-url: https://github.com/orgs/CCBR/projects/17
-          github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
+          github-token: ${{ steps.generate-token.outputs.token }}
