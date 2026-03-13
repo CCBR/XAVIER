@@ -30,14 +30,14 @@ _NOTE: `ccbrpipeliner` is a custom module created on biowulf which contains vari
 ```bash
 # Setup Step 3.) Add ccbrpipeliner module
 
-module purge 
+module purge
 module load ccbrpipeliner
 ```
 
 If the module was loaded correctly, the greetings message should be displayed.
 
 ```bash
-[+] Loading ccbrpipeliner  8  ... 
+[+] Loading ccbrpipeliner  8  ...
 ###########################################################################
 			CCBR Pipeliner release 8
 ###########################################################################
@@ -47,7 +47,7 @@ If the module was loaded correctly, the greetings message should be displayed.
 	Tools are available on BIOWULF, HELIX and FRCE.
 
 	The following pipelines/tools will be loaded in this module:
-	 
+
 	PIPELINES:
 	ASPEN		v1.1	ATAC-seq		https://ccbr.github.io/ASPEN/1.1
 	CARLISLE	v2.7	CUT&RUN			https://ccbr.github.io/CARLISLE/2.7
@@ -59,12 +59,12 @@ If the module was loaded correctly, the greetings message should be displayed.
 	RENEE		v2.7	bulk RNA-seq		https://ccbr.github.io/RENEE/2.7
 	SINCLAIR	v0.3	scRNA-seq		https://ccbr.github.io/SINCLAIR/0.3
 	XAVIER		v3.2	whole exome-seq		https://ccbr.github.io/XAVIER/3.2
-	 
+
 	TOOLS:
 	spacesavers2	v0.14			https://ccbr.github.io/spacesavers2/
 	permfix		v0.6			https://github.com/ccbr/permfix/
 	ccbr_tools	v0.4			https://ccbr.github.io/Tools/
-	
+
 ###########################################################################
 			Thank you for using CCBR Pipeliner
 			Comments/Questions/Requests:

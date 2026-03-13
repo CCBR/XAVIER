@@ -338,7 +338,7 @@ def parsed_arguments():
         required=True,
         # choices = ['hg38', 'hg38_noalt', 'mm10'],
         type=lambda option: str(
-            genome_options(subparser_run, option, ["hg38", "hg38_noalt","mm10"])
+            genome_options(subparser_run, option, ["hg38", "hg38_noalt", "mm10"])
         ),
         help=argparse.SUPPRESS,
     )
