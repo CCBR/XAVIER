@@ -102,7 +102,7 @@ def run(sub_args):
         else:
             log = os.path.join(sub_args.output, "logfiles", "master.log")
         logfh = open(log, "w")
-        
+
         mjob = runner(
             mode=sub_args.mode,
             outdir=sub_args.output,
@@ -192,10 +192,12 @@ def init(
 
     return inputs
 
+
 def _now():
     ct = datetime.datetime.now()
     now = ct.strftime("%y%m%d%H%M%S")
     return now
+
 
 def copy_safe(source, target, resources=[]):
     """Private function: Given a list paths it will recursively copy each to the
@@ -728,8 +730,10 @@ def get_rawdata_bind_paths(input_files):
 
 
 def dryrun(
-    outdir, config="config.json", snakefile=os.path.join("workflow", "Snakefile"),
-     write_to_file=True,
+    outdir,
+    config="config.json",
+    snakefile=os.path.join("workflow", "Snakefile"),
+    write_to_file=True,
 ):
     """Dryruns the pipeline to ensure there are no errors prior to running.
     @param outdir <str>:
@@ -768,7 +772,7 @@ def dryrun(
     except subprocess.CalledProcessError as e:
         print(e, e.output)
         raise (e)
-    
+
     if write_to_file:
         now = _now()
         with open(os.path.join(outdir, "dryrun." + str(now) + ".log"), "w") as outfile:
