@@ -174,14 +174,10 @@ def init(
     elif exists(output_path) and os.path.isfile(output_path):
         # Provided Path for pipeline
         # output directory exists as file
-        raise OSError(
-            """\n\tFatal: Failed to create provided pipeline output directory!
+        raise OSError("""\n\tFatal: Failed to create provided pipeline output directory!
         User provided --output PATH already exists on the filesystem as a file.
         Please run {} again with a different --output PATH.
-        """.format(
-                sys.argv[0]
-            )
-        )
+        """.format(sys.argv[0]))
 
     # Copy over templates are other required resources
     copy_safe(source=repo_path, target=output_path, resources=required)
@@ -286,8 +282,7 @@ def rename(filename):
             break  # only rename once
 
     if not converted:
-        raise NameError(
-            """\n\tFatal: Failed to rename provided input '{}'!
+        raise NameError("""\n\tFatal: Failed to rename provided input '{}'!
         Cannot determine the extension of the user provided input file.
         Please rename the file list above before trying again.
         Here is example of acceptable input file extensions:
@@ -296,10 +291,7 @@ def rename(filename):
           sampleName_1.fastq.gz       sampleName_2.fastq.gz
         Please also check that your input files are gzipped?
         If they are not, please gzip them before proceeding again.
-        """.format(
-                filename, sys.argv[0]
-            )
-        )
+        """.format(filename, sys.argv[0]))
 
     return filename
 
@@ -568,8 +560,7 @@ def mixed_inputs(ifiles):
 
     if fastqs and bams:
         # User provided a mix of FastQs and BAMs
-        raise TypeError(
-            """\n\tFatal: Detected a mixture of --input data types.
+        raise TypeError("""\n\tFatal: Detected a mixture of --input data types.
             A mixture of BAM and FastQ files were provided; however, the pipeline
             does NOT support processing a mixture of input FastQ and BAM files.
             Input FastQ Files:
@@ -582,10 +573,7 @@ def mixed_inputs(ifiles):
             for your project, please run the set of FastQ and BAM files separately
             (in two separate output directories). If you feel like this functionality
             should exist, feel free to open an issue on Github.
-            """.format(
-                " ".join(fq_files), " ".join(bam_files), sys.argv[0]
-            )
-        )
+            """.format(" ".join(fq_files), " ".join(bam_files), sys.argv[0]))
 
 
 def add_user_information(config):
@@ -691,22 +679,16 @@ def get_nends(ifiles):
                 paired-end samples and single-end samples separately (in two separate output
                 directories). If you feel like this functionality should exist, feel free to
                 open an issue on Github.
-                """.format(
-                    missing_mates, sys.argv[0]
-                )
+                """.format(missing_mates, sys.argv[0])
             )
     elif not bam_files:
         # Provided only single-end data
         # not supported or recommended
-        raise TypeError(
-            """\n\tFatal: Single-end data detected.
+        raise TypeError("""\n\tFatal: Single-end data detected.
             {} does not support single-end data. Calling variants from single-end
             data is not recommended either. If you feel like this functionality should
             exist, feel free to open an issue on Github.
-            """.format(
-                sys.argv[0]
-            )
-        )
+            """.format(sys.argv[0]))
 
     return nends_status
 

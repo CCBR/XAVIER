@@ -79,8 +79,6 @@ for (i in c(1:22, "X", "Y")) {
 dev.off()
 
 
-
-
 if (length(args) > 5) {
   dataTable <- read.table(args[6], header = TRUE)
   BAF <- data.frame(dataTable)
