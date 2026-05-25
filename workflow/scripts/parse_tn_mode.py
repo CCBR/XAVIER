@@ -4,7 +4,6 @@
 from __future__ import print_function, division
 import sys, gzip
 
-
 # USAGE
 # sys.argv[1] = sample_name.R1.fastq.gz
 # sys.argv[2] = sample_name (name without PATH and .R?.fastq.gz extension)
@@ -33,9 +32,7 @@ def read_pairsfile(tn_mode="auto", pairs_filepath="", sample_names=[]):
         raise NameError(
             """\n\tFatal: tn_mode must be one of 'auto', 'paired', or 'tumor_only'
         Argument received: {}
-        """.format(
-                tn_mode, sys.argv[0]
-            )
+        """.format(tn_mode, sys.argv[0])
         )
 
     ## Initialize some empty variables
@@ -54,9 +51,7 @@ def read_pairsfile(tn_mode="auto", pairs_filepath="", sample_names=[]):
             raise NameError(
                 """\n\tFatal: Pairs file must contain at least a 'tumor' column
             Columns found: {}
-            """.format(
-                    df.columns.tolist(), sys.argv[0]
-                )
+            """.format(df.columns.tolist(), sys.argv[0])
             )
 
         df = df[pd.notna(df["tumor"])]  ## Remove rows where tumor id is empty/na
