@@ -29,14 +29,10 @@ def genome_options(parser, user_option, prebuilt):
     # a list of genomes (files) in config/genomes/*.json
     elif not user_option in prebuilt:
         # User did NOT provide a valid choice
-        parser.error(
-            """provided invalid choice, '{}', to --genome argument!\n
+        parser.error("""provided invalid choice, '{}', to --genome argument!\n
         Choose from one of the following pre-built genome options: \n
         \t{}\n
         or supply a custom reference genome JSON file generated from xavier build.
-        """.format(
-                user_option, prebuilt
-            )
-        )
+        """.format(user_option, prebuilt))
 
     return user_option

@@ -38,7 +38,6 @@ EXAMPLE:
 # Python standard library
 import sys, os, subprocess, re, json, textwrap
 
-
 # 3rd party imports from pypi
 import argparse  # potential python3 3rd party package, added in python/3.5
 from ccbr_tools.pipeline.util import err, exists, fatal, permissions, require
@@ -100,14 +99,10 @@ def cache(sub_args):
         os.makedirs(sif_cache)
     elif exists(sif_cache) and os.path.isfile(sif_cache):
         # Provided Path for pipeline output directory exists as file
-        raise OSError(
-            """\n\tFatal: Failed to create provided sif cache directory!
+        raise OSError("""\n\tFatal: Failed to create provided sif cache directory!
         User provided --sif-cache PATH already exists on the filesystem as a file.
         Please {} cache again with a different --sif-cache PATH.
-        """.format(
-                sys.argv[0]
-            )
-        )
+        """.format(sys.argv[0]))
 
     # Check if local SIFs already exist on the filesystem
     with open(images, "r") as fh:
@@ -183,8 +178,7 @@ def parsed_arguments():
     # Here is a work around to create more useful help message for named
     # options that are required! Please note: if a required arg is added the
     # description below should be updated (i.e. update usage and add new option)
-    required_run_options = textwrap.dedent(
-        """\
+    required_run_options = textwrap.dedent("""\
         usage: xavier run [--help] \\
                               [--mode {local, slurm}] \\
                               [--job-name JOB_NAME] \\
@@ -240,12 +234,10 @@ def parsed_arguments():
                                 Example: --targets resources/Agilent_SSv8_allExons_hg38.bed
                                 Example: --targets resources/SureSelect_mm10_sorted.bed
 
-        """
-    )
+        """)
 
     # Display example usage in epilog
-    run_epilog = textwrap.dedent(
-        """\
+    run_epilog = textwrap.dedent("""\
         example:
           # Step 1.) Grab an interactive node (do not run on head node)
           sinteractive --mem=8g --cpus-per-task=4
@@ -282,10 +274,7 @@ def parsed_arguments():
 
         version:
           {}
-        """.format(
-            __version__
-        )
-    )
+        """.format(__version__))
 
     # Suppressing help message of required args to overcome no sub-parser named groups
     subparser_run = subparsers.add_parser(
@@ -529,8 +518,7 @@ def parsed_arguments():
     # Here is a work around to create more useful help message for named
     # options that are required! Please note: if a required arg is added the
     # description below should be updated (i.e. update usage and add new option)
-    required_unlock_options = textwrap.dedent(
-        """\
+    required_unlock_options = textwrap.dedent("""\
         usage: xavier unlock [-h] --output OUTPUT
 
         If the pipeline fails ungracefully, it maybe required to unlock the working
@@ -547,22 +535,17 @@ def parsed_arguments():
                                 not running before running this command.
                                 Example: --output /data/$USER/xavier_hg38
 
-        """
-    )
+        """)
 
     # Display example usage in epilog
-    unlock_epilog = textwrap.dedent(
-        """\
+    unlock_epilog = textwrap.dedent("""\
         example:
           # Unlock xavier output directory
           xavier unlock --output /scratch/$USER/xavier_hg38
 
         version:
           {}
-        """.format(
-            __version__
-        )
-    )
+        """.format(__version__))
 
     # Suppressing help message of required args to overcome no sub-parser named groups
     subparser_unlock = subparsers.add_parser(
@@ -586,8 +569,7 @@ def parsed_arguments():
     # Here is a work around to create more useful help message for named
     # options that are required! Please note: if a required arg is added the
     # description below should be updated (i.e. update usage and add new option)
-    required_cache_options = textwrap.dedent(
-        """\
+    required_cache_options = textwrap.dedent("""\
         usage: xavier cache [-h] [-n] --sif-cache SIF_CACHE
 
         Creates a local cache resources hosted on DockerHub or AWS S3.
@@ -612,22 +594,17 @@ def parsed_arguments():
 
                       Example: --sif-cache /scratch/$USER/cache
 
-        """
-    )
+        """)
 
     # Display example usage in epilog
-    cache_epilog = textwrap.dedent(
-        """\
+    cache_epilog = textwrap.dedent("""\
         example:
           # Cache xavier resources
           xavier cache --sif-cache /scratch/$USER/cache
 
         version:
           {}
-        """.format(
-            __version__
-        )
-    )
+        """.format(__version__))
 
     # Suppressing help message of required args to overcome no sub-parser named groups
     subparser_cache = subparsers.add_parser(
