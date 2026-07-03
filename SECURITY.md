@@ -16,4 +16,3 @@ Follow the instructions listed in the [HHS vulnerability disclosure policy](http
 1. Click on the **Security and quality** tab of this repository.
 2. Locate the **Report a vulnerability** button. If the button is not on the **Security and quality** landing page, look under the **Advisories** section in the side bar.
 3. Click the **Report a vulnerability** button and submit the form. The developers will receive a notification of your submission.
-
