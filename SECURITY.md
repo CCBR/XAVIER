@@ -2,7 +2,7 @@
 
 ## Maintained Versions
 
-Actively maintained versions of contained software will vary from repository to repository, or may not be relevant at all.  
+Actively maintained versions of contained software will vary from repository to repository, or may not be relevant at all.
 The developers of this repository will update this section if any actively maintained versions of the software need to be publicly disclosed. Otherwise, contact the developers directly for any version information.
 
 ## Vulnerability Disclosure:
