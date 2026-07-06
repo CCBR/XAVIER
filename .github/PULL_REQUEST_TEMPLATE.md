@@ -18,7 +18,7 @@ when referring to the issue.
 
 ## PR Checklist
 
-(~Strikethrough~ any points that are not applicable.)
+(~~Strikethrough~~ any points that are not applicable.)
 
 - [ ] This comment contains a description of changes with justifications, with any relevant issues linked.
 - [ ] Update docs if there are any API changes.
