@@ -19,7 +19,7 @@ submitted to the cluster via the job scheduler, SLURM. Support for
 additional job schedulers (i.e. PBS, SGE, LSF, Tibanna) may be added
 in the future.
   The main entry point of the pipeline 'xavier' calls this job
-submission wrapper script. As so, this script can be used to by-pass
+submission wrapper script. As so, this script can be used to bypass
 'xavier' for a previously failed run; meaning, it can be used to
 re-run the pipeline to pick back off where the last failure occurred
 or re-start the pipeline.
@@ -52,7 +52,7 @@ Required Arguments:
                                  and aggregates bind paths to mount to the
                                  container's filesystem.
                                  If you are manually running this script
-                                 or by-passing xavier, you will need
+                                 or bypassing xavier, you will need
                                  to provide the bind paths of the rawdata
                                  directory(s) along with the pipeline's
                                  output directory and any directories for
@@ -182,7 +182,7 @@ function submit(){
 
   # Goto Pipeline Output directory
   # Create a local singularity cache in output directory
-  # cache can be re-used instead of re-pulling from DockerHub every time
+  # cache can be reused instead of re-pulling from DockerHub every time
   cd "$3" && export SINGULARITY_CACHEDIR="${5}"
 
   # unsetting XDG_RUNTIME_DIR to avoid some unsighly but harmless warnings
@@ -273,7 +273,7 @@ EOF
         ;;
     esac
 
-  # Return exit-code of pipeline sumbission
+  # Return exit-code of pipeline submission
   echo "$job_id"
 }
 

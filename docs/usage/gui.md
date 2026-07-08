@@ -120,7 +120,7 @@ XAVIER pipeline can be run in two different modes:\
 
 #### 3.3a Tumor-normal pair analysis
 
-In case of tumor-normal pairs, a tab-delimited text file is neeed that contains the list of normal and tumor samples. For example,
+In case of tumor-normal pairs, a tab-delimited text file is needed that contains the list of normal and tumor samples. For example,
 
 ```bash
 Normal  Tumor

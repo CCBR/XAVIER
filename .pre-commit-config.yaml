@@ -4,7 +4,8 @@ exclude: |
   (?x)(
       ^assets/|
       ^docs/.*.html|
-      ^_extensions/
+      ^_extensions/|
+      ^.*\.bed
    )
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -32,7 +33,7 @@ repos:
       - id: black
   # R formatting
   - repo: https://github.com/lorenzwalthert/precommit
-    rev: v0.4.3.9026
+    rev: v0.4.3.9028
     hooks:
       - id: style-files
   # general linting
