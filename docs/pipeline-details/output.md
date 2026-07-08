@@ -119,7 +119,7 @@ VCF/
 .   .
 .   .
 │   └── raw_variants.chrN.vcf.gz[.tbi]
-├── indel.filterd.vcf.gz[.tbi]
+├── indel.filtered.vcf.gz[.tbi]
 ├── {sample1}-normal.germline.vcf.gz[.tbi]
 ├── {sample1}-tumor.germline.vcf.gz[.tbi]
 .

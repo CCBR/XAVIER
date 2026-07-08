@@ -6,7 +6,7 @@ The `xavier` executable is composed of several inter-related sub commands. Pleas
 
 This part of the documentation describes options and concepts for <code>xavier <b>cache</b></code> sub command in more detail. With minimal configuration, the **`cache`** sub command enables you to cache remote resources for the xavier pipeline. Caching remote resources allows the pipeline to run in an offline mode. The cache sub command can also be used to pull our pre-built reference bundles onto a new cluster or target system.
 
-The cache sub command creates local cache on the filesysytem for resources hosted on DockerHub or AWS S3. These resources are normally pulled onto the filesystem when the pipeline runs; however, due to network issues or DockerHub pull rate limits, it may make sense to pull the resources once so a shared cache can be created and re-used. It is worth noting that a singularity cache cannot normally be shared across users. Singularity strictly enforces that its cache is owned by the user. To get around this issue, the cache subcommand can be used to create local SIFs on the filesystem from images on DockerHub.
+The cache sub command creates local cache on the filesysytem for resources hosted on DockerHub or AWS S3. These resources are normally pulled onto the filesystem when the pipeline runs; however, due to network issues or DockerHub pull rate limits, it may make sense to pull the resources once so a shared cache can be created and reused. It is worth noting that a singularity cache cannot normally be shared across users. Singularity strictly enforces that its cache is owned by the user. To get around this issue, the cache subcommand can be used to create local SIFs on the filesystem from images on DockerHub.
 
 ## 2. Synopsis
 

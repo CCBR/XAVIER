@@ -43,7 +43,7 @@ def bash(
         Shell command to run
     @param interpreter <str>:
         Interpreter for command to run [default: bash]
-    @pararm strict <bool>:
+    @param strict <bool>:
         Prefixes any command with 'set -euo pipefail' to ensure process fail with
         the expected exit-code
     @params kwargs <check_call()>:
