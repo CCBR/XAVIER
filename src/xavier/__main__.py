@@ -501,7 +501,7 @@ def parsed_arguments():
         default:  '/lscratch/$SLURM_JOBID/'",
     )
 
-    # Number of threads for the xavier pipeline's main proceess
+    # Number of threads for the xavier pipeline's main process
     subparser_run.add_argument(
         "--threads",
         type=int,

@@ -279,7 +279,7 @@ xavier run --input tests/data/*.R?.fastq.gz \
 
 The example dataset in `tests/data` in this repository is a very small
 subsampled dataset, and some steps of the pipeline fail due to the small size
-(CNV callling, somalier, etc).
+(CNV calling, somalier, etc).
 We have a larger subsample (25% of a full human dataset) available on Biowulf if
 you would like to test the full functionality of the pipeline:
 `/data/CCBR_Pipeliner/testdata/XAVIER/human_subset/*.R?.fastq.gz`
