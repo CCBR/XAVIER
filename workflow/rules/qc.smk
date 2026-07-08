@@ -407,7 +407,7 @@ if config['project']['annotation'] in ['hg38', 'hg38_noalt']:
         @Input:
             Mapped and pre-processed BAM file
         @Output:
-            Exracted sites in (binary) somalier format
+            Extracted sites in (binary) somalier format
         """
         input:
             bam = os.path.join(output_bamdir,"final_bams","{samples}.bam"),
@@ -435,7 +435,7 @@ if config['project']['annotation'] in ['hg38', 'hg38_noalt']:
         compare across all samples. This step also runs the ancestry estimation
         function in Somalier.
         @Input:
-            Exracted sites in (binary) somalier format for ALL samples in the cohort
+            Extracted sites in (binary) somalier format for ALL samples in the cohort
         @Output:
             Separate tab-separated value (TSV) files with relatedness and ancestry outputs
         """
@@ -537,7 +537,7 @@ if config['project']['annotation']=='mm10':
         @Input:
             Mapped and pre-processed BAM file
         @Output:
-            Exracted sites in (binary) somalier format
+            Extracted sites in (binary) somalier format
         """
         input:
             bam = os.path.join(output_bamdir,"final_bams","{samples}.bam"),
@@ -565,7 +565,7 @@ if config['project']['annotation']=='mm10':
         compare across all samples. This step also runs the ancestry estimation
         function in Somalier.
         @Input:
-            Exracted sites in (binary) somalier format for ALL samples in the cohort
+            Extracted sites in (binary) somalier format for ALL samples in the cohort
         @Output:
             Separate tab-separated value (TSV) files with relatedness and ancestry outputs
         """

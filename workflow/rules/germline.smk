@@ -162,7 +162,7 @@ rule Gatk_Variantfilter:
     input:
         vcf = os.path.join(output_germline_base,"VCF","raw_variants.vcf.gz"),
     output:
-       indelvcf = os.path.join(output_germline_base,"VCF","indel.filterd.vcf.gz"),
+       indelvcf = os.path.join(output_germline_base,"VCF","indel.filtered.vcf.gz"),
        snpvcf = os.path.join(output_germline_base,"VCF","snp.filtered.vcf.gz"),
        vcf = os.path.join(output_germline_base,"VCF","snp_indel.filtered.vcf.gz")
 
