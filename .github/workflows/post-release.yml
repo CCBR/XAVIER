@@ -14,9 +14,9 @@ jobs:
   cleanup:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: CCBR/actions/post-release@v0.1
+      - uses: CCBR/actions/post-release@v0.7
         with:
           github-token: ${{ github.token }}
