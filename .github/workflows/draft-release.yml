@@ -21,10 +21,10 @@ jobs:
   draft-release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0 # required to include tags
-      - uses: CCBR/actions/draft-release@v0.1
+      - uses: CCBR/actions/draft-release@v0.8
         with:
           github-token: ${{ github.token }}
           version-tag: ${{ github.event.inputs.version-tag }}
