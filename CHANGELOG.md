@@ -1,5 +1,8 @@
 ## XAVIER development version
 
+- Pin `ccbr_tools` to v0.7. (#191, @kelly-sovacool)
+- Fixed syntax warning. (#184, @kelly-sovacool)
+
 ## XAVIER 3.2.2
 
 - Fixed a bug where tumor-only and unpaired runs could fail during Snakefile parsing (#174, @samarth8392)

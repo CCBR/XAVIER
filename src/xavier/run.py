@@ -655,7 +655,7 @@ def get_nends(ifiles):
         nends = {}  # keep count of R1 and R2 for each sample
         for file in ifiles:
             # Split sample name on file extension
-            sample = re.split("\.R[12]\.fastq\.gz", os.path.basename(file))[0]
+            sample = re.split(r"\.R[12]\.fastq\.gz", os.path.basename(file))[0]
             if sample not in nends:
                 nends[sample] = 0
 
