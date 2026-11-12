@@ -18,7 +18,7 @@ jobs:
   dryrun-lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v7
       - uses: docker://snakemake/snakemake:v7.32.4
       - name: check CLI basics
         run: |
@@ -101,8 +101,8 @@ jobs:
         python-version: ["3.11"]
         snakemake-version: ["7.32.4"]
     steps:
-      - uses: actions/checkout@v4
-      - uses: mamba-org/setup-micromamba@v1
+      - uses: actions/checkout@v7
+      - uses: mamba-org/setup-micromamba@v3
         with:
           environment-name: test
           cache-environment: true
