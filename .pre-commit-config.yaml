@@ -23,6 +23,7 @@ repos:
         # https://github.com/codespell-project/codespell/issues/1498
         exclude: >
           (?x)^(
+              workflow/scripts/RScripts/combineAllSampleCompareResults\.R|
               .*\.svg
           )$
         args: [-I, .github/WORDLIST]
