@@ -63,7 +63,7 @@ If the module was loaded correctly, the greetings message should be displayed.
 	TOOLS:
 	spacesavers2	v0.14			https://ccbr.github.io/spacesavers2/
 	permfix		v0.6			https://github.com/ccbr/permfix/
-	ccbr_tools	v0.4			https://ccbr.github.io/Tools/
+	ccbr_tools	v0.7			https://ccbr.github.io/Tools/
 
 ###########################################################################
 			Thank you for using CCBR Pipeliner
