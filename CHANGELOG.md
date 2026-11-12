@@ -1,4 +1,4 @@
-## XAVIER development version
+## XAVIER 3.3.0
 
 - Pin `ccbr_tools` to v0.7. (#191, @kelly-sovacool)
 - Fixed syntax warning. (#184, @kelly-sovacool)
